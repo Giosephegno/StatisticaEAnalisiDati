@@ -864,6 +864,28 @@ p10
 
 ```
 
+#### Grafico a dispersione
+
+```{r}
+p11 <- ggplot(data = mpg, mapping = aes(x = hwy, y = displ)) +
+  geom_point()
+
+p11 <- p11 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
+               panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
+               panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
+
+p11
+
+```
+
+Dallo scatterplot è evidente che la variabile *hwy* (consumo di
+carburante in autostrada, in miglia per gallone) è correlata
+negativamente con la variabile *displ* (cilindrata del motore,ovvero il
+volume delle camere di combustione, misurato in pollici cubici (in)),
+possiamo affermare infatti che all'aumentare delle miglia che il veicolo
+può percorrere su strada diminuisce la cilindrata del motore dell'auto,
+dunque più alta è la cilindrata e minori sono
+
 ### Variabile Fl
 
 La variabile fl del dataset mpg rappresenta il tipo di carburante

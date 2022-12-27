@@ -809,9 +809,7 @@ mpg %>%
 
 ```
 
-### 
-
-Variabile trans
+### Variabile trans
 
 La variabile **`trans`** del dataset **`mpg`** rappresenta il tipo di
 trasmissione dei veicoli. Si tratta di una variabile categoriale, in
@@ -825,9 +823,30 @@ str(mpg$trans)
 
 ```
 
-### 
+### Variabile Cty
 
-### 
+La variabile Cty rappresenta il consumo di carburante in città, in
+miglia per gallone.
+
+#### Istogramma
+
+```{r}
+p <- ggplot(data = mpg, mapping = aes(cty,..density..)) + 
+  geom_histogram(bins = 30, fill = "white", col = "black")+
+  geom_density()
+
+p <- p + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
+               panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
+               panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
+
+p
+```
+
+Dall'istogramma possiamo osservare come si distribuisce la variabile, è
+evidente che la maggior parte dei veicoli percorrono tra i 10 e i 20
+miglia per gallone con un litro di carburante.
+
+#### Scatterplot
 
 ### Variabile Hwy
 
@@ -840,6 +859,8 @@ le variabili del dataset. Ad esempio, abbiamo creato un istogramma dei
 consumi di carburante (**`hwy`**) in base al tipo di carburante
 (**`class`**).
 
+#### Istogramma
+
 ```{r}
 p9 <- ggplot(data = mpg, mapping = aes(hwy)) +
   geom_histogram(bins = 30, fill = "white", col = "black") 
@@ -851,6 +872,8 @@ p9 <- p9 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8
 p9
 
 ```
+
+#### Kernel density plot
 
 ```{r}
 p10 <- ggplot(data = mpg, mapping = aes(hwy)) +
@@ -883,8 +906,9 @@ carburante in autostrada, in miglia per gallone) è correlata
 negativamente con la variabile *displ* (cilindrata del motore,ovvero il
 volume delle camere di combustione, misurato in pollici cubici (in)),
 possiamo affermare infatti che all'aumentare delle miglia che il veicolo
-può percorrere su strada diminuisce la cilindrata del motore dell'auto,
-dunque più alta è la cilindrata e minori sono
+può percorrere su strada diminuisce la cilindrata del motore, dunque più
+alta è la cilindrata e minori sono le miglia che il veicolo percorrerà
+con un litro di gasolio.
 
 ### Variabile Fl
 

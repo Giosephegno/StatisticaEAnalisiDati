@@ -272,10 +272,10 @@ dell'intero set di dati.
 
 ### Year
 
-Year indica l'anno di produzione dell'automobile. lolLa variabile year
-del dataset mpg rappresenta l'anno di produzione del veicolo. Si tratta
-di una variabile quantitativa discreta, in quanto i valori possibili
-sono limitati e non possono assumere valori intermedi.
+Year indica l'anno di produzione dell'automobile. La variabile year del
+dataset mpg rappresenta l'anno di produzione del veicolo. Si tratta di
+una variabile quantitativa discreta, in quanto i valori possibili sono
+limitati e non possono assumere valori intermedi.
 
 ```{r}
 df <- data.frame(Freq =
@@ -656,6 +656,8 @@ Dal grafico vediamo che all'aumentare del numero di cilindri diminuisce
 il consumo di carburante in città.
 
 ### Variabile Year
+
+Year indica l'anno di produzione dell'automobile
 
 Innanzitutto applichiamo la funzione **`summary()`** per ottenere un
 riassunto delle statistiche di base per la variabile **`Year`**, come ad

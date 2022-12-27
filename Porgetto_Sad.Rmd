@@ -936,11 +936,7 @@ assunzioni non sono soddisfatte, potrebbe essere necessario trasformare
 o selezionare le variabili o utilizzare un modello di regressione
 alternativo.
 
-# 
-
 ### Analisi dei cluster
-
-# 
 
 Sì, è possibile utilizzare il dataset "mpg" fornito con il pacchetto
 **`ggplot2`** in R per eseguire un'analisi di clustering. L'analisi di

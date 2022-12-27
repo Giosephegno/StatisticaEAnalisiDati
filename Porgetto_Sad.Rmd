@@ -679,12 +679,12 @@ l'equivalente di **`hist()`**, per creare un istogramma della variabile
 valori della variabile e a identificare eventuali outlier.
 
 ```{r}
-p8 <- ggplot(mpg, aes(x = year)) + geom_histogram(bins = 30, aes(y = ..density..), color = "black", fill = "white")
-p8 <- p8 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
+p7 <- ggplot(mpg, aes(x = year)) + geom_histogram(bins = 30, aes(y = ..density..), color = "black", fill = "white")
+p7 <- p7 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#fff68f', linetype = 'longdash'),
                panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
 
-p8
+p7
 ```
 
 Da questo grafico capiamo che gli anni di produzione sono solo 2, il
@@ -698,12 +698,12 @@ Con la funzione **`boxplot()`** creiamo un grafico a scatola a baffi
 della variabile **`Year`**.
 
 ```{r}
-p7 <- ggplot(mpg, aes(x = year)) + geom_boxplot() + coord_flip()
-p7 <- p7 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
+p8 <- ggplot(mpg, aes(x = year)) + geom_boxplot() + coord_flip()
+p8 <- p8 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#fff68f', linetype = 'longdash'),
                panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
 
-p7
+p8
 ```
 
 Il boxplot in questo caso appare anomalo, perché non ha i baffi, questo
@@ -722,7 +722,7 @@ Nel seguente chunk abbiamo creato un grafico a barre per visualizzare la
 distribuzione dei valori.
 
 ```{r}
-p9 <- ggplot(data = mpg, mapping = aes(cyl)) + geom_bar(stat = "count", fill= c("#d62d20", "#ffa700", "#008744","#0057e7")) + ggtitle("Variabile cyl")
+p9 <- ggplot(data = mpg, mapping = aes(cyl)) + geom_bar(stat = "count", fill= "white", col = "black") + ggtitle("Variabile cyl")
 
 p9 <- p9 + theme(panel.background = element_rect(fill = '#f0e2a8', color = "#9a8262"), panel.grid.major = element_line(color = '#ffffff', linetype="longdash"),panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash"))
 
@@ -777,13 +777,42 @@ La variabile **`trans`** del dataset **`mpg`** rappresenta il tipo di
 trasmissione dei veicoli. Si tratta di una variabile categoriale, in
 quanto i valori possibili sono discreti e limitati.
 
-Utilizzando il comando **`str(mpg$trans)`** verifichiamo il tipo di dati
-della variabile **`trans`** :
-
 ```{r}
-str(mpg$trans)
+p11 <- ggplot(mpg, mapping = aes(trans)) +
+  geom_bar(fill = "white", col = "black")
+
+p11 <- p11 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
+               panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
+               panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
+
+p11
 
 ```
+
+Dall'istogramma possiamo notare che ci sono molti veicoli con il tipo di
+trasmissione *auto(l4)* e il tipo di trasmissione *manual(m5)* .
+
+```{r}
+p12 <- ggplot(mpg, aes(x = trans, y = displ)) +
+  geom_boxplot()
+
+p12 <- p12 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
+               panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
+               panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
+
+p12
+```
+
+Il boxplot è un grafico utile per visualizzare la distribuzione di una
+variabile continua stratificata per una variabile discreta, poiché
+permette di individuare facilmente le differenze tra le distribuzioni
+delle diverse categorie. Ad esempio, in questo caso, il grafico mostra
+come la distribuzione dei valori della variabile **`displ`** cambi in
+base al tipo di trasmissione del veicolo. Possiamo notare ad esempio che
+la mediana dei valori della variabile **`displ`** per il tipo di
+trasmissione "automatic" è leggermente più alta rispetto al tipo di
+trasmissione "manual". Oppure, che ci sono più outliers per il tipo di
+trasmissione "automatic" rispetto al tipo di trasmissione "manual".
 
 ### Variabile Drv
 
@@ -794,14 +823,14 @@ La variabile Drv rappresenta il tipo di trazione dell'automobile
 
 ```{r}
 drive <- factor(mpg$drv, levels = c("4", "f", "r"), labels = c("trazione integrale", "trazione anteriore", "trazione posteriore"))
-p <- ggplot(mapping = aes(drive)) + 
+p13 <- ggplot(mapping = aes(drive)) + 
   geom_bar(fill = "white", col = "black")
 
-p <- p + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
+p13 <- p13 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
                panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
 
-p
+p13
 
 ```
 
@@ -809,14 +838,14 @@ La maggior parte dei veicoli possiede la trazione integrale e la
 trazione anteriore, sono pochi i veicoli con la trazione posteriore.
 
 ```{r}
-p <- ggplot(mpg, aes(x = drive, y = displ)) +
+p14 <- ggplot(mpg, aes(x = drive, y = displ)) +
   geom_point()
 
-p <- p + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
+p14 <- p14 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
                panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
 
-p
+p14
 ```
 
 Dallo scatterplot possiamo osservare che i veicoli con la trazione
@@ -828,14 +857,14 @@ caratterizzate da una cilindrata alta.
 Giungiamo alla medesima conclusione osservando il boxplot in basso.
 
 ```{r}
-p <- ggplot(mpg, aes(x = drv, y = displ)) +
+p15 <- ggplot(mpg, aes(x = drv, y = displ)) +
   geom_boxplot()
 
-p <- p + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
+p15 <- p15 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
                panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
 
-p
+p15
 ```
 
 ### Variabile Cty
@@ -846,15 +875,15 @@ miglia per gallone.
 #### Istogramma
 
 ```{r}
-p <- ggplot(data = mpg, mapping = aes(cty,..density..)) + 
+p16 <- ggplot(data = mpg, mapping = aes(cty,..density..)) + 
   geom_histogram(bins = 30, fill = "white", col = "black")+
   geom_density()
 
-p <- p + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
+p16 <- p16 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
                panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
 
-p
+p16
 ```
 
 Dall'istogramma possiamo osservare come si distribuisce la variabile, è
@@ -864,14 +893,14 @@ miglia con un gallone.
 #### Scatterplot
 
 ```{r}
-p <- ggplot(data = mpg, mapping = aes(x = cty, y = displ)) +
+p17 <- ggplot(data = mpg, mapping = aes(x = cty, y = displ)) +
   geom_point()
 
-p <- p + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
+p17 <- p17 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
                panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
 
-p
+p17
 
 ```
 
@@ -881,14 +910,14 @@ negativamente, infatti all'aumentare delle miglia che il veicolo può
 percorrere con un gallone diminuisce la cilindrata del motore dell'auto.
 
 ```{r}
-p <- ggplot(mpg, aes(x = cyl, y = cty)) +
+p18 <- ggplot(mpg, aes(x = cyl, y = cty)) +
   geom_point()
 
-p <- p + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
+p18 <- p18 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
                panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
 
-p
+p18
 ```
 
 Osservando lo scatterplot possiamo affermare che le auto con un numero
@@ -910,14 +939,14 @@ carburante **`hwy`** dei veicoli del dataset.
 #### Istogramma
 
 ```{r}
-p9 <- ggplot(data = mpg, mapping = aes(hwy)) +
+p19 <- ggplot(data = mpg, mapping = aes(hwy)) +
   geom_histogram(bins = 30, fill = "white", col = "black") 
 
-p9 <- p9 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
+p19 <- p19 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
                panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
 
-p9
+p19
 
 ```
 
@@ -938,14 +967,14 @@ density plot per confrontare la distribuzione dei valori della variabile
 **`hwy`**.
 
 ```{r}
-p10 <- ggplot(data = mpg, mapping = aes(hwy)) +
+p20 <- ggplot(data = mpg, mapping = aes(hwy)) +
   geom_density(fill = "white", col = "black")
 
-p10 <- p10 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
+p20 <- p20 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
                panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
 
-p10
+p20
 
 ```
 
@@ -955,14 +984,14 @@ strada tra i 20 e i 30 miglia con un gallone.
 #### Grafico a dispersione
 
 ```{r}
-p11 <- ggplot(data = mpg, mapping = aes(x = hwy, y = displ)) +
+p21 <- ggplot(data = mpg, mapping = aes(x = hwy, y = displ)) +
   geom_point()
 
-p11 <- p11 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
+p21 <- p21 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
                panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
 
-p11
+p21
 
 ```
 
@@ -988,14 +1017,14 @@ diesel.
 ```{r}
 fuel <- factor(mpg$fl, levels = c("c","d","e","p","r"), labels = c("Normale gasoline", "Diesel", "Elettricity","Premium gasoline", "Regular gasoline"))
 
-p11 <- ggplot(data = mpg, mapping = aes(x = fuel)) +
+p22 <- ggplot(data = mpg, mapping = aes(x = fuel)) +
   geom_bar(col = "black", fill = "white") 
 
-p11 <- p11 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
+p22 <- p22 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
                panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
 
-p11
+p22
 
 ```
 

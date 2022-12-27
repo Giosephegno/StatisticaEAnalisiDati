@@ -826,6 +826,59 @@ str(mpg$trans)
 
 ```
 
+### Variabile Drv
+
+La variabile Drv rappresenta il tipo di trazione dell'automobile
+(anteriore, posteriore o integrale).
+
+#### Barplot
+
+```{r}
+drive <- factor(mpg$drv, levels = c("4", "f", "r"), labels = c("trazione integrale", "trazione anteriore", "trazione posteriore"))
+p <- ggplot(mapping = aes(drive)) + 
+  geom_bar(fill = "white", col = "black")
+
+p <- p + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
+               panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
+               panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
+
+p
+
+```
+
+La maggior parte dei veicoli possiede la trazione integrale e la
+trazione anteriore, sono pochi i veicoli con la trazione posteriore.
+
+```{r}
+p <- ggplot(mpg, aes(x = drive, y = displ)) +
+  geom_point()
+
+p <- p + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
+               panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
+               panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
+
+p
+```
+
+Dallo scatterplot possiamo osservare che i veicoli con la trazione
+integrale, possono avere qualsiasi volume dei cilindri (in litri). I
+veicoli con la trazione anteriore invece possiedono la cilindrata del
+motore bassa a differenza delle auto con la trazione posteriore che sono
+caratterizzate da una cilindrata alta.
+
+Giungiamo alla medesima conclusione osservando il boxplot in basso.
+
+```{r}
+p <- ggplot(mpg, aes(x = drv, y = displ)) +
+  geom_boxplot()
+
+p <- p + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
+               panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
+               panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
+
+p
+```
+
 ### Variabile Cty
 
 La variabile Cty rappresenta il consumo di carburante in città, in
@@ -847,9 +900,42 @@ p
 
 Dall'istogramma possiamo osservare come si distribuisce la variabile, è
 evidente che la maggior parte dei veicoli percorrono tra i 10 e i 20
-miglia per gallone con un litro di carburante.
+miglia con un gallone.
 
 #### Scatterplot
+
+```{r}
+p <- ggplot(data = mpg, mapping = aes(x = cty, y = displ)) +
+  geom_point()
+
+p <- p + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
+               panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
+               panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
+
+p
+
+```
+
+Le variabili displ (volume dei cilindri dell'automobile, in litri) e cty
+(consumo di carburante in città, in miglia per gallone) sono correlate
+negativamente, infatti all'aumentare delle miglia che il veicolo può
+percorrere con un gallone diminuisce la cilindrata del motore dell'auto.
+
+```{r}
+p <- ggplot(mpg, aes(x = cyl, y = cty)) +
+  geom_point()
+
+p <- p + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
+               panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
+               panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
+
+p
+```
+
+Osservando lo scatterplot possiamo affermare che le auto con un numero
+di cilindri pari a *4 e 5* riescono a percorrere più miglia con un
+gallone in città mentre le auto con *6* e *8* cilindri riescono a
+percorrere meno miglia per gallone in zona urbana.
 
 ### Variabile Hwy
 
@@ -858,9 +944,9 @@ gallone che un veicolo può percorrere su strada.
 
 Usando le funzioni di visualizzazione come **`ggplot()`** del pacchetto
 **`ggplot2`** è possibile creare grafici che mostrino le relazioni tra
-le variabili del dataset. Ad esempio, abbiamo creato un istogramma dei
-consumi di carburante (**`hwy`**) in base al tipo di carburante
-(**`class`**).
+le variabili del dataset o la distribuzione di singole variabili. Ad
+esempio, abbiamo creato un istogramma per visualizzare i consumi di
+carburante **`hwy`** dei veicoli del dataset.
 
 #### Istogramma
 
@@ -878,6 +964,20 @@ p9
 
 #### Kernel density plot
 
+Il grafico kernel density plot è un grafico che mostra l'approssimazione
+della distribuzione dei valori di una variabile continuamente misurata.
+È ottenuto tramite l'utilizzo di una tecnica di smoothing nota come
+"kernel density estimation", che consiste nell'aggiungere una curva di
+densità di kernel sopra ogni osservazione. La curva di densità di kernel
+è una funzione continua che rappresenta la distribuzione di probabilità
+dei valori di una variabile.
+
+Il grafico kernel density plot è spesso utilizzato per esplorare la
+distribuzione di una variabile e per confrontare le distribuzioni di
+diverse variabili. Ad esempio, abbiamo utilizzato il grafico kernel
+density plot per confrontare la distribuzione dei valori della variabile
+**`hwy`**.
+
 ```{r}
 p10 <- ggplot(data = mpg, mapping = aes(hwy)) +
   geom_density(fill = "white", col = "black")
@@ -889,6 +989,9 @@ p10 <- p10 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9
 p10
 
 ```
+
+La maggior parte dei veicoli presenti in questo dataset percorrono su
+strada tra i 20 e i 30 miglia con un gallone.
 
 #### Grafico a dispersione
 
@@ -909,9 +1012,9 @@ carburante in autostrada, in miglia per gallone) è correlata
 negativamente con la variabile *displ* (cilindrata del motore,ovvero il
 volume delle camere di combustione, misurato in pollici cubici (in)),
 possiamo affermare infatti che all'aumentare delle miglia che il veicolo
-può percorrere su strada diminuisce la cilindrata del motore, dunque più
-alta è la cilindrata e minori sono le miglia che il veicolo percorrerà
-con un litro di gasolio.
+può percorrere su strada, con un gallone, diminuisce la cilindrata del
+motore, dunque più alta è la cilindrata e minori sono le miglia che il
+veicolo percorrerà con un gallone su strada.
 
 ### Variabile Fl
 
@@ -996,4 +1099,4 @@ dell'algoritmo per ottenere risultati soddisfacenti.
 Spero che questa spiegazione ti sia d'aiuto. Se hai bisogno di ulteriore
 assistenza o hai altre domande, non esitare a chiedere.
 
-### 
+### Test delle ipotesi

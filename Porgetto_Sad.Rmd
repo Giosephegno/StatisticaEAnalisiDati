@@ -627,15 +627,14 @@ p5 <- p5 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8
 p5
 ```
 
-Dal grafico possiamo osservare sulle ascisse i tipi di veicoli
-
-### Grafico a dispersione
+Dal grafico possiamo osservare sulle ascisse i tipi di veicoli,
 
 Grafico a dispersione: questo grafico mostra la relazione tra due
-variabili numeriche. Utilizziamo il grafico a dispersione per
-visualizzare come i valori di "displ" sono correlati ai valori di
-un'altra variabile numerica, come "cty" (città), che mostra il consumo
-di carburante in città, in miglia per gallone.
+variabili numeriche. Ad esempio, puoi utilizzare il grafico a
+dispersione per visualizzare come i valori di "displ" sono correlati ai
+valori di un'altra variabile numerica, come "cty" (città) o "hwy"
+(autostrada). Ecco come puoi creare un grafico a dispersione con la
+libreria ggplot2 in R:
 
 ```{r}
 library(ggplot2)
@@ -847,20 +846,8 @@ str(mpg$trans)
 
 ### Variabile Hwy
 
-Usando le funzioni di statistica descrittiva come **`mean()`**,
-**`median()`** e **`sd()`** è possibile calcolare statistiche come la
-media, la mediana e la deviazione standard per le variabili del dataset.
-Ad esempio, abbiamo calcolato la media dei consumi di carburante per
-ogni tipo di carburante.
-
-```{r}
-mpg %>%
-  group_by(class) %>%
-  summarize(mean_hwy = mean(hwy),
-            median_hwy = median(hwy),
-            sd_hwy = sd(hwy))
-
-```
+La variabile hwy del dataset mpg rappresenta il numero di miglia per
+gallone che un veicolo può percorrere su strada.
 
 Usando le funzioni di visualizzazione come **`ggplot()`** del pacchetto
 **`ggplot2`** è possibile creare grafici che mostrino le relazioni tra
@@ -869,38 +856,59 @@ consumi di carburante (**`hwy`**) in base al tipo di carburante
 (**`class`**).
 
 ```{r}
-ggplot(data = mpg) +
-  geom_histogram(mapping = aes(x = hwy, fill = class))
+p9 <- ggplot(data = mpg, mapping = aes(hwy)) +
+  geom_histogram(bins = 30, fill = "white", col = "black") 
+
+p9 <- p9 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
+               panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
+               panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
+
+p9
 
 ```
-
-Ѐ possibile inoltre usare le funzioni di test statistico come
-**`t.test()`** per effettuare test sull'ipotesi. Ad esempio, abbiamo
-testato l'ipotesi che la media dei consumi di carburante per i veicoli
-con cilindrata superiore a 4 litri sia diversa da quella per i veicoli
-con cilindrata inferiore o uguale a 4 litri.
 
 ```{r}
-mpg_high_disp = mpg %>% filter(displ > 4)
-mpg_low_disp = mpg %>% filter(displ <= 4)
+p10 <- ggplot(data = mpg, mapping = aes(hwy)) +
+  geom_density(fill = "white", col = "black")
 
-t.test(mpg_high_disp$hwy, mpg_low_disp$hwy)
+p10 <- p10 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
+               panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
+               panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
+
+p10
 
 ```
 
-Infine usando la funzione **`knitr::kable()`** creiamo una tabella
-riassuntiva delle statistiche calcolate e dei risultati dei test.
+### Variabile Fl
+
+La variabile fl del dataset mpg rappresenta il tipo di carburante
+utilizzato dal veicolo. I valori possibili per la variabile fl sono "p",
+"c", "e", "r" e "d", che indicano rispettivamente: carburante premium,
+carburante normale (etanolo 85), elettricità, carburante regolare e
+diesel.
+
+#### Grafico a barre
 
 ```{r}
-mpg_summary = mpg %>%
-  group_by(class) %>%
-  summarize(mean_hwy = mean(hwy),
-            median_hwy = median(hwy),
-            sd_hwy = sd(hwy))
+fuel <- factor(mpg$fl, levels = c("c","d","e","p","r"), labels = c("Normale gasoline", "Diesel", "Elettricity","Premium gasoline", "Regular gasoline"))
 
-knitr::kable(mpg_summary)
+p11 <- ggplot(data = mpg, mapping = aes(x = fuel)) +
+  geom_bar(col = "black", fill = "white") 
+
+p11 <- p11 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
+               panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
+               panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
+
+p11
 
 ```
+
+Possiamo notare che la maggiore parte delle auto presenti nel set di
+riferimento, circa il 72%, usa il gasolio regolare per viaggiare, il 22%
+si rifornisce con il carburante premium ed il restante 6% delle auto con
+gli altri combustibili: elettricità, diesel o carburante normale.
+
+### Variabile Class
 
 # Modello di regressione lineare
 
@@ -929,3 +937,31 @@ o selezionare le variabili o utilizzare un modello di regressione
 alternativo.
 
 # 
+
+Analisi dei cluster
+
+# 
+
+Sì, è possibile utilizzare il dataset "mpg" fornito con il pacchetto
+**`ggplot2`** in R per eseguire un'analisi di clustering. L'analisi di
+clustering è una tecnica di machine learning che permette di raggruppare
+o "clusterizzare" gli osservazioni di un dataset in base alle loro
+caratteristiche o alle loro similitudini.
+
+Per eseguire un'analisi di clustering sul dataset "mpg", puoi utilizzare
+uno dei tanti algoritmi di clustering disponibili in R, come ad esempio
+il metodo di agglomerazione gerarchica, il metodo di k-means o il metodo
+di modellizzazione di densità. Per utilizzare questi algoritmi, dovrai
+prima selezionare le variabili del dataset "mpg" che vuoi utilizzare per
+l'analisi di clustering e quindi eseguire l'algoritmo di clustering
+utilizzando queste variabili come input.
+
+Tieni presente che, per ottenere risultati significativi dall'analisi di
+clustering, è importante scegliere accuratamente le variabili da
+utilizzare e valutare attentamente il numero di cluster ottenuti.
+Potrebbe essere necessario eseguire più analisi di clustering
+utilizzando diverse combinazioni di variabili o diverse impostazioni
+dell'algoritmo per ottenere risultati soddisfacenti.
+
+Spero che questa spiegazione ti sia d'aiuto. Se hai bisogno di ulteriore
+assistenza o hai altre domande, non esitare a chiedere.

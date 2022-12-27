@@ -827,7 +827,7 @@ str(mpg$trans)
 ### Variabile Cty
 
 La variabile Cty rappresenta il consumo di carburante in città, in
-miglia per gallone.
+miglia per gallone. lol
 
 #### Istogramma
 

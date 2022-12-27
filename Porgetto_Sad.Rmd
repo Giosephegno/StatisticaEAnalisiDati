@@ -657,6 +657,8 @@ il consumo di carburante in città.
 
 ### Variabile Year
 
+Year indica l'anno di produzione dell'automobile
+
 Innanzitutto applichiamo la funzione **`summary()`** per ottenere un
 riassunto delle statistiche di base per la variabile **`Year`**, come ad
 esempio la media, la mediana, il minimo e il massimo.

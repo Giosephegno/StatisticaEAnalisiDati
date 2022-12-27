@@ -777,6 +777,8 @@ La variabile **`trans`** del dataset **`mpg`** rappresenta il tipo di
 trasmissione dei veicoli. Si tratta di una variabile categoriale, in
 quanto i valori possibili sono discreti e limitati.
 
+#### Barplot
+
 ```{r}
 p11 <- ggplot(mpg, mapping = aes(trans)) +
   geom_bar(fill = "white", col = "black")
@@ -791,6 +793,8 @@ p11
 
 Dall'istogramma possiamo notare che ci sono molti veicoli con il tipo di
 trasmissione *auto(l4)* e il tipo di trasmissione *manual(m5)* .
+
+#### Boxplot
 
 ```{r}
 p12 <- ggplot(mpg, aes(x = trans, y = displ)) +
@@ -837,6 +841,8 @@ p13
 La maggior parte dei veicoli possiede la trazione integrale e la
 trazione anteriore, sono pochi i veicoli con la trazione posteriore.
 
+#### Scatterplot
+
 ```{r}
 p14 <- ggplot(mpg, aes(x = drive, y = displ)) +
   geom_point()
@@ -856,6 +862,8 @@ caratterizzate da una cilindrata alta.
 
 Giungiamo alla medesima conclusione osservando il boxplot in basso.
 
+#### Boxplot
+
 ```{r}
 p15 <- ggplot(mpg, aes(x = drv, y = displ)) +
   geom_boxplot()
@@ -872,7 +880,7 @@ p15
 La variabile Cty rappresenta il consumo di carburante in città, in
 miglia per gallone.
 
-#### Istogramma
+#### Istogramma e kernel density
 
 ```{r}
 p16 <- ggplot(data = mpg, mapping = aes(cty,..density..)) + 
@@ -1034,6 +1042,25 @@ si rifornisce con il carburante premium ed il restante 6% delle auto con
 gli altri combustibili: elettricità, diesel o carburante normale.
 
 ### Variabile Class
+
+La variabile Class rappresenta la classe di dimensioni dell'automobile.
+
+#### Barplot
+
+```{r}
+p23 <- ggplot(data = mpg, mapping = aes(class)) + 
+  geom_bar(fill = "white", col = "black")
+
+p23 <- p23 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
+               panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
+               panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
+
+p23
+```
+
+Dall'istogramma possiamo notare che ci sono molti veicoli *suv* nel
+nostro dataset, l'altra classe di veicoli molto frequente è *compact* e
+*midsize*
 
 # Modello di regressione lineare
 

@@ -629,47 +629,30 @@ p5
 
 Dal grafico possiamo osservare sulle ascisse i tipi di veicoli,
 
-#### Grafico a dispersione ros è bona
+#### Grafico a dispersione
 
-Grafico a dispersione: questo grafico mostra la relazione tra due
-variabili numeriche. Ad esempio, puoi utilizzare il grafico a
-dispersione per visualizzare come i valori di "displ" sono correlati ai
-valori di un'altra variabile numerica, come "cty" (città) o "hwy"
-(autostrada). Ecco come puoi creare un grafico a dispersione con la
-libreria ggplot2 in R:
+Questo grafico mostra la relazione tra due variabili numeriche.
+Utilizziamo il grafico a dispersione per visualizzare come i valori di
+"displ" sono correlati ai valori di un'altra variabile numerica, come
+"cty" (l consumo di carburante in città, in miglia per gallone).
 
 ```{r}
-library(ggplot2)
-ggplot(mpg, aes(x = displ, y = cty)) +
+p6 <- ggplot(mpg, aes(x = displ, y = cty)) +
   geom_point()
 
+p6 <- p6 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
+               panel.grid.major = element_line(color = '#fff68f', linetype = 'longdash'),
+               panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
+
+p6
 ```
 
-2.  Boxplot: il boxplot è un grafico che mostra la distribuzione di una
-    variabile numerica. È utile per individuare eventuali valori anomali
-    o fuori dal range di normalità. Ecco come puoi creare un boxplot con
-    la libreria ggplot2 in R:
+Sull'asse delle ascisse ci sono le cilindrate del motore, ossia il
+numero di camere di combustione, sull'asse delle ordinate c'è il consumo
+di carburante in città, in miglia per gallone
 
-```{r}
-library(ggplot2)
-ggplot(mpg, aes(x = "", y = displ)) +
-  geom_boxplot()
-
-```
-
-3.  Density plot: il density plot è un grafico che mostra la
-    distribuzione di una variabile numerica sotto forma di curva di
-    densità. È utile per ottenere una panoramica della forma della
-    distribuzione dei dati. Ecco come puoi creare un density plot con la
-    libreria ggplot2 in R:
-
-```{r}
-ggplot(mpg, aes(x = displ)) +
-  geom_density()
-
-```
-
-### 
+Dal grafico vediamo che all'aumentare del numero di cilindri diminuisce
+il consumo di carburante in città.
 
 ### Variabile Year
 

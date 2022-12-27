@@ -607,7 +607,7 @@ tra 1 e 4, con un picco intorno a 2. Ciò indica che la distribuzione dei
 valori è sbilanciata a sinistra, con una maggiore concentrazione di
 valori a sinistra della media.
 
-### Grafico a barre
+#### Grafico a barre
 
 Vogliamo confrontare i valori della variabile "disp" tra le diverse
 categorie della variabile "class". Per farlo utilizziamo un grafico a
@@ -628,6 +628,8 @@ p5
 ```
 
 Dal grafico possiamo osservare sulle ascisse i tipi di veicoli,
+
+#### Grafico a dispersione
 
 Grafico a dispersione: questo grafico mostra la relazione tra due
 variabili numeriche. Ad esempio, puoi utilizzare il grafico a

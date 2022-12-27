@@ -925,6 +925,7 @@ Tieni presente che, per eseguire un'analisi di regressione lineare
 multipla, è importante che i dati soddisfino alcune assunzioni
 statistiche, come la linearità e la varianza costante. Se queste
 assunzioni non sono soddisfatte, potrebbe essere necessario trasformare
-o selezionare le variabili o utilizzare un modello di regressione alt
+o selezionare le variabili o utilizzare un modello di regressione
+alternativo.
 
 # 

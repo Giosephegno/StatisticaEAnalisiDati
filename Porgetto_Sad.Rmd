@@ -272,10 +272,10 @@ dell'intero set di dati.
 
 ### Year
 
-Year indica l'anno di produzione dell'automobile. lolLa variabile year
-del dataset mpg rappresenta l'anno di produzione del veicolo. Si tratta
-di una variabile quantitativa discreta, in quanto i valori possibili
-sono limitati e non possono assumere valori intermedi.
+Year indica l'anno di produzione dell'automobile. La variabile year del
+dataset mpg rappresenta l'anno di produzione del veicolo. Si tratta di
+una variabile quantitativa discreta, in quanto i valori possibili sono
+limitati e non possono assumere valori intermedi.
 
 ```{r}
 df <- data.frame(Freq =
@@ -994,4 +994,4 @@ dell'algoritmo per ottenere risultati soddisfacenti.
 Spero che questa spiegazione ti sia d'aiuto. Se hai bisogno di ulteriore
 assistenza o hai altre domande, non esitare a chiedere.
 
-### Test delle ipotesi
+### 

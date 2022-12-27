@@ -629,7 +629,7 @@ p5
 
 Dal grafico possiamo osservare sulle ascisse i tipi di veicoli,
 
-#### Grafico a dispersione ros è  bona
+#### Grafico a dispersione ros è bona
 
 Grafico a dispersione: questo grafico mostra la relazione tra due
 variabili numeriche. Ad esempio, puoi utilizzare il grafico a

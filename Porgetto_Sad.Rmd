@@ -67,6 +67,7 @@ library(ggplot2)
 library(plotly)
 library(dplyr)
 library(tidyverse)
+library(caret)
 ```
 
 ## Import del dataset
@@ -1069,8 +1070,7 @@ essere adeguato per eseguire un'analisi di regressione lineare multipla,
 a seconda della domanda di ricerca o dell'ipotesi che vuoi verificare.
 La regressione lineare multipla è un modello statistico che permette di
 indagare le relazioni tra più variabili indipendenti (chiamate anche
-"predictor" o "spiegative") e una variabile dipendente (chiamata anche
-"risposta").
+"predictor") e una variabile dipendente (chiamata anche "risposta").
 
 Per eseguire un'analisi di regressione lineare multipla, è importante
 che il dataset contenga almeno una variabile dipendente e due o più
@@ -1087,6 +1087,134 @@ statistiche, come la linearità e la varianza costante. Se queste
 assunzioni non sono soddisfatte, potrebbe essere necessario trasformare
 o selezionare le variabili o utilizzare un modello di regressione
 alternativo.
+
+Dato che lo scopo è quello di prevedere il consumo di carburante in base
+alle altre caratteristiche del veicolo (ad esempio, il volume del
+motore, il tipo di trasmissione o il tipo di carburante utilizzato),
+consideriamo l'utilizzo di un modello di regressione. Esistono diverse
+varianti di modelli di regressione, come ad esempio la regressione
+lineare semplice o la regressione multipla. In questo caso dato che ci
+sono molte variabili che andranno ad influire sulla variabile dipendente
+utilizzeremo il modello di regressione lineare multiplo.
+
+Per costruire un modello di regressione lineare multipla, è necessario
+avere una sufficiente quantità di dati che includano le variabili
+indipendenti e la variabile dipendente per ciascuna osservazione. È
+quindi possibile utilizzare questi dati per addestrare il modello e
+quindi utilizzarlo per fare previsioni sulla variabile dipendente per
+nuove osservazioni.
+
+Se si definisce un data frame dfm, contenente n osservazioni delle p + 1
+variabili Y, X1, X2, . . . , Xp, allora cov(dfm) e cor(dfm) forniscono
+due matrici di dimensioni (p + 1) · (p + 1) i cui elementi solo le
+covarianze e le correlazioni tra coppie di variabili. In particolare,
+tali matrici sono simmetriche; la matrice delle covarianze contiene
+sulla diagonale principale la varianza delle singole colonne del data
+frame, mentre la matrice delle correlazioni contiene il numero 1 sulla
+diagonale principale. La matrice di correlazione evidenzia tutte le
+correlazioni lineari tra le coppie di variabili, ossia misura la forza
+del legame di natura lineare esistente tra tutte le coppie di variabili
+quantitative.
+
+La funzione seguente ci permette di selezionare solo le variabili
+numeriche dunque le variabili di cui andremo a calcolare la correlazione
+e la covarianza.
+
+```{r}
+dfm <- mpg %>% 
+  select_if(is.numeric)
+
+```
+
+### Covarianza
+
+La covarianza (cov) è una misura della correlazione tra due variabili.
+Indica se le due variabili cambiano in modo simile o in modo opposto e
+in che misura cambiano insieme.
+
+In questo caso la matrice delle covarianze campionarie è
+
+```{r}
+cov(dfm)
+
+```
+
+### Correlazione
+
+La correlazione (cor) è una misura della relazione lineare tra due
+variabili. Indica se c'è una relazione lineare tra le due variabili e in
+che direzione va la relazione. La correlazione può assumere valori
+compresi tra -1 e 1. Un valore di correlazione di -1 indica una
+relazione negativa perfetta, ovvero le due variabili variano in modo
+perfettamente opposto. Un valore di correlazione di 1 indica una
+relazione positiva perfetta, ovvero le due variabili variano in modo
+perfettamente simile. Un valore di correlazione di 0 indica che non c'è
+alcuna relazione lineare tra le due variabili.
+
+In questo caso la matrice delle correlazioni campionarie è
+
+```{r}
+cor(dfm)
+
+```
+
+Osservando i valori della covarianza e della correlazione possiamo
+notare che le variabili *displ* e *cyl* sono unite da un forte legame
+lineare, a differenza delle variabili *displ* e *cty*, *hwy* le quali
+sono correlate ma negativamente. La variabile *cyl* è molto correlata
+con *displ* ed è correlata negativamente con *cty* e *hwy*. Infine
+osservando i valori di *year* possiamo affermare che è correlata in modo
+molto debole con le altre variabili.
+
+### Train set e test set
+
+Il train set e il test set vengono utilizzati per valutare l'accuratezza
+di un modello di regressione. Il train set viene utilizzato per
+addestrare il modello, mentre il test set viene utilizzato per fare
+previsioni sulla variabile dipendente e quindi per valutare
+l'accuratezza del modello.
+
+```{r}
+# Divisione del dataset mpg in un set di training (80%) e un set di test (20%)
+partizioni <- createDataPartition(mpg$cty, p = 0.8, list = FALSE)
+
+# Creazione del set di training utilizzando le partizioni ottenute
+train_set <- mpg[partizioni, ]
+
+# Creazione del set di test escludendo le partizioni utilizzate per il set di training
+test_set <- mpg[-partizioni, ]
+
+```
+
+## Modello di regressione lineare multiplo
+
+Il modello di regressione lineare multipla è un tipo di modello di
+regressione che viene utilizzato per prevedere una variabile dipendente
+(chiamata anche variabile risposta o target) in base alla relazione con
+una o più variabili indipendenti (chiamate anche variabili esplicative o
+predictor). Il modello di regressione lineare multipla assume che ci sia
+una relazione lineare tra la variabile dipendente e le variabili
+indipendenti.
+
+La regressione lineare multipla viene solitamente utilizzata quando ci
+sono più di una variabile indipendente che potrebbero influire sulla
+variabile dipendente. Ad esempio, potresti utilizzare il modello di
+regressione lineare multipla per prevedere il consumo di carburante di
+un'automobile (variabile dipendente) in base al volume del motore
+(variabile indipendente), al tipo di trasmissione (variabile
+indipendente) e al tipo di carburante utilizzato (variabile
+indipendente).
+
+```{r}
+modello <- lm(cty ~ displ + trans + fl + cyl + drv, data = train_set)
+summary(modello)
+```
+
+### Misure di accuratezza
+
+Per valutare l'accuratezza del modello di regressione lineare multipla,
+è possibile utilizzare diverse misure, come il coefficiente di
+determinazione (R²) o l'errore quadratico medio (MSE).
 
 ### Analisi dei cluster
 

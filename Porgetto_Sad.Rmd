@@ -68,6 +68,7 @@ library(plotly)
 library(dplyr)
 library(tidyverse)
 library(caret)
+library(stats)
 ```
 
 ## Import del dataset
@@ -1208,13 +1209,101 @@ indipendente).
 ```{r}
 modello <- lm(cty ~ displ + trans + fl + cyl + drv, data = train_set)
 summary(modello)
+
+```
+
+Nel modello di regressione lineare multiplo si è interessati a
+sottoporre a verifica l'ipotesi nulla, la quale equivale a dire che la
+variabile Xj non influenza la variabile Y.
+
+-   H0 : βj = 0
+
+-   H1 : βj ≠ 0
+
+Se l'ipotesi nulla è vera, la statistica t è :
+$$t = \frac{(\hat \beta_{j})}{s . \sqrt(c_{}jj)} \sim t_{n-p-1}$$la
+statistica *t* è anche detta *t-value*.
+
+Fissato un livello di significatività $$\alpha$$si determina il valore
+soglia $$t_{\alpha/2} $$ tale che:
+$$P(|T| > t_{\alpha/2})= P(T < -t_{\alpha/2})+P(T>t_{\alpha/2}) = \alpha$$
+Si rifiuta l'ipotesi *nulla* se: $$ |t|>t_{\alpha/2}$$In alternativa, si
+calcola il *p-value*: $$P(T > t)=2[1-F(t)]$$
+dove *F(t)* è la funzione di ripartizione della v.c. t-Student.
+
+Con il seguente codice escludiamo le variabili indipendenti che non
+influenzano la variabile dipendente, ovvero le variabili *trans* e *fl*.
+
+```{r}
+modello_aggiornato <- update(modello, ~ . - trans - fl)
+summary(modello_aggiornato)
+
+```
+
+Pertanto possiamo dedurre che sono 3 le variabili che contribuiscono a
+definire la variabile dipendete *cty* (miglia per gallone) e sono:
+*displ*, *cyl* e *drvf.*
+
+#### Previsioni
+
+Dopo aver stimato il modello di regressione possiamo prevedere i valori
+della variabile dipendente su un set di dati che non è stato usato per
+addestrare il modello.
+
+```{r}
+previsioni <- predict(modello_aggiornato, test_set)
+
 ```
 
 ### Misure di accuratezza
 
-Per valutare l'accuratezza del modello di regressione lineare multipla,
-è possibile utilizzare diverse misure, come il coefficiente di
-determinazione (R²) o l'errore quadratico medio (MSE).
+Per valutare l'accuratezza delle previsioni del modello di regressione
+lineare multipla, puossiamo utilizzare diverse metriche di valutazione.
+Ad esempio:
+
+-   Errore quadratico medio (MSE): indica la deviazione media quadratica
+    tra i valori previsti dal modello e i valori effettivi della
+    variabile dipendente. Un valore di MSE piccolo indica che il modello
+    fa previsioni accurate, mentre un valore di MSE grande indica che il
+    modello fa previsioni meno accurate.
+
+```{r}
+MSE <- mean((test_set$cty - previsioni)^2)
+MSE
+
+```
+
+-   Coefficiente di determinazione (R²): indica la quantità di varianza
+    nella variabile dipendente che viene spiegata dal modello. Un valore
+    di R² vicino a 1 indica che il modello spiega in modo accurato la
+    varianza nella variabile dipendente, mentre un valore di R² vicino a
+    0 indica che il modello non spiega in modo accurato la varianza
+    nella variabile dipendente.
+
+```{r}
+modello_test <- lm(cty ~ displ + cyl + drv, data = test_set)
+summary(modello_test)$r.squared
+
+```
+
+-   Errore assoluto medio (MAE): indica la deviazione media assoluta tra
+    i valori previsti dal modello e i valori effettivi della variabile
+    dipendente. Un valore di MAE piccolo indica che il modello fa
+    previsioni accurate, mentre un valore di MAE grande indica che il
+    modello fa previsioni meno accurate.
+
+```{r}
+MAE <- mean(abs(test_set$cty - previsioni))
+MAE
+
+```
+
+Osservando le misure di accuratezza possiamo affermare che il modello
+che abbiamo stimato è un buon modello ovvero è un modello che è in grado
+di fare previsioni accurate della variabile dipendente utilizzando le
+variabili indipendenti.
+
+\
 
 ### Analisi dei cluster
 

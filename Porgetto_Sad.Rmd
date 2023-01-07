@@ -69,6 +69,8 @@ library(dplyr)
 library(tidyverse)
 library(caret)
 library(stats)
+library(cluster)
+library(GGally)
 ```
 
 ## Import del dataset
@@ -1228,8 +1230,8 @@ Fissato un livello di significatività $$\alpha$$si determina il valore
 soglia $$t_{\alpha/2} $$ tale che:
 $$P(|T| > t_{\alpha/2})= P(T < -t_{\alpha/2})+P(T>t_{\alpha/2}) = \alpha$$
 Si rifiuta l'ipotesi *nulla* se: $$ |t|>t_{\alpha/2}$$In alternativa, si
-calcola il *p-value*: $$P(T > t)=2[1-F(t)]$$
-dove *F(t)* è la funzione di ripartizione della v.c. t-Student.
+calcola il *p-value*: $$P(T > t)=2[1-F(t)]$$ dove *F(t)* è la funzione
+di ripartizione della v.c. t-Student.
 
 Con il seguente codice escludiamo le variabili indipendenti che non
 influenzano la variabile dipendente, ovvero le variabili *trans* e *fl*.
@@ -1303,32 +1305,467 @@ che abbiamo stimato è un buon modello ovvero è un modello che è in grado
 di fare previsioni accurate della variabile dipendente utilizzando le
 variabili indipendenti.
 
-\
+# Analisi dei cluster
 
-### Analisi dei cluster
+La cluster analysis (analisi di raggruppamento o dei gruppi) è uno
+strumento molto popolare per analizzare dati multivariati non
+strutturati. La metodica è composta di diversi algoritmi, ciascuno dei
+quali cerca di organizzare un dataset in sottogruppi omogenei, o
+"cluster". Non c'è garanzia che si trovi più di un gruppo. Tuttavia,
+l'ipotesi fondamentale è che i dati formino un insieme eterogeneo che
+dovrebbe suddividersi in gruppi naturali, familiari agli esperti
+dell'area analizzata.
 
-Sì, è possibile utilizzare il dataset "mpg" fornito con il pacchetto
-**`ggplot2`** in R per eseguire un'analisi di clustering. L'analisi di
-clustering è una tecnica di machine learning che permette di raggruppare
-o "clusterizzare" gli osservazioni di un dataset in base alle loro
-caratteristiche o alle loro similitudini.
+I metodi per raggruppare gli item (che siano osservazioni o variabili)
+si basano sulla somiglianza (o dissomiglianza) degli item tra loro. Gli
+item simili sono quindi trattati come classe o gruppo omogeneo. Gran
+parte dell'output di una analisi dei cluster è visiva, con i risultati
+visualizzati usando scatterplot, alberi, dendrogrammi, grafici a
+silhouette, ed altri strumenti grafici.
 
-Per eseguire un'analisi di clustering sul dataset "mpg", puoi utilizzare
-uno dei tanti algoritmi di clustering disponibili in R, come ad esempio
-il metodo di agglomerazione gerarchica, il metodo di k-means o il metodo
-di modellizzazione di densità. Per utilizzare questi algoritmi, dovrai
-prima selezionare le variabili del dataset "mpg" che vuoi utilizzare per
-l'analisi di clustering e quindi eseguire l'algoritmo di clustering
-utilizzando queste variabili come input.
+Gli algoritmi di clustering (o di partizionamento) sono usualmente
+suddivisi tra approcci gerarchici e non gerarchici; gli algoritmi
+gerarchici sono a loro volta suddivisi tra metodi agglomerativi e
+divisivi. I metodi gerarchici operano aggregando (o separando) tutti gli
+item sequenzialmente. I metodi agglomerativi iniziano con ciascun item
+che compone il suo proprio cluster; in seguito, vengono aggregati in
+successione i cluster più "simili", fino ad ottenere un unico cluster.
+Gli algoritmi di clustering divisivi operano in maniera opposta:
+iniziano con tutti gli item che appartengono ad un unico cluster;
+dividono quindi questo cluster in due cluster separati "internamente
+omogenei", e via di seguito; al termine della procedura ciascun item
+formerà il "suo" cluster.
 
-Tieni presente che, per ottenere risultati significativi dall'analisi di
-clustering, è importante scegliere accuratamente le variabili da
-utilizzare e valutare attentamente il numero di cluster ottenuti.
-Potrebbe essere necessario eseguire più analisi di clustering
-utilizzando diverse combinazioni di variabili o diverse impostazioni
-dell'algoritmo per ottenere risultati soddisfacenti.
+In questo manuale presenterò per ora solo esempi sui metodi gerarchici
+agglomerativi e non gerarchici, applicati a dati di tipo numerico.
 
-Spero che questa spiegazione ti sia d'aiuto. Se hai bisogno di ulteriore
-assistenza o hai altre domande, non esitare a chiedere.
+In questa parte del corso vedremo quindi:
 
-### Test delle ipotesi
+1.  Algoritmi di **Clustering Gerarchico (Agglomerativo) (HC)**;
+
+2.  Algoritmi di **Clustering Non-Gerarchici (K-Means) (NHC)**;
+
+## Cluster gerarchico
+
+Il punto di partenza di ogni metodo di Clustering Gerarchico (HC),
+quindi, è il calcolo della dissimilarità ("dissomiglianza"; o
+"distanza", se vale la disuguaglianza triangolare) di ciascun item
+rispetto a tutti gli altri. Quale definizione di distanza usare
+(euclidea, Manhattan, Canberra, ecc.), spesso dipende dall'applicazione
+specifica o è una scelta soggettiva. Alcune misure di distanza sono
+appropriate solo per certi tipi di dato, mentre altre sono state
+introdotte per raggruppare variabili (colonne di dati) invece che
+osservazioni (righe di dati).
+
+### Distanza e similarità
+
+La somiglianza può essere definita mediante un coefficiente di
+similarità $sij = s(Xi,Xj)$ oppure mediante una misura di distanza
+$dij = d(Xi,Xj)$ tra due individui $Ii$ e $Ij$ $(i 6= j)$.
+
+Mentre i coefficienti di similarità assumono valori compresi tra 0 e 1,
+le misure di distanza possono assumere qualsiasi valore reale maggiore o
+uguale a zero.
+
+Una misura di similarità fornisce un valore numerico compreso tra 0 e 1
+e permette di definire in modo quantitativo la somiglianza o differenza
+tra due individui $Ii$ e $Ij$ , intendendo ovviamente con 0 l'assoluta
+assenza e con 1 la massima presenza di somiglianza.
+
+Le misure metriche di somiglianza invece sono soprattutto basate sulle
+funzioni distanza tra i vettori delle caratteristiche. Una funzione a
+valori reali $d(Xi,Xj)$ è detta funzione distanza se e soltanto se essa
+soddisfa le seguenti condizioni:
+
+1.  $d(Xi,Xj) = 0$ se e solo se $Xi = Xj$ , con $Xi$ e $Xj$ in $Ep$;
+
+2.  $d(Xi,Xj) ≥ 0$ per ogni $Xi$ e $Xj$ in $Ep$;
+
+3.  $d(Xi,Xj) = d(Xj ,Xi)$ per ogni $Xi$ e $Xj$ in $Ep$;
+
+4.  $d(Xi,Xj) ≤ d(Xi,Xk) + d(Xk,Xj)$ per ogni $Xi$, $Xj$ e $Xk$ in $Ep$.
+
+La proprietà *1* implica che $Xi$ è a distanza zero da se stesso e che
+ogni due punti a distanza nulla debbono essere identici.
+
+La proprietà *2* afferma che la funzione distanza è non negativa.
+
+La proprietà *3* impone la simmetria richiedendo che la distanza tra
+$Xi$ e $Xj$ deve essere la stessa della distanza tra $Xj$ e $Xi$.
+
+La proprietà *4*, nota come disuguaglianza triangolare, richiede che la
+distanza tra $Xi$ e $Xj$ debba essere sempre minore o uguale della somma
+delle distanze di ognuno dei due vettori considerati da qualunque altro
+terzo vettore $Xk$.
+
+Uno strumento generale in ***R*** per il calcolo delle distanze è la
+funzione `dist()`.
+
+Innanzitutto creiamo una partizione selezionando il *10%* delle
+osservazioni del campione totale:
+
+```{r}
+p_mpg <- createDataPartition(mpg$class, p = 0.1, list = FALSE)
+part_mpg <- mpg[p_mpg, ]
+
+```
+
+Mediante lo scalamento e la standardizzazione si ottengono dei nuovi
+dati le cui medie campionarie sono nulle e le varianze campionarie
+unitarie. In seguito calcoliamo le matrici delle distanze.
+
+Entrambe le metriche del valore assoluto e del massimo sono
+computazionalmente semplici da calcolare con l'unica differenza che la
+metrica di Chebycev coinvolge anche una procedura di ordinamento.
+
+```{r}
+mpg_std <- scale(part_mpg[,c(3,5,8,9)],center = TRUE,scale = TRUE)
+
+## Metrica Euclidea
+d <- dist(mpg_std, method = "euclidean",diag = TRUE, upper = TRUE)
+
+## Metrica di Manhattan
+d <- dist(mpg_std, method = "euclidean",diag = TRUE, upper = TRUE)
+
+## Metrica di Chebycev
+d <- dist(mpg_std, method = "euclidean",diag = TRUE, upper = TRUE)
+
+```
+
+### Metodi gerarchici
+
+I metodi gerarchici di clustering eseguono una sequenza ordinata di
+operazioni della stessa natura. Tali metodi sono distinti in
+*agglomerativi* che procedono per aggregazioni successive delle unità
+partendo da n gruppi formati da un singolo individuo e *divisivi* che
+partono da un solo gruppo formato da tutte le unità e procedono a
+divisioni successive fino a giungere a gruppi formati da una sola unità.
+
+I metodi gerarchici hanno due vantaggi: quello di fornire una visione
+completa dell'insieme in termini di distanza (o di coefficienti di
+similarità) seppure condizionata dalla scelta del metodo seguito e
+quello di non comportare la scelta a priori del numero di cluster oppure
+la scelta a priori di parametri per la determinazione automatica del
+loro numero. Invece, uno svantaggio di tali metodi è che essi non
+consentono di riallocare gli individui che sono stati già classificati
+ad un livello precedente dell'analisi.
+
+I metodi *non gerarchici* di clustering consentono, a differenza delle
+tecniche di tipo gerarchico, di riallocare gli individui già
+classificati ad un livello precedente dell'analisi. A differenza dei
+metodi gerarchici, l'obiettivo finale dei metodi non gerarchici è quello
+di ottenere un'unica partizione degli n individui di partenza in
+cluster. In molti metodi non gerarchici di clustering si assume che il
+numero di cluster in cui suddividere l'insieme totale degli $n$
+individui sia fissato a priori dal ricercatore, mentre in altri tale
+numero è determinato nel corso dell'analisi.
+
+L'obiettivo finale dei metodi gerarchici non \`e quello di ottenere una
+singola partizione degli n individui di partenza, ma di ottenere una
+sequenza di partizioni che possono essere rappresentate graficamente
+mediante una struttura ad albero, detta dendrogramma, nella quale
+sull'insieme delle ordinate sono riportati i livelli di distanza mentre
+sull'asse delle ascisse sono riportati i singoli individui. Ad ogni
+livello di distanza corrisponde una partizione, mentre ad ogni
+partizione corrispondono infiniti livelli di distanza compresi tra
+quelli che individuano due successive unioni o divisioni.
+
+In ogni modo, dopo aver ottenuto la matrice di dissimilarità, per
+applicare un clustering gerarchico si deve specificare come si vuole
+siano calcolate le distanze tra gruppi di osservazioni (cluster) durante
+le iterazioni dell'algoritmo di clustering stesso. Anche in questo caso
+ci sono diverse scelte da fare. Tra queste, c'è la scelta del cosiddetto
+metodo di linkage (legame):
+
+single linkage ==\> (legame singolo) la distanza tra due gruppi è
+definita come il valore più piccolo delle distanze tra gli item dei due
+gruppi;
+
+complete linkage ==\> (legame completo) la distanza tra due gruppi è
+definita come il valore più grande di distanza tra gli item dei due
+gruppi;
+
+average linkage ==\> (legame medio) questo è un compromesso tra i due
+precedenti approcci, ottenuto come la media delle corrispondenti
+distanze.
+
+centroid linkage ==\> (legame del centroide) In questo metodo la
+distanza tra i gruppi è definita come la distanza tra i centroidi, ossia
+tra le medie campionarie calcolate sugli individui appartenenti ai due
+gruppi.
+
+median linkage ==\> (legame della mediana) Il metodo della mediana è
+simile a quello del centroide, con la differenza che la procedura è
+indipendente dalla numerosità dei cluster. Infatti, quando due gruppi si
+aggregano, il nuovo centroide è calcolato come la semisomma dei due
+centroidi precedenti.
+
+Nei metodi agglomerativi del legame singolo, del legame completo e del
+legame medio si può utilizzare una qualsiasi misura di distanza. Invece,
+nel metodo del centroide e nel metodo della mediana si considera la
+distanza euclidea e si lavora con una matrice D(2) che contiene i
+quadrati delle singole distanze euclidee.
+
+```{r}
+util_sl <- hclust(d, method = "single")
+util_cl <- hclust(d, method = "complete")
+util_al <- hclust(d, method = "average")
+util_cent <- hclust(d, method = "centroid")
+
+```
+
+Una volta applicati i metodi di clustering come sopra, l'approccio
+grafico standard per rappresentare la soluzione di un algoritmo
+gerarchico agglomerativo è quello del dendrogramma, che rappresenta la
+sequenza di fusioni successive dei diversi gruppi, nonché le distanze su
+cui sono state prodotte le aggregazioni Un dendrogramma in ***R*** è
+disponibile con il metodo `plot` per gli oggetti di classe (tipo)
+`hclust`:
+
+```{r}
+op <- par(mfrow = c(2, 2))
+plot(util_sl, labels = part_mpg$class, cex = .7,
+        main = "Utilities data (single linkage)", xlab = "Utilities")
+plot(util_cl, labels = part_mpg$class, cex = .7,
+        main = "Utilities data (complete linkage)", xlab = "Utilities")
+plot(util_al, labels = part_mpg$class, cex = .7,
+        main = "Utilities data (average linkage)", xlab = "Utilities")
+plot(util_cent, labels = part_mpg$class, cex = .7,
+        main = "Utilities data (Ward)", xlab = "Utilities")
+
+```
+
+Come si vede, il metodo del legame singolo tende a creare grandi gruppi
+aggiungendo in successione item a gruppi già creati (il cosiddetto
+effetto di "concatenazione"). Gli altri tre metodi ritornano invece
+risultati simili tra loro, con cluster più strutturati.
+
+Il dendrogramma costruito con questo metodo ha i rami molto più lunghi
+rispetto al dendrogramma ottenuto con il metodo del legame singolo
+poiché i gruppi si formano a livelli di distanza maggiori.
+
+Si nota che con il metodo del legame medio la suddivisione in cluster
+non cambia rispetto al caso del legame singolo e del legame completo, ma
+variano alcuni livelli di distanza relativi alle aggregazioni;
+
+Una volta scelto il numero di gruppi (più avanti vedremo anche questo
+aspetto), si può usare la funzione `cutree()` per ottenere a quale
+gruppo (cluster) appartiene ciascun item:
+
+```{r}
+util_cl_m <- cutree(util_cl, k = 5)
+# Calcola i valori di silhouette
+sil <- silhouette(util_cl_m, d)
+# disegna il silhouette
+plot(sil)
+
+```
+
+Come si vede, il parametro `k` definisce il numero di gruppi che si
+vogliono ottenere.\
+L'appartenenza ai cluster, che otteniamo dalla chiamata della funzione
+`cutree()`, è utile per produrre una profilazione dei cluster, cioè per
+fornire una descrizione più dettagliata delle caratteristiche principali
+dei cluster identificati. Un ulteriore approccio grafico per ricavare
+l'appartenenza ai cluster è dato dalla funzione `rect.hclust()`; questa
+aggiunge al dendrogramma dei rettangoli che mostrano i cluster
+identificati. Il grafico che segue identifica 5 gruppi con legame
+completo:
+
+```{r}
+plot(util_cl)
+rect.hclust(util_cl, k = 5)
+
+```
+
+Il grafico qui sopra mostra i valori di silhouette per i singoli item.
+Ogni barra orizzontale rappresenta il valore di silhouette (sisi) di un
+item all'interno del suo cluster assegnato. sisi è sempre compreso tra
+-1 e 1. Un valore di sisi prossimo a 1 indica che l'item è assegnato ad
+un cluster che "lo rappresenta" molto bene. Un valore di sisi prossimo a
+-1 indica che l'item ii-mo è più simile ad item che appartengono ad
+altri cluster vicini. Un sisi prossimo a zero indica che l'item ii-mo si
+trova in una posizione sostanzialmente intermedia (cioè, sul bordo) tra
+due o più cluster.
+
+### Screeplot
+
+Un metodo euristico per scegliere una buona partizione del dendrogramma
+considera una procedura empirica consistente nel costruire un grafico,
+detto screeplot. In esso si pongono sull'asse delle ordinate i numeri di
+gruppi ottenibili con il metodo gerarchico e sull'asse delle ascisse le
+distanze a cui avvengono le successive aggregazioni tra i gruppi. Se nel
+passaggio da k gruppi a k − 1 gruppi si registra un forte incremento
+della distanza di aggregazione è consigliabile tagliare il dendrogramma
+in k gruppi.
+
+Occorre infine sottolineare che lo screeplot è un metodo empirico che
+realizza un grafico basato sulle altezze a cui sono avvenute le
+aggregazioni in un metodo gerarchico e quindi non sempre fornisce il
+numero adeguato di cluster in cui suddividere gli individui. Inoltre, è
+preferibile non utilizzare lo screeplot nel metodo del centroide e della
+mediana. Per la suddivisione in cluster in un metodo gerarchico è sempre
+preferibile ricorrere alle misure di non omogeneità statistiche di cui
+si serviranno, come vedremo, anche i metodi non gerarchici.
+
+### Cluster non gerarchico
+
+L'obiettivo dei metodi non gerarchici \`e quello di ottenere un'unica
+partizione degli n individui di partenza in cluster. A differenza dei
+metodi gerarchici, in tali tecniche è consentito riallocare gli
+individui già classificati ad un livello precedente dell'analisi.
+
+Gli algoritmi di tipo non gerarchico procedono, data una prima
+partizione, a riallocare gli individui nel gruppo con centroide più
+vicino, fino a che per nessun individuo si verifica che sia minima la
+distanza rispetto al centroide di un gruppo diverso da quello a cui esso
+appartiene. Il metodo più utilizzato prende il nome di k-means ed è
+dovuto a Hartigan e Wong1. Tale metodo richiede che il numero di cluster
+sia specificato a priori e fornisce in output un'unica partizione.
+
+I vantaggi del metodo k-means sono la velocità di esecuzione dei calcoli
+e l'estrema libertà che viene lasciata agli individui di raggrupparsi e
+allontanarsi. Uno svantaggio è invece che la classificazione finale può
+essere influenzata dalla scelta iniziale dei k vettori delle
+caratteristiche come punti di riferimento, dall'ordine in cui sono presi
+tali vettori e naturalmente dalle proprietà geometriche dei vettori
+delle misure.
+
+Dato un numero preassegnato *k* di gruppi, i metodi di clustering non
+gerarchico (NHC) cercano la paritizione dei dati ("righe" o item) in *k*
+cluster in maniera tale che gli item entro ciascun cluster o gruppo
+siano quanto possibile simili tra loro, mentre gli item appartenenti a
+cluster diversi siano quanto possibile diversi.
+
+Un possibile approccio per ottenere questo risultato potrebbe passare
+attraverso l'elencazione di tutti i possibili raggruppamenti in *k*
+gruppi costruibili con gli item e quindi scegliere come migliore
+soluzione il raggruppamento che ottimizza un qualche criterio
+predefinito. Sfortunatamente, un tale approccio diventerebbe rapidamente
+inapplicabile, specialmente per grandi dataset, poiché richiederebbe una
+quantità enorme di tempo macchina e di spazio di memoria. Di conseguenza
+tutte le tecniche di clustering disponibili sono iterative e operano
+solo su un numero molto ristretto di enumerazioni.
+
+Tra i molti algoritmi di clustering non gerarchici sviluppati finora, il
+più popolare è il K-means. Nella sua implementazione fondamentale,
+l'algoritmo K-means inizia assegnando gli item a uno dei *k* cluster
+predeterminati e quindi calcolando i *k* centroidi di gruppo, oppure
+pre-specificando i *k* centroidi di gruppo. I centroidi pre-specificati
+possono essere item selezionati casualmente oppure possono essere
+ottenuti "tagliando" un dendrogramma ad una altezza appropriata.\
+In seguito, tramite una procedura iterativa, l'algoritmo cerca di
+minimizzare la somma dei quadrati entro gruppi (WGSS) su tutte le
+variabili, riassegnando ("spostando") gli item sui diversi cluster. La
+procedura si ferma quando non si ottengono miglioramenti di WGSS con
+ulteriori riassegnamenti.
+
+La soluzione così ottenuta può non essere unica: l'algoritmo potrebbe
+trovare solo un minimo locale di WGSS. Si suggerisce pertanto di
+lanciare più volte l'algoritmo con assegnazioni casuali iniziali
+differenti degli item ai *k* cluster (oppure selezionando casualmente i
+*k* centroidi iniziali), così da trovare un probabile minimo globale di
+WGSS e, quindi, la migliore soluzione di clustering basata su *k*
+cluster.
+
+Se calcoliamo prima le varianze delle variabili troviamo i seguenti:
+
+```{r}
+sapply(part_mpg[,c(3,5,8,9)], var)
+
+```
+
+Le varianze sono molto diverse, e l'uso del K-means sui dati grezzi
+potrebbe fornire risultati poco utili perché "dominati" dalle
+caratteristiche più variabili. Come nel caso del clustering gerarchico,
+quindi, dovremmo normalizzare i dati in qualche modo; in questo caso
+scegliamo di normalizzare ogni variabile dividendone i valori per il
+rispettivo range.
+
+```{r}
+# calcola il range di ogni variabile
+rge <- sapply(part_mpg[,c(3,5,8,9)], function(x) diff(range(x)))
+# Divide ogni valore di ogni variabile per il suo range
+mpg_s <- sweep(x = part_mpg[,c(3,5,8,9)], MARGIN = 2, STATS = rge, FUN = "/")
+# Calcola la varianza di tutte le variabili "normalizzate"
+sapply(mpg_s, var)
+
+```
+
+Adesso sono molto più confrontabili. Possiamo quindi procedere con il
+clustering dei dati normalizzati. Dapprima tracciamo i valori di WGSS
+per soluzioni di raggruppamento con un numero di cluster che varia tra 1
+e 8 per vedere se possiamo ottenere indicazioni sul numero di gruppi
+(che usualmente non è noto a priori). Il grafico può essere ottenuto
+come segue:
+
+```{r}
+k_max <- 8
+wss <- sapply(1:k_max,
+              function(k,data) kmeans(data, centers = k)$tot.withinss,
+              data=mpg_s)
+ggp <- ggplot(data = data.frame(x=1:k_max, y=wss), mapping = aes(x=x,y=y)) +
+  geom_point(colour = "red") +
+  geom_line(colour = "blue") +
+  xlab("Numero di gruppi") + 
+  ylab("Somma dei quadrati entro gruppi (WGSS)")
+print(ggp)
+
+```
+
+Mano a mano che il numero di gruppi aumenta, la somma dei quadrati
+necessariamente si riduce; se si presenta un "gomito" nel grafico,
+questo potrebbe essere indicativo della soluzione più utile che
+l'analista dovrebbe osservare in dettaglio. Nel nostro caso un possibile
+"gomito" (anche se non particolarmente evidente) potrebbe essere nella
+soluzione con tre gruppi.\
+Analizzeremo quindi questa soluzione. Le medie di gruppo per questa
+soluzione sono calcolabili tramite:
+
+```{r}
+km_3 <- kmeans(mpg_s, centers = 3)
+km_3$centers * rge
+
+```
+
+Volendo, possiamo provare l'indice di Calinski-Harabasz anche con il
+clustering non gerarchico, per trovare il numero "ottimale" di cluster:
+
+```{r}
+require(clusterSim)
+minC <- 2
+maxC <- 10
+res <- sapply(minC:maxC,
+              function(nc, data) index.G1(data, kmeans(data,centers = nc)$cluster),
+              data = mpg_s)
+ggp <- ggplot(data=data.frame(x=2:(length(res)+1), y= res), mapping = aes(x=x,y=y)) + 
+  geom_point() + 
+  geom_line() +
+  xlab("Numero di cluster") +
+  ylab("Statistica pseudo-F di Calinski-Harabasz")
+print(ggp)
+
+```
+
+Questo indice fornisce anche in questo caso una chiara indicazione che
+il numero di cluster da scegliere debba essere uguale a 3.
+
+Per visualizzare i cluster, possiamo utilizzare il pacchetto ggplot2 per
+creare un grafico a dispersione dei dati con i punti colorati in base al
+cluster a cui appartengono:
+
+```{r}
+ggplot(part_mpg[,c(3,5,8,9)], aes(x = displ, y = cty, color = km_3$cluster)) +
+  geom_point()
+
+```
+
+In conclusione, i metodi gerarchici presentano un evidente vantaggio dal
+punto di vista computazionale rispetto ai metodi di enumerazione
+completa; tuttavia risultano sensibili a vettori delle caratteristiche
+anomali e non consentono di modificare la configurazione raggiunta,
+ossia una volta che un individuo è stato attribuito ad un cluster
+permane al suo interno per sempre. I metodi non gerarchici non
+presentano questo problema poiché consentono di riallocare gli individui
+precedentemente classificati, ma richiedono una scelta opportuna della
+configurazione iniziale.

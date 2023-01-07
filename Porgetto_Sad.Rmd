@@ -1770,4 +1770,4 @@ presentano questo problema poiché consentono di riallocare gli individui
 precedentemente classificati, ma richiedono una scelta opportuna della
 configurazione iniziale.
 
-# Parte Seconda
+# 

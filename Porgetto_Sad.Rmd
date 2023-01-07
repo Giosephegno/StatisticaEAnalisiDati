@@ -470,7 +470,7 @@ determinato livello o valore univoco della variabile.
 
 ```{r message=FALSE, warning=FALSE}
 p1 <- ggplot(mpg, aes(x = manufacturer)) +
-     geom_bar(color = "black", fill = "white") + theme(axis.text.x = element_text(angle = 90))
+     geom_bar(color = "black", fill = "white") + theme(axis.text.x = element_text(angle = 90)) + ylab("Manufacturer")
 
 p1 <- p1 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#ffffff', linetype = 'longdash'),
@@ -534,7 +534,7 @@ tante categorie non permetterebbe di distinguere l'una dall'altra.
 
 ```{r}
 p3 <- ggplot(mpg, aes(x = model, fill = Manufacturer)) +
-  geom_bar(position = "dodge")+ theme(axis.text.x = element_text(angle = 90))
+  geom_bar(position = "dodge")+ theme(axis.text.x = element_text(angle = 90))+ ylab("Manufacturer")
 
 p3 <- p3 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#ffffff', linetype = 'longdash'),
@@ -622,7 +622,7 @@ barre con i valori di "disp" come valori in ascissa e le categorie di
 ```{r}
 macchina <- factor(mpg$class, ordered = T)
 p5 <- ggplot(mpg, aes(x = macchina, y = displ)) +
-  geom_bar(stat = "identity", fill = "white")
+  geom_bar(stat = "identity", fill = "white") + ylab("displ") + xlab("Class")
 
 
 p5 <- p5 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
@@ -632,7 +632,7 @@ p5 <- p5 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8
 p5
 ```
 
-Dal grafico possiamo osservare sulle ascisse i tipi di veicoli,
+Dal grafico possiamo osservare sulle ascisse i tipi di veicoli.
 
 #### Grafico a dispersione
 
@@ -726,12 +726,11 @@ Nel seguente chunk abbiamo creato un grafico a barre per visualizzare la
 distribuzione dei valori.
 
 ```{r}
-p9 <- ggplot(data = mpg, mapping = aes(cyl)) + geom_bar(stat = "count", fill= "white", col = "black") + ggtitle("Variabile cyl")
+p9 <- ggplot(data = mpg, mapping = aes(cyl)) + geom_bar(stat = "count", fill= "white", col = "black") + ggtitle("Variabile cyl") + ylab("Cilindri")
 
 p9 <- p9 + theme(panel.background = element_rect(fill = '#f0e2a8', color = "#9a8262"), panel.grid.major = element_line(color = '#ffffff', linetype="longdash"),panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash"))
 
 p9
-
 ```
 
 Nel grafico, "cyl" sarà mostrata sull'asse delle ascisse e il numero di
@@ -785,7 +784,7 @@ quanto i valori possibili sono discreti e limitati.
 
 ```{r}
 p11 <- ggplot(mpg, mapping = aes(trans)) +
-  geom_bar(fill = "white", col = "black")
+  geom_bar(fill = "white", col = "black") + ylab("Trasmissione")
 
 p11 <- p11 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
@@ -832,7 +831,7 @@ La variabile Drv rappresenta il tipo di trazione dell'automobile
 ```{r}
 drive <- factor(mpg$drv, levels = c("4", "f", "r"), labels = c("trazione integrale", "trazione anteriore", "trazione posteriore"))
 p13 <- ggplot(mapping = aes(drive)) + 
-  geom_bar(fill = "white", col = "black")
+  geom_bar(fill = "white", col = "black") + ylab("Trazione")
 
 p13 <- p13 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
@@ -878,6 +877,8 @@ p15 <- p15 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9
 
 p15
 ```
+
+#### 
 
 ### Variabile Cty
 
@@ -932,10 +933,26 @@ p18 <- p18 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9
 p18
 ```
 
-Osservando lo scatterplot possiamo affermare che le auto con un numero
+Osservando lo scatter plot possiamo affermare che le auto con un numero
 di cilindri pari a *4 e 5* riescono a percorrere più miglia con un
 gallone in città mentre le auto con *6* e *8* cilindri riescono a
 percorrere meno miglia per gallone in zona urbana.
+
+#### Istogramma
+
+Utilizziamo la funzione **`cut()`** per raggruppare i dati e creare un
+istogramma con degli intervalli scelti.
+
+```{r}
+fcut <- table (cut ( mpg$cty, breaks = c(12,14,17,20,35) ))
+fcut
+```
+
+Gli intervalli sono scelti in modo da essere abbastanza equi.
+
+```{r}
+barplot(fcut, col = rainbow(4), xlab = "miglia per gallone", main = "Grafico miglia per gallone", ylab = "n.osservazioni")
+```
 
 ### Variabile Hwy
 
@@ -1027,10 +1044,10 @@ diesel.
 #### Grafico a barre
 
 ```{r}
-fuel <- factor(mpg$fl, levels = c("c","d","e","p","r"), labels = c("Normale gasoline", "Diesel", "Elettricity","Premium gasoline", "Regular gasoline"))
+fuel <- factor(mpg$fl, levels = c("c","d","e","p","r"), labels = c("Normale gasoline", "Diesel", "Elettricity","Premium gasoline", "Regular gasoline")) 
 
 p22 <- ggplot(data = mpg, mapping = aes(x = fuel)) +
-  geom_bar(col = "black", fill = "white") 
+  geom_bar(col = "black", fill = "white") + ylab("Fuel")
 
 p22 <- p22 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
@@ -1045,6 +1062,27 @@ riferimento, circa il 72%, usa il gasolio regolare per viaggiare, il 22%
 si rifornisce con il carburante premium ed il restante 6% delle auto con
 gli altri combustibili: elettricità, diesel o carburante normale.
 
+#### Grafico frequenze relative cumulative
+
+Le frequenze assolute cumulative sono il numero di osservazioni di una
+variabile che sono inferiori o uguali a un determinato valore
+In R, utilizziamo la funzione **`cumsum()`** per calcolare le frequenze
+assolute cumulative di una variabile.
+
+```{r}
+fac <- cumsum(table(mpg$fl)/length(mpg$fl))
+names(fac) <- c("Normal_gasoline", "Diesel", "Elettricity", "Premium_Gasoline", "Regular gas")
+
+plot(fac, type = "s", main = "FRC Carburante", ylim = c(-0.5,1.3), xlab= "Tipo di carburante")
+```
+
+Il grafico a gradini mostra il numero di automobili con trasmissione
+"fl" che sono presenti nel dataset e che hanno una trasmissione di tipo
+uguale o inferiore a quello indicato sull'ascissa. Ad esempio, il primo
+segmento orizzontale del grafico rappresenta il numero di automobili con
+trasmissione "manual", mentre il secondo segmento orizzontale
+rappresenta il numero di automobili con trasmissione "manual" o "auto".
+
 ### Variabile Class
 
 La variabile Class rappresenta la classe di dimensioni dell'automobile.
@@ -1053,7 +1091,7 @@ La variabile Class rappresenta la classe di dimensioni dell'automobile.
 
 ```{r}
 p23 <- ggplot(data = mpg, mapping = aes(class)) + 
-  geom_bar(fill = "white", col = "black")
+  geom_bar(fill = "white", col = "black") + ylab("Fuel")
 
 p23 <- p23 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),

@@ -204,6 +204,29 @@ statistiche di base per ogni variabile (ad esempio, "Min. :1.600" indica
 il valore minimo della variabile, "1st Qu.:2.400" indica il primo
 quartile, "Median :3.300" indica la mediana e così via).
 
+### Visualizzazione rapida dei grafici
+
+Visualizziamo i grafici delle variabili numeriche del dataset mpg
+
+```{r}
+dfm <- mpg %>% 
+  select_if(is.numeric)
+```
+
+Ora che abbiamo raccolto tutte le variabili di tipo numerico, guardiamo
+il grafico ottenuto con pairs
+
+```{r}
+pairs(dfm)
+```
+
+Dal grafico notiamo che c'è una correlazione negativa tra le variabili
+displ e cty e displ e hwy, ossia tra il volume dei cilindri
+dell'automobile e il consumo di carburante in città ed in autostrada.
+Quindi maggiore è il volume dei cilindri e minore è il consumo di
+carburante. Una forte correlazione positiva vi è anche tra il consumo di
+carburante in strada ed in autostrada.
+
 ## Tabelle di frequenza
 
 Utilizziamo il comando **`table(mpg$variabile)`** per ottenere il
@@ -589,7 +612,6 @@ p4 <- ggplot(mpg, aes(x = displ)) + geom_histogram(bins = 30, aes(y = ..density.
   geom_freqpoly(aes(y = ..density..), color = "red", size = 1) + labs(title = "Distribuzione dei valori di displ") 
 
 
-
 p4 <- p4 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
                panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
@@ -869,7 +891,7 @@ Giungiamo alla medesima conclusione osservando il boxplot in basso.
 
 ```{r}
 p15 <- ggplot(mpg, aes(x = drv, y = displ)) +
-  geom_boxplot()
+  geom_boxplot() + coord_flip()
 
 p15 <- p15 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
@@ -878,7 +900,13 @@ p15 <- p15 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9
 p15
 ```
 
-#### 
+La centralità delle scatole, espressa dalla mediana vediamo che non è
+propriamente al centro, ciò sta a significare che non c'è simmetria nei
+dati, piuttosto la distribuzione è asimmetrica, come nel caso del primo
+boxplot che è fortemente asimmetrica a sinistra. Dall'ultimo boxplot
+notiamo dalla lunghezza dei baffi che c'è molta dispersione nei dati.
+Mentre nel secondo boxplot vediamo che c'è un outliers, ossia un valore
+anomalo che va molto al di fuori dei baffi.
 
 ### Variabile Cty
 
@@ -1082,6 +1110,18 @@ uguale o inferiore a quello indicato sull'ascissa. Ad esempio, il primo
 segmento orizzontale del grafico rappresenta il numero di automobili con
 trasmissione "manual", mentre il secondo segmento orizzontale
 rappresenta il numero di automobili con trasmissione "manual" o "auto".
+
+#### Grafico a torta
+
+```{r}
+freqRel <- table (mpg$fl )/ length (mpg$fl)
+perc <- freqRel*100
+perc <- round(perc,1)
+LabelF <- c("Normal_gas", "Diesel", "Elettricity", "Premium_Gas", "Regular_gas") 
+LabelF <- paste(LabelF, perc)
+LabelF <- paste(LabelF, "%", sep = "")
+pie ( perc , label = LabelF , col = rainbow ( length ( LabelF )), main = "Valori percentuali ")
+```
 
 ### Variabile Class
 

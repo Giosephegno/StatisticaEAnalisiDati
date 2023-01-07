@@ -468,7 +468,7 @@ determinato livello o valore univoco della variabile.
 
 ```{r message=FALSE, warning=FALSE}
 p1 <- ggplot(mpg, aes(x = manufacturer)) +
-     geom_bar(color = "black", fill = "white") + theme(axis.text.x = element_text(angle = 90))
+     geom_bar(color = "black", fill = "white") + theme(axis.text.x = element_text(angle = 90)) + ylab("Manufacturer")
 
 p1 <- p1 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#ffffff', linetype = 'longdash'),
@@ -532,7 +532,7 @@ tante categorie non permetterebbe di distinguere l'una dall'altra.
 
 ```{r}
 p3 <- ggplot(mpg, aes(x = model, fill = Manufacturer)) +
-  geom_bar(position = "dodge")+ theme(axis.text.x = element_text(angle = 90))
+  geom_bar(position = "dodge")+ theme(axis.text.x = element_text(angle = 90))+ ylab("Manufacturer")
 
 p3 <- p3 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#ffffff', linetype = 'longdash'),
@@ -620,7 +620,7 @@ barre con i valori di "disp" come valori in ascissa e le categorie di
 ```{r}
 macchina <- factor(mpg$class, ordered = T)
 p5 <- ggplot(mpg, aes(x = macchina, y = displ)) +
-  geom_bar(stat = "identity", fill = "white")
+  geom_bar(stat = "identity", fill = "white") + ylab("displ") + xlab("Class")
 
 
 p5 <- p5 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
@@ -724,7 +724,7 @@ Nel seguente chunk abbiamo creato un grafico a barre per visualizzare la
 distribuzione dei valori.
 
 ```{r}
-p9 <- ggplot(data = mpg, mapping = aes(cyl)) + geom_bar(stat = "count", fill= "white", col = "black") + ggtitle("Variabile cyl")
+p9 <- ggplot(data = mpg, mapping = aes(cyl)) + geom_bar(stat = "count", fill= "white", col = "black") + ggtitle("Variabile cyl") + ylab("Cilindri")
 
 p9 <- p9 + theme(panel.background = element_rect(fill = '#f0e2a8', color = "#9a8262"), panel.grid.major = element_line(color = '#ffffff', linetype="longdash"),panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash"))
 
@@ -783,7 +783,7 @@ quanto i valori possibili sono discreti e limitati.
 
 ```{r}
 p11 <- ggplot(mpg, mapping = aes(trans)) +
-  geom_bar(fill = "white", col = "black")
+  geom_bar(fill = "white", col = "black") + ylab("Trasmissione")
 
 p11 <- p11 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
@@ -830,7 +830,7 @@ La variabile Drv rappresenta il tipo di trazione dell'automobile
 ```{r}
 drive <- factor(mpg$drv, levels = c("4", "f", "r"), labels = c("trazione integrale", "trazione anteriore", "trazione posteriore"))
 p13 <- ggplot(mapping = aes(drive)) + 
-  geom_bar(fill = "white", col = "black")
+  geom_bar(fill = "white", col = "black") + ylab("Trazione")
 
 p13 <- p13 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
@@ -1025,10 +1025,10 @@ diesel.
 #### Grafico a barre
 
 ```{r}
-fuel <- factor(mpg$fl, levels = c("c","d","e","p","r"), labels = c("Normale gasoline", "Diesel", "Elettricity","Premium gasoline", "Regular gasoline"))
+fuel <- factor(mpg$fl, levels = c("c","d","e","p","r"), labels = c("Normale gasoline", "Diesel", "Elettricity","Premium gasoline", "Regular gasoline")) 
 
 p22 <- ggplot(data = mpg, mapping = aes(x = fuel)) +
-  geom_bar(col = "black", fill = "white") 
+  geom_bar(col = "black", fill = "white") + ylab("Fuel")
 
 p22 <- p22 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
@@ -1051,7 +1051,7 @@ La variabile Class rappresenta la classe di dimensioni dell'automobile.
 
 ```{r}
 p23 <- ggplot(data = mpg, mapping = aes(class)) + 
-  geom_bar(fill = "white", col = "black")
+  geom_bar(fill = "white", col = "black") + ylab("Fuel")
 
 p23 <- p23 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
@@ -1228,8 +1228,8 @@ Fissato un livello di significatività $$\alpha$$si determina il valore
 soglia $$t_{\alpha/2} $$ tale che:
 $$P(|T| > t_{\alpha/2})= P(T < -t_{\alpha/2})+P(T>t_{\alpha/2}) = \alpha$$
 Si rifiuta l'ipotesi *nulla* se: $$ |t|>t_{\alpha/2}$$In alternativa, si
-calcola il *p-value*: $$P(T > t)=2[1-F(t)]$$
-dove *F(t)* è la funzione di ripartizione della v.c. t-Student.
+calcola il *p-value*: $$P(T > t)=2[1-F(t)]$$ dove *F(t)* è la funzione
+di ripartizione della v.c. t-Student.
 
 Con il seguente codice escludiamo le variabili indipendenti che non
 influenzano la variabile dipendente, ovvero le variabili *trans* e *fl*.

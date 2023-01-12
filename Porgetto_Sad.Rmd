@@ -2422,5 +2422,3 @@ permane al suo interno per sempre. I metodi non gerarchici non
 presentano questo problema poiché consentono di riallocare gli individui
 precedentemente classificati, ma richiedono una scelta opportuna della
 configurazione iniziale.
-
-# Seconda parte

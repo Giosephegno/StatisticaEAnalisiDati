@@ -982,14 +982,15 @@ La media campionaria è la media aritmetica di questi valori.
 Definizione 4.1: Si definisce media campionaria e si denota con $x$, la
 quantità:
 
-$$\hat x = \frac1n \sum^n_{i=1}x_i$$
+$$
+\overline x = \frac1n \sum^n_{i=1}x_i$$
 
 La media campionaria è una media pesata dei valori distinti assunti dai
 dati. Ogni valore distinto usa come peso la sua frequenza relativa,
 ovvero la frazione dei dati uguale a tale valore numerico.
 
 ```{r}
-mean(mpg$hwy)
+mean(mpg$cty)
 ```
 
 La media campionaria utilizza tutti i dati ed è influenzata in maniera
@@ -1005,7 +1006,7 @@ definita come la media aritmetica dei valori che occupano le posizioni
 $n/2$ e $n/2+ 1$.
 
 ```{r}
-median(mpg$hwy)
+median(mpg$cty)
 
 ```
 
@@ -1044,21 +1045,21 @@ frequenze relative.
 Assegnato un insieme di dati numerici $x_1, x_2, . . . , x_n$, si
 definisce varianza campionaria, e si denota con $s^2$, la quantità:
 
-$$s^2 = \frac {1}{n-1} \sum^n_{i=1}(x_i - \hat x)^2$$
+$$s^2 = \frac {1}{n-1} \sum^n_{i=1}(x_i - \overline x)^2$$
 
 con $$(n=2,3,...)$$
 
 ```{r}
-var(mpg$hwy)
+var(mpg$cty)
 
 ```
 
-dove $$\hat x$$ denota la media campionaria dei dati. Inoltre, si
+dove $$\overline x$$ denota la media campionaria dei dati. Inoltre, si
 definisce deviazione standard campionaria la radice quadrata della
 varianza campionaria.
 
 ```{r}
-sd(mpg$hwy)
+sd(mpg$cty)
 
 ```
 
@@ -1078,7 +1079,7 @@ Assegnato un insieme di dati numerici $x1, x2, . . . , xn$, si definisce
 coefficiente di variazione il rapporto tra la deviazione standard
 campionaria e il modulo della media campionaria, ossia:
 
-$$CV=\frac {s}{|\hat x|}$$
+$$CV=\frac {s}{|\overline x|}$$
 
 Si nota che il coefficiente di variazione è un numero puro, ossia è un
 indice indice *adimensionale* che non dipende dall'unità di misura
@@ -1094,11 +1095,11 @@ In R si implementa nel seguente modo:
 cv <- function(x){
 + sd(x)/abs(mean(x))}
 
-cv(mpg$hwy)
+cv(mpg$cty)
 
 ```
 
-#### Momenti campionari 
+#### Momenti campionari
 
 Assegnato un insieme di dati numerici $x1, x2, . . . , xn$, si definisce
 momento campionario di ordine j e si denota con $M_j$ la quantità:
@@ -1114,7 +1115,8 @@ momento campionario centrato intorno alla media di ordine j e si denota
 con $m_j$ la quantità:
 
 $$
-m_j = \sum^n_{i=1} (x_i-\hat x)^j
+m_j = \sum^n_{i=1} (x_i-
+\overline x)^j
 $$
 
 #### Scatterplot
@@ -1480,6 +1482,7 @@ utilizzando un grafico a barre appaiate ottenuto tramite le seguenti
 linee di codice:
 
 ```{r}
+drv_fl_drv <- table(mpg$drv,mpg$fl)
 barplot(prop.table(drv_fl_drv ,2), beside = TRUE, main = " Frequenza relativa condizionata f(tipo di trazione|tipo di carburante)", legend = c("Trazione integrale", "Trazione anteriroe", "Trazione posteriore"), col =c(1:3) )
 ```
 
@@ -1580,6 +1583,24 @@ La covarianza (cov) è una misura della correlazione tra due variabili.
 Indica se le due variabili cambiano in modo simile o in modo opposto e
 in che misura cambiano insieme.
 
+Assegnato un campione bivariato
+$(x_1, y_1), (x_2, y_2), . . . , (x_n, y_n)$ di una variabile
+quantitativa bidimensionale $(X, Y )$, siano $x$ e $y$ rispettivamente
+le medie campionarie di $x_1, x_2, . . . , x_n$ e di
+$y_1, y_2, . . . , y_n$. La covariana campionaria tra le due variabili
+$X$ e $Y$ è così definita:
+
+$$
+C_{xy} = \frac{1}{n-1} \sum_{i=1}^n (x_i - \overline x) (y = \overline y)
+$$
+
+con $$(n = 2,3,...)$$
+
+La covarianza campionaria può avere segno positivo, negativo o nullo.
+Quando $C_{xy} > 0$ si dice che le variabili sono correlate
+positivamente, se $C_{xy} < 0$ le variabili sono correlate negativamente
+e, infine, se $C_{xy} = 0$ le variabili sono non correlate.
+
 In questo caso la matrice delle covarianze campionarie è
 
 ```{r}
@@ -1589,15 +1610,44 @@ cov(dfm)
 
 ### Correlazione
 
+Assegnato un campione bivariato
+$(x_1, y_1), (x_2, y_2), . . . , (x_n, y_n)$ di una variabile
+quantitativa bidimensionale $(X, Y)$, siano $x$ e $sx$ la media
+campionaria e la deviazione standard campionaria di
+$x_1, x_2, . . . , x_n$ ed inoltre siano $y$ e $sy$ la media campionaria
+e la deviazione standard campionaria di $y_1, y_2, . . . , y_n$. Il
+coefficiente di correlazione campionario tra le due variabili $X$ e $Y$
+è così definito:
+
+$$
+r_{xy} = \frac{C_{xy}}{s_x s_y}
+$$
+
+Si nota che il coefficiente di correlazione campionario
+
+-   è un indice adimensionale;
+
+-   non fa distinzione tra variabile dipendente e variabile
+    indipendente, ossia $r_{xy} = r_{yx}$;
+
+-   può essere calcolato soltanto se entrambe le variabili sono
+    quantitative;
+
+-   non cambia al variare dell'unità di misura con cui sono espresse le
+    variabili;
+
+-   è fortemente influenzato dalla presenza di eventuali valori anomali,
+    così come accade per la media campionaria e la varianza campionaria.
+
 La correlazione (cor) è una misura della relazione lineare tra due
 variabili. Indica se c'è una relazione lineare tra le due variabili e in
 che direzione va la relazione. La correlazione può assumere valori
-compresi tra -1 e 1. Un valore di correlazione di -1 indica una
-relazione negativa perfetta, ovvero le due variabili variano in modo
-perfettamente opposto. Un valore di correlazione di 1 indica una
-relazione positiva perfetta, ovvero le due variabili variano in modo
-perfettamente simile. Un valore di correlazione di 0 indica che non c'è
-alcuna relazione lineare tra le due variabili.
+compresi tra -1 e 1.
+
+Il coefficiente di correlazione campionario ha lo stesso segno della
+covarianza. Quando $r_{xy} > 0$ si dice che le variabili sono correlate
+positivamente, se $r_{xy} < 0$ le variabili sono correlate negativamente
+e, infine, se $r_{xy} = 0$ le variabili sono non correlate.
 
 In questo caso la matrice delle correlazioni campionarie è
 
@@ -1613,6 +1663,29 @@ sono correlate ma negativamente. La variabile *cyl* è molto correlata
 con *displ* ed è correlata negativamente con *cty* e *hwy*. Infine
 osservando i valori di *year* possiamo affermare che è correlata in modo
 molto debole con le altre variabili.
+
+Per avere un'ulteriore conferma della forte correlazione tra la
+variabile *hwy* e *cty* (0.95) rappresentiamo tale relazione in un
+diagramma a dispersione:
+
+```{r}
+plot(mpg$hwy ,mpg$cty ,main =" Retta di regressione ", xlab="hwy",ylab="cty", col ="red ")
+abline (lm( mpg$cty ~ mpg$hwy), col =" blue")
+
+```
+
+Dal grafico è evidente che le due variabile sono fortemente legate
+linearmente, infatti lo scostamento delle osservazioni dalla retta di
+regressione lineare (retta interpolante ascendente) è minimo.
+
+La funzione *pairs()* è in grado di visualizzare in un'unica finestra
+grafica una pluralità di scatterplot ottenuti mettendo in relazione
+tutte le coppie di variabili quantitative definite all'interno di un
+data frame.
+
+```{r}
+pairs(dfm,  main = "Scatterplot per le coppie di variabili", col ="black")
+```
 
 ### Train set e test set
 
@@ -1668,7 +1741,7 @@ variabile Xj non influenza la variabile Y.
 -   H1 : βj ≠ 0
 
 Se l'ipotesi nulla è vera, la statistica t è :
-$$t = \frac{(\hat \beta_{j})}{s . \sqrt(c_{}jj)} \sim t_{n-p-1}$$la
+$$t = \frac{(\overline \beta_{j})}{s . \sqrt(c_{}jj)} \sim t_{n-p-1}$$la
 statistica *t* è anche detta *t-value*.
 
 Fissato un livello di significatività $$\alpha$$si determina il valore
@@ -1686,6 +1759,13 @@ modello_aggiornato <- update(modello, ~ . - trans - fl)
 summary(modello_aggiornato)
 
 ```
+
+Osserviamo che i segni di entrambi i regressori *displ* e *cyl* sono
+negativi; quindi essi hanno un effetto negativo sulla variabile *cty*
+(all'aumentare di *displ* e *cyl* diminuisce *cty*). Ciò non vale per la
+variabile *drv* la quale ha segno positivo. Si nota anche che il
+regressore *displ* è prossimo allo zero indicando che non incide in modo
+significativo sulla variabile dipendente.
 
 Pertanto possiamo dedurre che sono 3 le variabili che contribuiscono a
 definire la variabile dipendete *cty* (miglia per gallone) e sono:
@@ -1749,6 +1829,134 @@ Osservando le misure di accuratezza possiamo affermare che il modello
 che abbiamo stimato è un buon modello ovvero è un modello che è in grado
 di fare previsioni accurate della variabile dipendente utilizzando le
 variabili indipendenti.
+
+## Residui
+
+In generale, esisteranno degli scostamenti (residui) tra le ordinate dei
+punti $y_i$ (valori osservati) e i corrispondenti valori stimati
+$\hat y_i$.
+
+I residui sono così definiti:
+
+$$
+E_i = y_i - \hat y_i = y_i - (\alpha + \beta x_i)
+$$
+
+con $$(i = 1,2,...,n)$$
+
+e mostrano di quanto si discostano i valori osservati $y_i$ dai valori
+stimati $\hat y_i$ con la regressione lineare multipla. In R per
+calcolare il vettore dei valori stimati
+$(\hat y_1, \hat y_2, . . . , \hat y_n)$ tramite regressione lineare
+multipla si utilizza la funzione:
+
+```{r}
+# Visualizza il vettore delle stime
+fit <- fitted(lm(data = mpg,cty ~ displ + cyl + drv))
+
+```
+
+Invece, per calcolare il vettore dei residui $(E_1,E_2, . . . ,E_n)$ si
+utilizza la funzione:
+
+```{r}
+# Visualizza i residui
+residui <- resid(lm(data = mpg,cty ~ displ + cyl + drv))
+
+```
+
+L'analisi dei residui in un modello di regressione lineare multipla
+consiste nel verificare se i residui, ovvero la differenza tra i valori
+osservati e quelli previsti dal modello, seguono una distribuzione
+normale e se sono distribuiti in modo casuale. Ciò è importante perché
+una distribuzione normale e casuale dei residui indica che il modello è
+adeguato alla relazione tra le variabili dipendenti e indipendenti.
+
+Per eseguire un'analisi dei residui, è possibile utilizzare alcuni
+strumenti come un grafico di istogramma dei residui, un grafico Q-Q plot
+e un grafico di dispersione dei residui sui valori previsti.
+
+Il grafico di istogramma dei residui mostra la distribuzione dei
+residui, e dovrebbe essere simile ad una distribuzione normale. Il
+grafico Q-Q plot mostra se i residui seguono una distribuzione normale,
+in caso contrario i punti non si troverebbero sulla linea di
+regressione. Infine il grafico di dispersione dei residui sui valori
+previsti deve mostrare una distribuzione casuale, ovvero senza alcun
+schema visibile.
+
+Nella realtà, spesso i dati non seguono perfettamente una distribuzione
+normale, ma è importante valutare se l'adesione al modello non sia
+troppo lontana dai valori attesi.
+
+Si può usare la funzione plot() per creare questi grafici, e in R si può
+utilizzare la libreria **`ggplot2`**
+
+```{r}
+# Q-Q plot
+qqnorm(modello_aggiornato$residuals)
+qqline(modello_aggiornato$residuals, col = 2)
+
+```
+
+```{r}
+# Scatterplot dei residui vs valori stimati
+ggplot(train_set, aes(x = modello_aggiornato$fitted.values, 
+                      y = modello$residuals))+
+geom_point() +
+ggtitle("Residui vs Valori previsti")+
+geom_hline(yintercept = 0) +
+xlab("Valori stimati") +
+ylab("Residui")
+
+
+```
+
+```{r}
+# Istogramma dei residui
+ggplot(train_set, aes(modello_aggiornato$residuals)) + 
+  geom_histogram(bins = 30, col = "black", fill = "white") +
+  ggtitle("Istogramma dei residui") + xlab("Residui")
+
+```
+
+Come possiamo osservare dal grafico la distribuzione è leggermente
+asimmetrica positiva a causa dei due outlier presenti dopo il valore
+*x=10*
+
+Se i residui non seguono una distribuzione normale e casuale, può essere
+necessario modificare il modello, ad esempio aggiungendo o rimuovendo
+delle variabili, o utilizzando una trasformazione delle variabili.
+
+## Coefficiente di determinazione
+
+Il coefficiente di determinazione in un modello di regressione lineare
+multipla è il rapporto tra la varianza dei valori stimati tramite la
+funzione di regressione multipla e la varianza i valori osservati della
+variabile dipendente. Se si denota con $(y_1, y_2, . . . , y_n)$ il
+vettore dei dati della variabile dipendente, con $\overline y$ la sua
+media campionaria e con $(\beta y_1, \beta y_2, . . . , \beta y_n)$ i
+valori stimati attraverso la funzione di regressione (la cui media
+campionaria $\overline y$), il coefficiente di determinazione è:
+
+$$ D^2 = \frac{\frac{1}{n-1}\sum^n_{i=1}(\hat y_i - \overline y_i)^2}{
+\frac{1}{n-1}\sum^n_{i=1}(y_i - \overline y_i)^2} = 
+\frac{\sum^n_{i=1}(\hat y_i - \overline y_i)^2}
+{\sum^n_{i=1}(y_i - \overline y_i)^2}
+$$
+
+L'indice $D^2$ è adimensionale e risulta $0 ≤ D^2 ≤ 1$. Quando $D^2 = 0$
+il modello di regressione multipla utilizzato non spiega per nulla i
+dati. Invece, quando $D^2 = 1$ il modello di regressione multipla
+utilizzato spiega perfettamente i dati. In R per calcolare l'indice
+$D^2$ per la regressione lineare multipla basta utilizzare la funzione:
+
+```{r}
+summary(modello_aggiornato)$r.squared
+
+```
+
+Il coefficiente di determinazione è *0.725*, ossia il modello di
+regressione multipla utilizzato spiega significativamente i dati.
 
 # Analisi dei cluster
 

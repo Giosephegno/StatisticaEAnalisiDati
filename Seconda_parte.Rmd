@@ -1,5 +1,3 @@
-# 
-
 # Seconda parte
 
 # Introduzione
@@ -45,8 +43,18 @@ Si noti che nessun vincolo viene imposto sui valori reali che una v.c può assum
 
 ## Variabili aleatorie continue
 
-Una variabile aleatoria è continua se può assumere tutti i valori compresi in un (qualsiasi) intervallo reale. Formalmente, una v.c. continua X è una funzione misurabile e a valori reali che assegna ad ogni evento di uno spazio di probabilità continuo un numero reale
+Una variabile aleatoria è continua se può assumere tutti i valori compresi in un (qualsiasi) intervallo reale. Formalmente, una v.c. continua X è una funzione misurabile e a valori reali che assegna ad ogni evento di uno spazio di probabilità continuo un numero reale.
 
-.
+Le v.c. continue presentano una maggiore complessità analitica poiché per esse non è possibile elencare tutti i valori che la v.c. assume, essendo questi una infinità non numerabile. Occorre quindi assegnare la probabilità ad intervalli sulla retta e derivare,poi, da tale assegnazione tutte le probabilità degli eventi che interessano.
 
-310
+In prima istanza, tale assegnazione sembrerà astratta e poco collegata alla specifica prova ma, più oltre, si vedrà come l'introduzione di una probabilità per gli intervalli è strettamente derivata dalla natura e dalla specificità della prova.
+
+Una v.c. continua X è nota se, per ogni $x_0$ reale e prefissato, è nota la probabilità che tale v.c. assuma un valore in un intervallo di ampiezza infinitesimo rispetto a $x_0$ mediante la relazione seguente:
+
+$$P_r(x_0 < X ≤ x_0 + d_x) = f(x_0)dx$$
+
+dove $f(x)$ è una funzione a valori reali, detta *funzione di densità* della v.c. continua X. Spesso, scriveremo: $X \sim f(x)$ per indicare che la v.c. X possiede $f(x)$ come propria funzione di densità.
+
+![](images/image-286733116.png)
+
+La probabilità che la v.c X assuma valori nell'intervallo raffigurata è uguale a

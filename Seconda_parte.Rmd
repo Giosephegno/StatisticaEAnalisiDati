@@ -29,7 +29,7 @@ Un variabile discreta è nota se si conoscono i valori che può assumere e le ri
 | ***Valori di X*** | $x_1$ | $x_2$ | ... | $x_i$ | ... |
 | ***Probabilità*** | $p_1$ | $p_2$ | ... | $p_i$ | ... |
 
-La tabella precedente viene definita \*distribuzione della probabilità della variabile casuale discreta X e rappresenta un insieme di informazioni necessarie e sufficienti per calcolare la probabilità di qualsiasi evento concernente la v.c X.
+La tabella precedente viene definita *distribuzione della probabilità della variabile casuale discreta X* e rappresenta un insieme di informazioni necessarie e sufficienti per calcolare la probabilità di qualsiasi evento concernente la v.c X.
 
 Pertanto condizione necessaria e sufficiente affinché una v.c discreta X sia ben definita è che tali probabilità soddisfino le seguenti condizioni:
 
@@ -41,9 +41,25 @@ Si noti che nessun vincolo viene imposto sui valori reali che una v.c può assum
 
 ![](images/download.jpg)
 
+la *funzione di ripartizione* $F(x_0)$ di una variabile casuale X discreta calcolata nel punto $x_0$ è :
+
+$$F(x_0) = Pr(X ≤ x_0) = \sum_{x ≤ x_0} p_i$$
+
+Il sistema R mette a disposizione per ciascuna delle principali variabili aleatorie discrete:
+
+• la funzione di probabilità indicata con *d* calcola la funzione di probabilità di una variabile aleatoria in uno specifico punto o in un insieme di punti (density mass).
+
+• la funzione di distribuzione indicata con *p* calcola la funzione di distribuzione di una variabile aleatoria in uno specifico punto o in un insieme di punti (probability distribution).
+
+• la funzione per calcolare i quantili indicata con *q* e calcola i quantili.
+
+• la funzione che simula la variabile aleatoria mediante la generazione di sequenze di numeri pseudocasuali indicata con *r* simula una variabile aleatoria generando una sequenza di numeri pseudocasuali.
+
+Tra le variabili casuali discrete rientrano: Discrete: Bernoulli, binomiale, geometrica (geometrica modificata), binomiale negativa (binomiale negativa modificata), Poisson, ipergeometrica;
+
 ## Variabili aleatorie continue
 
-Una variabile aleatoria è continua se può assumere tutti i valori compresi in un (qualsiasi) intervallo reale. Formalmente, una v.c. continua X è una funzione misurabile e a valori reali che assegna ad ogni evento di uno spazio di probabilità continuo un numero reale.
+Una variabile aleatoria è continua se può assumere tutti i valori compresi in un (qualsiasi) intervallo reale. Formalmente, una v.c. continua X *assume un insieme continuo di valori con una densità di probabilità* $f_X(x)$, è una funzione misurabile e a valori reali che assegna ad ogni evento di uno spazio di probabilità continuo un numero reale.
 
 Le v.c. continue presentano una maggiore complessità analitica poiché per esse non è possibile elencare tutti i valori che la v.c. assume, essendo questi una infinità non numerabile. Occorre quindi assegnare la probabilità ad intervalli sulla retta e derivare,poi, da tale assegnazione tutte le probabilità degli eventi che interessano.
 
@@ -57,4 +73,185 @@ dove $f(x)$ è una funzione a valori reali, detta *funzione di densità* della v
 
 ![](images/image-286733116.png)
 
-La probabilità che la v.c X assuma valori nell'intervallo raffigurata è uguale a
+La probabilità che la v.c X assuma valori nell'intervallo raffigurata è uguale a $f(x)dx$ perchè essa è uguale all'aerea del rettangolo la cui base misura $dx$ e la cui altezza è $f(x_0)$, perchè per la continuità deve essere: $f(x_0) = f(x_0 + dx)$.
+
+la *funzione di ripartizione* $F(x_0)$ di una variabile casuale X continua calcolata nel punto $x_0$ è :
+
+$$F(x_0) = Pr(X ≤ x_0) = \int^{x_0}_{-\infty} f()wd_w$$
+
+Il sistema R mette a disposizione per ciascuna delle principali variabili aleatorie discrete:
+
+• la funzione di probabilità indicata con *d* calcola la funzione di probabilità di una variabile aleatoria in uno specifico punto o in un insieme di punti (density mass).
+
+• la funzione di distribuzione indicata con *p* calcola la funzione di distribuzione di una variabile aleatoria in uno specifico punto o in un insieme di punti (probability distribution).
+
+• la funzione per calcolare i quantili indicata con *q* e calcola i quantili.
+
+• la funzione che simula la variabile aleatoria mediante la generazione di sequenze di numeri pseudocasuali indicata con *r* simula una variabile aleatoria generando una sequenza di numeri pseudocasuali.
+
+Tra le variabili casuali discrete rientrano: Continue: uniforme, esponenziale, normale, chi-quadrato, di Student.
+
+In questo progetto analizzeremo a fondo la *variabile casuale continua Normale*.
+
+## Variabile casuale normale
+
+La v.c. Normale è di gran lunga la distribuzione più importante del Calcolo delle probabilità e della Statistica, al punto che appare difficile immaginare lo sviluppo di tali discipline senza riconoscere ad essa un ruolo centrale. La sua stessa denominazione (*normale* suggerisce che essa è la "norma") esplicita che la sua presenza nelle applicazioni e negli sviluppi teorici è quasi una regola. In effetti, la v.c. Normale approssima la distribuzione empirica di moltissimi fenomeni reali, ma è anche punto di riferimento per stabilire confronti, dedurre risultati asintotici e controllare allontanamenti dalla distribuzione di tale v.c.
+
+-   La sua introduzione nella storia della probabilità è legata alla ricerca della distribuzione degli errori accidentali. Galileo descrisse con precisione, sin dal 1632, le caratteristiche essenziali che una distribuzione degli errori doveva possedere nel "dialogo dei massimi sistemi" ma non si preoccupò di derivarne la forma analitica.
+
+-   La prima apparizione della funzione di densità della v.c. Normale avviene nel 1733 ad opera di *De Moivre* che la utilizza come approssimazione alla somma di v.c. Binomiali. Negli anni 1770-71 Daniel Bernoullli fornisce la prima tavola della funzione di densità mentre Laplace a partire dal 1810 la ritrova nei Teoremi Limite Centrale.
+
+-   Nel 1809 Gauss pubblica la "Theoria Motus Corporum Coelestium" dove utilizza la v.c. Normale nell'ambito del principio dei minimi quadrati e del metodo della massima verosimiglianza. Gauss in tale opera dichiara di aver utilizzato questi risultati sin dal 1795. Questa affermazione, e l'autorità indiscussa di Gauss nell'ambito delle scienze matematiche, hanno indotto a definire la v.c. Normale come v.v. di Gauss o v.c. Gaussiana.
+
+-   Grazie ai Teoremi Limite Centrale, e alle interpretazioni estensive che ne furono date, la v.c. Normale non fu applicata alle sole misurazioni fisiche. Quételet nel 1846 la utilizzò per studi antropometrici, Maxwell nel 1860 per la teoria cinetica dei gas, Galton nel 1889 per lo studio dei fenomeni naturali e biologici. Quindi a partire dagli inizi del 1900, Student, Pearson e Fisher posero le basi inferenziali della Statistica mediante il campionamento, la stima e il test soprattutto per popolazioni estratte da v.c. Normali e derivarono quelle distribuzioni notevoli, esatte o asintotiche, che oggi utilizziamo.
+
+*A titolo di curiosità, si può ricordare che la funzione di densità della v.c. Normale è l'unica formula matematica che, nella storia, sia stata impressa su una banconota con ampia circolazione.*
+
+La distribuzione normale è una delle distribuzioni più comuni e importanti della statistica. È una distribuzione continua, che significa che può assumere qualsiasi valore all'interno di un intervallo specifico, anziché solo valori discreti. La distribuzione normale è descritta da una curva a campana, con la maggior parte dei valori concentrati intorno alla media e i valori estremi che diventano meno probabili man mano che ci si allontana dalla media.
+
+La media (o la mediana) di una distribuzione normale è il valore centrale della distribuzione e rappresenta il valore più probabile. La deviazione standard è una misura della dispersione dei dati intorno alla media. La distribuzione normale standard ha una media di 0 e una deviazione standard di 1.
+
+La distribuzione normale ha molte proprietà utili, tra cui:
+
+-   La somma di molte variabili casuali indipendenti normalmente distribuite è anche normalmente distribuita.
+
+-   La distribuzione normale è una distribuzione di probabilità stabile, cioè una piccola quantità di dati casuali può essere utilizzata per stimare i parametri della distribuzione.
+
+-   La distribuzione normale è utilizzata come base per un gran numero di test statistici, come test t, analisi di varianza, analisi dei componenti principali.
+
+La distribuzione normale è utilizzata in molte applicazioni, tra cui:
+
+-   Modelli di previsione basati sull'inferenza statistica, come la previsione del tempo o del prezzo delle azioni
+
+-   Modelli di simulazione, come la simulazione delle prestazioni delle attrezzature o del traffico
+
+-   Modelli di stima, come l'analisi delle risposte a un questionario
+
+-   Modelli di ottimizzazione, come il calcolo del prezzo di un'opzione
+
+-   La distribuzione normale è spesso considerata un buon modello per variabili fisiche come peso, altezza, temperatura, voltaggio, livello di inquinamento, per analizzare gli errori di misurazione ed anche per descrivere il reddito familiare o voti degli studenti.
+
+Una v.c. *X* continua si dice v.c. Normale (oppure v.c. Gaussiana) con parametri $\mu$ ,per indicare la media, e $\sigma^2$ ,per indicare la varianza, e la si indica con $X \sim N(\mu, \sigma^2)$, se è definita su tutto l'asse reale mediante funzione di densità:
+
+$$
+f(x) = \frac{1}{\sqrt{2\pi \sigma^2}} e^{(-\frac{1}{2} \frac{(x-\mu)^2}{\sigma^2})}
+$$
+
+con $- \infty < x < \infty$
+
+Poiché il parametro $\mu$ può assumere qualsiasi valore reale mentre il parametro $\sigma^2$ può solo essere non negativo, lo spazio parametrico di questa v.c. è il semipiano positivo, cioè:
+
+$$\Omega(\mu,\sigma^2) = {(\mu,\sigma^2): -\infty < \mu < +\infty; 0 ≤ \sigma^2 < +\infty} $$
+
+Lo studio analitico della funzione di densità di una v.c. Normale mostra che essa ha una forma campanulare simmetrica rispetto al suo valore medio (punto di ascissa $x=\mu$ ), in corrispondenza del quale si presenta il massimo ovvero $f(x)=\frac{1}{\sigma\sqrt{2 \pi}}$. Quindi, il parametro $\mu$ è la moda, la mediana e il valore medio della v.c. *X*. Utilizzando le derivate seconde, si dimostra che $f(x)$ presenta due flessi equidistanti dal punto $x=\mu$ in corrispondenza delle ascisse $x = \mu \pm \sigma$. Inoltre, $f(x) -> 0$ per $x -> \pm \infty$, cioè l'asse x è un asintoto orizzontale per tale funzione.
+
+Se, a parità di $\sigma^2$, si modifica il valore medio $\mu$, allora la funzione di densità della v.c. subisce una traslazione lungo l'asse x.
+
+Invece al crescere di $\sigma^2$, a parità di $\mu$ i flessi si allontanano dalla media, dunque da ($\mu$) , e la funzione di densità attribuisce una maggiore probabilità che la v.c. assuma valori attorno al valore medio $\mu$.
+
+Infine quando $\sigma^2 -> 0$, la distribuzione della v.c. Normale tende a divenire degenere perchè assume, con probabilità 1, valori infinitamente vicini a $x=\mu$.
+
+I momenti caratteristici della v.c. Normale risultano uguali a:
+
+$$
+E(X) = \mu; Var(X) = \sigma^2; Asym(X) = 0; Kurt(X)=3
+$$
+
+-   Grazie a tali caratteristiche, spesso si afferma che se una v.c. presenta una forma simmetrica e una curtosi vicina a 3 essa può essere approssimata da una v.c. Normale di uguale valore medio e varianza. In effetti, tale approssimazione non è rigorosa ma, se la v.c. presenta una sola moda, essa può essere applicata nella maggior parte dei casi.
+
+![](images/image-598557207.png)
+
+In R la densità normale si calcola attraverso la funzione:
+
+```{r}
+curve(dnorm(x,mean =0, sd =1), from =-6, to=6, xlab="x", ylab="f(x)", lty =1)
+
+```
+
+dove:
+
+-   x è il valore assunto (o i valori assunti) dalla variabile aleatoria normale;
+
+```{=html}
+<!-- -->
+```
+-   mean e sd sono il valore medio e la deviazione standard della densità normale.
+
+Variazioni del parametro *μ* comportano traslazioni della curva lungo l'asse delle ascisse; infatti, al crescere del parametro *μ* la curva si sposta lungo l'asse delle ascisse senza cambiare forma, ecco un esempio:
+
+```{r}
+curve(dnorm(x,mean =-2, sd =1), from =-6, to=6, xlab="x", ylab="f(x)", lty =1, col = "blue")
+
+curve(dnorm(x,mean =0, sd =1), from =-6, to=6, xlab="x", ylab="f(x)", lty =1, add = TRUE)
+
+curve(dnorm(x,mean =2, sd =1), from =-6, to=6, xlab="x", ylab="f(x)", lty =1, add= TRUE, col = "red")
+
+```
+
+Nel grafico la curva di colore rosso ha un valore di $\mu=2$ (pari a due) ed è traslata verso destra rispetto alla curva di partenza, invece la curva di colore blu ha $\mu=-2$ dunque negativo infatti è spostata verso sinistra.
+
+Il parametro $\sigma$, pari alla semiampiezza tra i due punti di flesso, caratterizza invece la larghezza della funzione.
+
+```{r}
+curve(dnorm(x,mean =0, sd =1), from =-6, to=6, xlab="x", ylab="f(x)", lty =1, col = "blue")
+
+curve(dnorm(x,mean =0, sd =3), from =-6, to=6, xlab="x", ylab="f(x)", lty =1, add = TRUE)
+
+curve(dnorm(x,mean =0, sd =5), from =-6, to=6, xlab="x", ylab="f(x)", lty =1, add= TRUE, col = "red")
+
+```
+
+All'aumentare del valore di $\sigma$ la curva tende a diventare più piatta, infatti la curva di colore rosso che ha $\sigma=5$ è di gran lunga più schiacciata rispetto a quella di colore blu con $\sigma=1$, se, invece, il valore di $\sigma$ diminuisce la curva si allungherà verso l'alto restringendosi contemporaneamente ai lati.
+
+### Variabile casuale normale standardizzata
+
+Una variabile aleatoria normale standard, solitamente denotata con Z, può essere ottenuta da una variabile aleatoria normale non standard $X ∼ N(μ, σ)$ standardizzando, ossia sottraendo il valore medio e dividendo per la deviazione standard: $$Z = \frac{X-\mu}{\sigma}$$ da cui segue $X = μ + σ Z$.
+
+Dunque $Z \sim N(0,1)$ è la v.c. *Normale standardizzata,* ossia una normale con valore medio nullo e varianza unitaria, la cui funzione di distribuzione è $\Phi(z)$: $$
+\Phi(z) = 
+\frac{1}{\sqrt{2\pi}}
+\int^z_{-\infty} e^{-\frac{y^2}{2}}
+$$
+
+La funzione di distribuzione della v.c. *Z* non ammette una formulazione esplicita, per cui è stato necessario predisporre delle tavole che, per opportuni valori di z forniscano l'integrale $\Phi(z)$ con sufficiente accuratezza.
+
+In R la funzione di distribuzione di una variabile $X ∼ N(μ, σ)$ si calcola tramite la funzione:
+
+```{r}
+curve(pnorm(x, mean = 0, sd = 0.5, lower.tail = TRUE), from = -4, to = 4, xlab = "x", ylab ="P(X≤x)", main="media=0; sd =0.5, 1, 1.5",lty =2, col = "blue")
+
+curve(pnorm(x, mean = 0, sd = 1, lower.tail = TRUE), add =TRUE)
+
+curve(pnorm(x, mean =0, sd =1.5, lower.tail = TRUE), add =TRUE, lty =3, col = "red")
+
+```
+
+dove:
+
+\- x è il valore assunto (o i valori assunti) dalla variabile aleatoria normale;
+
+\- mean e sd sono il valore medio e la deviazione standard della densità normale;
+
+\- lower.tail se tale parametro è TRUE (caso di default) calcola $P(X ≤ x)$, mentre se tale parametro è FALSE calcola $P(X > x)$.
+
+### Regola del 3 $\sigma$
+
+#### Introduzione della variabile casuale binomiale
+
+#### Approssimazione della distribuzione binomiale con la distribuzione normale
+
+#### Approssimazione della distribuzione di somme di variabili aleatorie indipendenti
+
+#### Introduzione della variabile casuale poisson
+
+#### Approssimazione della distribuzione di Poisson con la distribuzione normale
+
+## 10 Stima puntuale
+
+## 11 Intervalli di confidenza
+
+## 12 Intervalli di fiducia approssimati
+
+## 13 Verifica delle ipotesi con R
+
+## 14 Criterio del chi-quadrato

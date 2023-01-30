@@ -678,7 +678,7 @@ text (9.5 ,0.02 , expression ( alpha /2))
 box ()
 ```
 
-## Intervalli di fiducia approssimati
+## 12 Intervalli di fiducia approssimati
 
 Utilizzando il teorema centrale di convergenza costruiamo degli intervalli di confidenza approssimati per campioni di dimensioni elevate.
 
@@ -716,13 +716,114 @@ $$Z_n = \frac{\overline X_n - \overline Y_n - (\mu_1 - \mu_2)}{\sqrt{ \frac{\sig
 
 utilizzando il metodo pivotale si ha: $P(-z_{\alpha/2} < \frac{\overline X_{n1} - \overline Y_{n2} - (\mu_1-\mu_2)}{\sqrt{\frac{\sigma^2_1}{n_1} + \frac{\sigma^2_2}{n_2}}} < z_{\alpha/2}) = 1 - \alpha$
 
-La stima dell'intervallo di confidenza di grado $1 − α$ per la differenza tra le due medie $μ_1 − μ_2$ è:
-$$\overline x_{n1} - \overline y_{n2} - z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma^2_2}{n_2}} < \mu_1 - \mu_2 < \overline x_{n1} - \overline y_{n2} + z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma^2_2}{n_2}}$$
+La stima dell'intervallo di confidenza di grado $1 − α$ per la differenza tra le due medie $μ_1 − μ_2$ è: $$\overline x_{n1} - \overline y_{n2} - z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma^2_2}{n_2}} < \mu_1 - \mu_2 < \overline x_{n1} - \overline y_{n2} + z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma^2_2}{n_2}}$$
 
-dove $\overline x_n$ e $\overline y_n$ sono le medie campionarie delle due popolazioni.
+dove $\overline x_n$ e $\overline y_n$ sono le medie campionarie.
 
-158
+##### Intervallo di confidenza per $μ1 − μ2$ con varianze non note
+
+Siano $x_1, x_2, . . .,x_{n1}$ e $y_1, y_2, . . . , y_{n2}$ due campioni osservati indipendenti di ampiezza $n_1$ e $n_2$ estratti rispettivamente da due popolazioni normali $X ∼ N(μ_1, σ_1)$ e $Y ∼ N(μ_2, σ_2)$ le cui varianze sono non note. Una stima dell'intervallo di confidenza di grado $1 − α$ per la differenza tra le due medie $μ_1 − μ_2$ è:
+
+$$\overline x_{n1} - \overline y_{n2} - z_{\alpha/2}\sqrt{\frac{s^2_{n1}}{n_1}+ \frac{s^2_{n_2}}{n_2}} < \mu_1- \mu_2 < \overline x_{n1} - \overline y_{n2} + z_{\alpha/2}\sqrt{\frac{s^2_{n1}}{n_1}+ \frac{s^2_{n_2}}{n_2}}$$
+
+dove $\overline x_{n1}$ e $\overline y_{n2}$ denotano le medie campionarie e $s^2_{n1}$ e $s^2_{n2}$ le varianze campionarie.
 
 ## 13 Verifica delle ipotesi con R
 
+L'ipotesi soggetta a verifica è denotata con $H_0$ ed è chiamata ipotesi nulla. Si chiama test di ipotesi il procedimento o regola con cui si decide, sulla base dei dati del campione, se accettare o rifiutare $H_0$. La costruzione del test richiede la formulazione, in contrapposizione all'ipotesi nulla, di una proposizione alternativa.
+
+Questa proposizione prende il nome di ipotesi alternativa ed è di solito indicata con $H_1$. L'ipotesi nulla, cioè l'ipotesi soggetta a verifica, si ha quando $\theta ∈ \Theta_{0}$ e l'ipotesi alternativa si ha quando $\theta ∈ \Theta_1$ e si scrive $H_0 : \theta ∈ \Theta_0$, $H_1 : \theta ∈ \Theta_1$, avendo denotato con $\Theta_0$ e $\Theta_1$ due sottoinsiemi disgiunti dello spazio $\Theta$ dei parametri.
+
+Il problema della verifica delle ipotesi consiste nel determinare un test $\psi$ che permetta di suddividere, mediante opportuni criteri, l'insieme dei possibili campioni, ossia l'insieme delle n--ple $(x_1, x_2, . . . , x_n)$ assumibili dal vettore aleatorio $X_1,X_2, . . . ,X_n$, in due sottoinsiemi: una regione di accettazione A dell'ipotesi nulla ed una regione di rifiuto R dell'ipotesi nulla. Il test $\psi$ può allora essere così formulato: accettare come valida l'ipotesi nulla se il campione osservato $(x_1, x_2, . . . , x_n) ∈ A$ e rifiutare l'ipotesi nulla se $(x_1, x_2, . . . , x_n) ∈ R$. Nel caso si verifichi che l'ipotesi nulla sia falsa, l'ipotesi alternativa sarà vera e viceversa. Spesso si usa dire che l'ipotesi nulla $H_0$ deve essere verificata in alternativa all'ipotesi $H_1$.
+
+A causa di tali premesse possiamo incorrere in due tipi di errori:
+
+-   rifiutare l'ipotesi nulla $H_0$ nel caso in cui tale ipotesi sia vera; si dice allora che si commette un errore di tipo I e si denota la probabilità di commettere tale errore con:
+
+    $$\alpha(\theta) = P(rifiutare \ H_0|\theta), \ \theta ∈ \Theta_0$$
+
+-   accettare l'ipotesi nulla $H_0$ nel caso in cui tale ipotesi sia falsa; si dice allora che si commette un errore di tipo II e si denota la probabilità di commettere tale errore con:
+
+    $$\beta(\theta) = P(accettare \ H_0|\theta), \ \theta ∈ \Theta_1.$$
+
+|             |                                        |                                         |
+|----------------|----------------------------|-----------------------------|
+|             | Rifiutare $H_0$                        | Accettare $H_0$                         |
+| $H_o$ vera  | Errore del I tipo Probabilità $\alpha$ | Decisione esatta Probabilità $1-\alpha$ |
+| $H_0$ falsa | Decisione esatta Probabilità $1-\beta$ | Errore del II tipo Probabilità $\beta$  |
+
+Nella costruzione del test conviene quindi fissare la probabilità di commettere un errore di tipo I e cercare un test $\psi$ che minimizzi la probabilità di commettere un errore di tipo II. La giustificazione del fissare la probabilità di commettere un errore di I tipo (che solitamente si sceglie piccola) deriva dal fatto che di solito le ipotesi vengono formulate in maniera tale che l'errore di tipo I sia più grave e quindi il decisore desidera imporre che la probabilità di commettere tale errore sia piccola.
+
+Solitamente la probabilità di commettere un errore di tipo I si sceglie uguale a 0.05, 0.01, 0.001 ed il test viene rispettivamente detto statisticamente significativo, statisticamente molto significativo e statisticamente estremamente significativo. Infatti, quanto minore è il valore di $\alpha$ tanto maggiore è la credibilità di un eventuale rifiuto dell'ipotesi nulla.
+
+I test statistici sono di due tipi:
+
+-   test bilaterali (detti anche test bidirezionali);
+
+-   test unilaterali (detti anche test unidirezionali).
+
+Un test bilaterale è il seguente:
+
+$$
+H_0 : \theta = \theta_0
+\\
+H_1 : \theta ≠ \theta_0
+$$
+
+mentre il test unilaterale sinistro e test unilaterale destro sono rispettivamente i seguenti:
+
+$$
+H_0 : \theta \leq \theta_0 \ \ \ \ \ \ \ \ \ \ \ \ \ H_0 : \theta \ge \theta_0
+\\
+H_1 : \theta > \theta_0    \ \ \ \ \ \ \ \ \ \ \ \ \ H_0 : \theta < \theta_0
+$$
+
+avendo fissato a priori un livello di significatività $\alpha$.
+
+![](images/Significativita.jpg){width="400"}
+
+##### Criterio del p-value
+
+Il **p-value** (o valore p) viene definito in statistica come il *livello di significatività osservato* e rappresenta la probabilità che il possibile rifiuto dell\'ipotesi nulla sia solo dovuto al caso.
+
+##### ![](images/Pvalue-dx-400x300.jpg)
+
+**Per stabilire se accettare o rifiutare l\'ipotesi nulla possiamo anche calcolare il p-value**. Anche il p-value viene posizionato in base all\'ipotesi alternativa. Nello specifico, il p-value deve essere confrontato con $\alpha$ e se:
+
+-   $p < \alpha$   allora rifiutiamo l\'ipotesi nulla;
+
+-   $p ≥ \alpha$  allora non rifiutiamo l\'ipotesi nulla.
+
+I grafici seguenti sono relativi ad un test in cui:
+
+-   l\'ipotesi nulla è che la media di una popolazione sia maggiore o uguale di un certo valore *u_0;*
+
+-   l\'ipotesi alternativa è che la media sia minore di *u_0.*
+
+![](images/Pvalue-rif.jpg){width="400"}
+
+![](images/Pvalue-sx.jpg){width="400"}
+
+Ad esempio, se $\alpha = 0.05$, allora *p-value ≥ 0,05* implica che il test non è statisticamente significativo (cioè, può trattarsi di un effetto casuale del campionamento) e l\'ipotesi è accettata, mentre *p value \< 0,05*  implica che l\'ipotesi è rifiutata ed il test è, più in particolare:
+
+-   statisticamente significativo se 0.01 ≤ p value \< 0.05;
+
+-   molto significativo se 0.01 ≤ p value \<0.01;
+
+-   estremamente significativo se p value \< 0.001.
+
+In generale, possiamo dire che più è basso il p value, maggiore è la significatività statistica della differenza osservata.
+
+Un p value pari o inferiore a 0,05 è generalmente considerato statisticamente significativo.
+
+Il valore p può essere un\'alternativa o un\'aggiunta ai livelli di confidenza preselezionati per i test di ipotesi.
+
+172
+
+194
+
 ## 14 Criterio del chi-quadrato
+
+202 - 204
+
+##### Per popolazioni normali

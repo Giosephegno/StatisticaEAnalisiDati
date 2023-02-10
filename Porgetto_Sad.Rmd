@@ -681,6 +681,42 @@ di carburante in città, in miglia per gallone
 Dal grafico vediamo che all'aumentare del numero di cilindri diminuisce
 il consumo di carburante in città.
 
+### Funzione di distribuzione empirica discreta
+
+La funzione di distribuzione empirica $F(x)$ è definita per ogni $x$
+reale ed è una funzione a gradini in cui ogni gradino indica quale
+proporzione di dati presenta un valore minore o uguale di quello
+indicato sull'asse delle ascisse.
+
+La funzione di distribuzione empirica $F(x)$ gode delle seguenti
+proprietà:
+
+\- è una funzione non decrescente;
+
+\- la funzione assume il valore a sinistra in corrispondenza ad ogni
+punto di salto;
+
+\- la funzione vale 0 per ogni valore minore dell'osservazione minima e
+vale 1 per ogni valore maggiore o uguale dell'osservazione massima.
+
+```{r}
+# Frequenze relative cumulative
+round(cumsum(table(mpg$displ)/length(mpg$displ)),3)
+
+```
+
+La funzione $ecdf()$ (empirical cumulative distribution function)
+permette di disegnare il grafico della funzione di distribuzione
+empirica per variabili quantitative discrete.
+
+```{r}
+plot(ecdf(mpg$displ),main=" Funzione di distribuzione empirica discreta ",verticals =FALSE ,col ="red ")
+
+```
+
+Se si utilizza l'opzione $verticals = TRUE$ i segmenti sono uniti da
+segmenti verticali.
+
 ### Variabile Year
 
 Year indica l'anno di produzione dell'automobile. Innanzitutto
@@ -931,6 +967,158 @@ Dall'istogramma possiamo osservare come si distribuisce la variabile, è
 evidente che la maggior parte dei veicoli percorrono tra i 10 e i 20
 miglia con un gallone.
 
+### Indici di sintesi
+
+Alcuni indici di sintesi, detti anche statistiche, utili a descrivere
+dei dati numerici, sono media, mediana, moda, varianza, deviazione
+standard e coefficiente di variazione. La media, la mediana e la moda
+sono misure di centralità, mentre la varianza e la deviazione standard
+misurano la dispersione dei dati.
+
+#### Media campionaria
+
+La media campionaria è la media aritmetica di questi valori.
+
+Definizione 4.1: Si definisce media campionaria e si denota con $x$, la
+quantità:
+
+$$
+\overline x = \frac1n \sum^n_{i=1}x_i$$
+
+La media campionaria è una media pesata dei valori distinti assunti dai
+dati. Ogni valore distinto usa come peso la sua frequenza relativa,
+ovvero la frazione dei dati uguale a tale valore numerico.
+
+```{r}
+mean(mpg$cty)
+```
+
+La media campionaria utilizza tutti i dati ed è influenzata in maniera
+sensibile da valori eccezionalmente alti o bassi.
+
+#### Mediana Campionaria
+
+Assegnato un insieme di dati di ampiezza $n$, lo si ordini in ordine
+crescente (dal valore più piccolo al valore più grande). Se n è dispari,
+si definisce mediana campionaria il valore che è in posizione
+$(n +1)/2$, mentre se $n$ è pari la mediana campionaria è invece
+definita come la media aritmetica dei valori che occupano le posizioni
+$n/2$ e $n/2+ 1$.
+
+```{r}
+median(mpg$cty)
+
+```
+
+La mediana campionaria dipende solo da uno o da due valori centrali dei
+dati e non risente dei valori estremi. Inoltre, l'uso della mediana come
+indice per descrivere le caratteristiche dei dati ha lo svantaggio di
+dover prima riordinare i dati in ordine crescente, il che non è
+richiesto per il calcolo della media.
+
+#### Moda campionaria
+
+La moda campionaria di un insieme di dati, se esiste, è la modalità a
+cui è associata la frequenza (assoluta o relativa) più elevata. Se
+esistono più modalità con frequenza massima, ciascuna di esse è detto
+valore modale.
+
+Non esiste invece in R una funzione per estrarre la moda o la classe
+modale di una distribuzione di dati poiché è facilmente ricavabile
+osservando il grafico delle frequenze assolute o l'istogramma delle
+frequenze relative.
+
+#### Quantili, percentili, decili e quartili
+
+-   I *quartili,* come dice la parola stessa, si ottengono dividendo
+    l'insieme di dati ordinati in 4 parti uguali. (quantili di ordine
+    1/4, 1/2, 3/4)
+
+-   I *percentili*, invece, dividendo la distribuzione in 100 parti
+    (quantili di ordine 1/100)
+
+-   I *decili,* infine, dividono la distribuzione in 10 parti uguali
+    (quantili di ordine 1/10).
+
+#### Varianza, deviazione standard e coefficiente di variazione
+
+Assegnato un insieme di dati numerici $x_1, x_2, . . . , x_n$, si
+definisce varianza campionaria, e si denota con $s^2$, la quantità:
+
+$$s^2 = \frac {1}{n-1} \sum^n_{i=1}(x_i - \overline x)^2$$
+
+con $$(n=2,3,...)$$
+
+```{r}
+var(mpg$cty)
+
+```
+
+dove $$\overline x$$ denota la media campionaria dei dati. Inoltre, si
+definisce deviazione standard campionaria la radice quadrata della
+varianza campionaria.
+
+```{r}
+sd(mpg$cty)
+
+```
+
+Varianza campionaria e deviazione standard campionaria sono detti indici
+di dispersione o indici di variabilità poiché misurano la dispersione
+dei dati intorno alla media.
+
+I valori della varianza campionaria e della deviazione standard
+campionaria dipendono dall'unità di misura dei dati.
+
+#### Coefficiente di variazione
+
+Per confrontare le variazioni esistenti tra diversi campioni di dati è
+utile introdurre coefficiente di variazione.
+
+Assegnato un insieme di dati numerici $x1, x2, . . . , xn$, si definisce
+coefficiente di variazione il rapporto tra la deviazione standard
+campionaria e il modulo della media campionaria, ossia:
+
+$$CV=\frac {s}{|\overline x|}$$
+
+Si nota che il coefficiente di variazione è un numero puro, ossia è un
+indice indice *adimensionale* che non dipende dall'unità di misura
+utilizzata.
+
+Il coefficiente di variazione è utilizzato quando è necessario
+confrontare tra loro le dispersioni (variabiltà) di insiemi di dati
+espressi in differenti unità di misura.
+
+In R si implementa nel seguente modo:
+
+```{r}
+cv <- function(x){
++ sd(x)/abs(mean(x))}
+
+cv(mpg$cty)
+
+```
+
+#### Momenti campionari
+
+Assegnato un insieme di dati numerici $x1, x2, . . . , xn$, si definisce
+momento campionario di ordine j e si denota con $M_j$ la quantità:
+
+$$M_j = \frac {1}{n} \sum^n_{i=1} x^j_i$$
+
+con $$(j=1,2,...)$$
+
+#### Momento centrato
+
+Assegnato un insieme di dati numerici $x1, x2, . . . , xn$, si definisce
+momento campionario centrato intorno alla media di ordine j e si denota
+con $m_j$ la quantità:
+
+$$
+m_j = \sum^n_{i=1} (x_i-
+\overline x)^j
+$$
+
 #### Scatterplot
 
 ```{r}
@@ -1061,6 +1249,64 @@ può percorrere su strada, con un gallone, diminuisce la cilindrata del
 motore, dunque più alta è la cilindrata e minori sono le miglia che il
 veicolo percorrerà con un gallone su strada.
 
+### Funzione di distribuzione empirica continua
+
+Per fenomeni quantitativi continui occorre considerare la funzione di
+distribuzione empirica continua, ossia una funzione di distribuzione
+empirica strutturata in classi.
+
+Come primo step creiamo le classi:
+
+```{r}
+
+# Frequenza relativa dei voti
+freqrel <- table(mpg$hwy)/length(mpg$hwy)
+
+# Lunghezza del vettore frequenza
+m <- length(freqrel)
+
+# Creazione delle classi
+classi <-c(15 ,18 ,21 ,24 ,27, 30, 33, 36, 39, 44)
+
+# Frequenze relative delle classi
+freqClassi <- table(cut(mpg$hwy, breaks = classi, right = FALSE))/length(mpg$hwy)
+
+# Frequenze cumulata
+Fcum <- cumsum(freqClassi)
+Fcum[9] <- 1
+
+```
+
+Per ottenere tali frequenze abbiamo utlizzato la funzione $cut()$ con
+l'opzione $right = FALSE$ che consente di costruire classi con
+intervalli chiusi a sinistra invece che a destra ed anche la funzione
+$cumsum()$ che permette di ottenere le frequenze cumulative.
+
+Ricordiamo che in R la funzione $cut()$ trasforma dati numerici in dati
+qualitativi mediante la loro collocazione in opportune classi sulla base
+di quanto specificato nel parametro breaks.
+
+Vogliamo ora scrivere delle linee di codice in R che consentono di
+ottenere il grafico della funzione di distribuzione empirica continua
+introducendo due classi fittizie $C_0 = (12, 15)$ e $C_5 = (44, 47)$ che
+ci serviranno per tracciare la linea $y = 0$ nell'intervallo *[12, 15)*
+e la linea $y = 1$ nell'intervallo *[44, 47)* nel grafico della funzione
+di distribuzione empirica continua.
+
+```{r}
+ascisse <-c(12, 15 ,18 ,21 ,24 ,27, 30, 33, 36, 39, 44, 47)
+ordinate <-c(0, 0, Fcum [1:9] ,1)
+plot(ascisse , ordinate , type = "b", axes = FALSE , main = "Funzione di distribuzione empirica continua ", col =" red ",ylim=c(0 ,1) ,xlab="x",ylab="F(x)")
+axis(1, ascisse )
+axis(2, format (Fcum , digits = 2))
+box()
+```
+
+Grafico della funzione di distribuzione empirica continua del vettore
+*hwy* utilizzando le classi:
+
+    [15,18)  [18,21)  [21,24)  [24,27)  [27,30)  [30,33) [33,36)  [36,39)  [39,44) 
+
 ### Variabile Fl
 
 La variabile fl del dataset mpg rappresenta il tipo di carburante
@@ -1122,6 +1368,130 @@ LabelF <- paste(LabelF, perc)
 LabelF <- paste(LabelF, "%", sep = "")
 pie ( perc , label = LabelF , col = rainbow ( length ( LabelF )), main = "Valori percentuali ")
 ```
+
+### Distribuzioni delle frequenze relative marginali
+
+In R per calcolare la distribuzione delle frequenze relative congiunte
+si può utilizzare il comando prop.table(nomeTabella) e da questa
+ricavare le distribuzioni delle frequenze relative marginali.
+
+```{r}
+# Creazione del dataframe contente le due variabili categoriali fl e drv
+drv_fl <- table(mpg$fl,mpg$drv)
+
+# frequenze relative congiunte
+freq_drv_fl <- prop.table(drv_fl)
+
+# distribuzione delle frequenze relative marginali del tipo di carburante
+margin.table (freq_drv_fl, 1)
+
+# distribuzione delle frequneze relative marginali del tipo di trazione
+margin.table (freq_drv_fl, 2)
+
+```
+
+Conoscendo la distribuzione delle frequenze relative congiunte e la
+distribuzione delle frequenze relative marginali è possibile calcolare
+la distribuzione delle frequenze relative di Y (tipo di trazione)
+condizionata dalle modalità assunte da X (tipo di carburante) e
+viceversa.
+
+```{r}
+# distribuzione delle frequenze relative condizionate f(j/i)
+prop.table(freq_drv_fl, 1)
+
+# distribuzione delle frequenze relative condizionate f(i/j)
+prop.table(freq_drv_fl, 2)
+
+```
+
+Nel primo caso la somma degli elementi di ogni riga è unitaria; invece,
+nel secondo caso la somma degli elementi di ogni colonna è unitaria.
+
+Si dice che le variabili $X$ e $Y$ sono indipendenti se la frequenza
+relativa congiunta si fattorizza come il prodotto delle due frequenze
+relative marginali, ossia se risulta:
+
+$$f_{ij} = f_{i}.f_{j}$$ con
+
+$$(i=1,2,...,h;j=1,2,...,k).$$
+
+Questa circostanza si verifica molto raramente sui dati reali
+
+#### Grafici per le frequenze assolute congiunte
+
+Una tabella di contingenza può essere rappresentata mediante un grafico
+con rettangoli costituito da $h × k$ rettangoli. L'area totale dei
+rettangoli è proporzionale al numero di casi. Il rettangolo in posizione
+$(i, j)$ rappresenta l'elemento nella stessa posizione nella tabella di
+contingenza e la sua area rappresenta il peso relativo della coppia di
+modalità di $X$ e $Y$ all'interno della distribuzione congiunta.
+
+In R, se si associa $table(X, Y)$ alla variabile $Z$, la
+rappresentazione tramite rettangoli di una tabella di contingenza si può
+realizzare con la funzione $plot(Z)$.
+
+```{r}
+plot(freq_drv_fl,col = "white", main = "Mosaic plot")
+```
+
+Si nota che sono presenti soltanto dodici rettangoli pieni e tre
+rettangoli vuoti corrispondenti alle coppie la cui frequenza è nulla.
+
+Talvolta è preferibile rappresentare la tabella di contingenza mediante
+un grafico a barre sovrapposte. Il numero di barre è pari al numero
+delle modalità delle colonne della tabella di contingenza. Inoltre,
+all'interno di ciascuna barra sono rappresentate una sopra l'altra in
+altezza le frequenze di ciascuna modalità delle righe della tabella di
+contingenza. Sull'asse delle ordinate sono indicate le frequenze
+(assolute o relative).
+
+In R tale grafico può essere realizzato tramite la funzione barplot(Z).
+
+```{r}
+drv_fl_fl <- table(mpg$fl,mpg$drv)
+barplot(drv_fl_fl, main = "Frequenza assoluta congiunta", legend = c("Gasolio normale", "Diesel", "Elettricità", "Gasolio premium", "Gasolio regolare"), col = c("yellow","brown","black","red","green"))
+```
+
+#### Grafici per le frequenze assolute marginali
+
+Per ottenere il grafico della distribuzione marginale relativa al tipo
+di trazione basta utilizzare il comando seguente che produce il grafico
+a bastoncini.
+
+```{r}
+plot (margin.table(drv_fl, 2), main = " Frequenza assoluta marginale del tipo di trazione ", col =1:2)
+
+```
+
+che produce il grafico a bastoncini
+
+```{r}
+barplot(margin.table(drv_fl ,2), main = "Frequenza assoluta marginale del tipo di trazione", col = c(1:3)) 
+
+```
+
+#### Grafici per le frequenze relative condizionate
+
+Ѐ possibile rappresentare graficamente le *frequenze relative
+condizionate* utilizzando nuovamente la funzione barplot().
+
+Nel seguente grafico illustreremo la distribuzione delle frequenze
+relative condizionate del tipo di trazione fissato il tipo di carburante
+utilizzando un grafico a barre appaiate ottenuto tramite le seguenti
+linee di codice:
+
+```{r}
+drv_fl_drv <- table(mpg$drv,mpg$fl)
+barplot(prop.table(drv_fl_drv ,2), beside = TRUE, main = " Frequenza relativa condizionata f(tipo di trazione|tipo di carburante)", legend = c("Trazione integrale", "Trazione anteriroe", "Trazione posteriore"), col =c(1:3) )
+```
+
+abbiamo utilizzato l'opzione *beside = TRUE* che permette di ottenere al
+posto di un grafico a barre sovrapposte un grafico a barre appaiate,
+ognuna delle quali indica la frequenza relativa condizionata
+dell'ordinata nota l'ascissa. Si nota che la somma delle frequenze
+relative condizionate relative alle ordinate è unitaria per ogni fissata
+modalità delle ascisse.
 
 ### Variabile Class
 
@@ -1213,6 +1583,24 @@ La covarianza (cov) è una misura della correlazione tra due variabili.
 Indica se le due variabili cambiano in modo simile o in modo opposto e
 in che misura cambiano insieme.
 
+Assegnato un campione bivariato
+$(x_1, y_1), (x_2, y_2), . . . , (x_n, y_n)$ di una variabile
+quantitativa bidimensionale $(X, Y )$, siano $x$ e $y$ rispettivamente
+le medie campionarie di $x_1, x_2, . . . , x_n$ e di
+$y_1, y_2, . . . , y_n$. La covariana campionaria tra le due variabili
+$X$ e $Y$ è così definita:
+
+$$
+C_{xy} = \frac{1}{n-1} \sum_{i=1}^n (x_i - \overline x) (y = \overline y)
+$$
+
+con $$(n = 2,3,...)$$
+
+La covarianza campionaria può avere segno positivo, negativo o nullo.
+Quando $C_{xy} > 0$ si dice che le variabili sono correlate
+positivamente, se $C_{xy} < 0$ le variabili sono correlate negativamente
+e, infine, se $C_{xy} = 0$ le variabili sono non correlate.
+
 In questo caso la matrice delle covarianze campionarie è
 
 ```{r}
@@ -1222,15 +1610,44 @@ cov(dfm)
 
 ### Correlazione
 
+Assegnato un campione bivariato
+$(x_1, y_1), (x_2, y_2), . . . , (x_n, y_n)$ di una variabile
+quantitativa bidimensionale $(X, Y)$, siano $x$ e $sx$ la media
+campionaria e la deviazione standard campionaria di
+$x_1, x_2, . . . , x_n$ ed inoltre siano $y$ e $sy$ la media campionaria
+e la deviazione standard campionaria di $y_1, y_2, . . . , y_n$. Il
+coefficiente di correlazione campionario tra le due variabili $X$ e $Y$
+è così definito:
+
+$$
+r_{xy} = \frac{C_{xy}}{s_x s_y}
+$$
+
+Si nota che il coefficiente di correlazione campionario
+
+-   è un indice adimensionale;
+
+-   non fa distinzione tra variabile dipendente e variabile
+    indipendente, ossia $r_{xy} = r_{yx}$;
+
+-   può essere calcolato soltanto se entrambe le variabili sono
+    quantitative;
+
+-   non cambia al variare dell'unità di misura con cui sono espresse le
+    variabili;
+
+-   è fortemente influenzato dalla presenza di eventuali valori anomali,
+    così come accade per la media campionaria e la varianza campionaria.
+
 La correlazione (cor) è una misura della relazione lineare tra due
 variabili. Indica se c'è una relazione lineare tra le due variabili e in
 che direzione va la relazione. La correlazione può assumere valori
-compresi tra -1 e 1. Un valore di correlazione di -1 indica una
-relazione negativa perfetta, ovvero le due variabili variano in modo
-perfettamente opposto. Un valore di correlazione di 1 indica una
-relazione positiva perfetta, ovvero le due variabili variano in modo
-perfettamente simile. Un valore di correlazione di 0 indica che non c'è
-alcuna relazione lineare tra le due variabili.
+compresi tra -1 e 1.
+
+Il coefficiente di correlazione campionario ha lo stesso segno della
+covarianza. Quando $r_{xy} > 0$ si dice che le variabili sono correlate
+positivamente, se $r_{xy} < 0$ le variabili sono correlate negativamente
+e, infine, se $r_{xy} = 0$ le variabili sono non correlate.
 
 In questo caso la matrice delle correlazioni campionarie è
 
@@ -1246,6 +1663,29 @@ sono correlate ma negativamente. La variabile *cyl* è molto correlata
 con *displ* ed è correlata negativamente con *cty* e *hwy*. Infine
 osservando i valori di *year* possiamo affermare che è correlata in modo
 molto debole con le altre variabili.
+
+Per avere un'ulteriore conferma della forte correlazione tra la
+variabile *hwy* e *cty* (0.95) rappresentiamo tale relazione in un
+diagramma a dispersione:
+
+```{r}
+plot(mpg$hwy ,mpg$cty ,main =" Retta di regressione ", xlab="hwy",ylab="cty", col ="red ")
+abline (lm( mpg$cty ~ mpg$hwy), col =" blue")
+
+```
+
+Dal grafico è evidente che le due variabile sono fortemente legate
+linearmente, infatti lo scostamento delle osservazioni dalla retta di
+regressione lineare (retta interpolante ascendente) è minimo.
+
+La funzione *pairs()* è in grado di visualizzare in un'unica finestra
+grafica una pluralità di scatterplot ottenuti mettendo in relazione
+tutte le coppie di variabili quantitative definite all'interno di un
+data frame.
+
+```{r}
+pairs(dfm,  main = "Scatterplot per le coppie di variabili", col ="black")
+```
 
 ### Train set e test set
 
@@ -1301,7 +1741,7 @@ variabile Xj non influenza la variabile Y.
 -   H1 : βj ≠ 0
 
 Se l'ipotesi nulla è vera, la statistica t è :
-$$t = \frac{(\hat \beta_{j})}{s . \sqrt(c_{}jj)} \sim t_{n-p-1}$$la
+$$t = \frac{(\overline \beta_{j})}{s . \sqrt(c_{}jj)} \sim t_{n-p-1}$$la
 statistica *t* è anche detta *t-value*.
 
 Fissato un livello di significatività $$\alpha$$si determina il valore
@@ -1319,6 +1759,13 @@ modello_aggiornato <- update(modello, ~ . - trans - fl)
 summary(modello_aggiornato)
 
 ```
+
+Osserviamo che i segni di entrambi i regressori *displ* e *cyl* sono
+negativi; quindi essi hanno un effetto negativo sulla variabile *cty*
+(all'aumentare di *displ* e *cyl* diminuisce *cty*). Ciò non vale per la
+variabile *drv* la quale ha segno positivo. Si nota anche che il
+regressore *displ* è prossimo allo zero indicando che non incide in modo
+significativo sulla variabile dipendente.
 
 Pertanto possiamo dedurre che sono 3 le variabili che contribuiscono a
 definire la variabile dipendete *cty* (miglia per gallone) e sono:
@@ -1382,6 +1829,134 @@ Osservando le misure di accuratezza possiamo affermare che il modello
 che abbiamo stimato è un buon modello ovvero è un modello che è in grado
 di fare previsioni accurate della variabile dipendente utilizzando le
 variabili indipendenti.
+
+## Residui
+
+In generale, esisteranno degli scostamenti (residui) tra le ordinate dei
+punti $y_i$ (valori osservati) e i corrispondenti valori stimati
+$\hat y_i$.
+
+I residui sono così definiti:
+
+$$
+E_i = y_i - \hat y_i = y_i - (\alpha + \beta x_i)
+$$
+
+con $$(i = 1,2,...,n)$$
+
+e mostrano di quanto si discostano i valori osservati $y_i$ dai valori
+stimati $\hat y_i$ con la regressione lineare multipla. In R per
+calcolare il vettore dei valori stimati
+$(\hat y_1, \hat y_2, . . . , \hat y_n)$ tramite regressione lineare
+multipla si utilizza la funzione:
+
+```{r}
+# Visualizza il vettore delle stime
+fit <- fitted(lm(data = mpg,cty ~ displ + cyl + drv))
+
+```
+
+Invece, per calcolare il vettore dei residui $(E_1,E_2, . . . ,E_n)$ si
+utilizza la funzione:
+
+```{r}
+# Visualizza i residui
+residui <- resid(lm(data = mpg,cty ~ displ + cyl + drv))
+
+```
+
+L'analisi dei residui in un modello di regressione lineare multipla
+consiste nel verificare se i residui, ovvero la differenza tra i valori
+osservati e quelli previsti dal modello, seguono una distribuzione
+normale e se sono distribuiti in modo casuale. Ciò è importante perché
+una distribuzione normale e casuale dei residui indica che il modello è
+adeguato alla relazione tra le variabili dipendenti e indipendenti.
+
+Per eseguire un'analisi dei residui, è possibile utilizzare alcuni
+strumenti come un grafico di istogramma dei residui, un grafico Q-Q plot
+e un grafico di dispersione dei residui sui valori previsti.
+
+Il grafico di istogramma dei residui mostra la distribuzione dei
+residui, e dovrebbe essere simile ad una distribuzione normale. Il
+grafico Q-Q plot mostra se i residui seguono una distribuzione normale,
+in caso contrario i punti non si troverebbero sulla linea di
+regressione. Infine il grafico di dispersione dei residui sui valori
+previsti deve mostrare una distribuzione casuale, ovvero senza alcun
+schema visibile.
+
+Nella realtà, spesso i dati non seguono perfettamente una distribuzione
+normale, ma è importante valutare se l'adesione al modello non sia
+troppo lontana dai valori attesi.
+
+Si può usare la funzione plot() per creare questi grafici, e in R si può
+utilizzare la libreria **`ggplot2`**
+
+```{r}
+# Q-Q plot
+qqnorm(modello_aggiornato$residuals)
+qqline(modello_aggiornato$residuals, col = 2)
+
+```
+
+```{r}
+# Scatterplot dei residui vs valori stimati
+ggplot(train_set, aes(x = modello_aggiornato$fitted.values, 
+                      y = modello$residuals))+
+geom_point() +
+ggtitle("Residui vs Valori previsti")+
+geom_hline(yintercept = 0) +
+xlab("Valori stimati") +
+ylab("Residui")
+
+
+```
+
+```{r}
+# Istogramma dei residui
+ggplot(train_set, aes(modello_aggiornato$residuals)) + 
+  geom_histogram(bins = 30, col = "black", fill = "white") +
+  ggtitle("Istogramma dei residui") + xlab("Residui")
+
+```
+
+Come possiamo osservare dal grafico la distribuzione è leggermente
+asimmetrica positiva a causa dei due outlier presenti dopo il valore
+*x=10*
+
+Se i residui non seguono una distribuzione normale e casuale, può essere
+necessario modificare il modello, ad esempio aggiungendo o rimuovendo
+delle variabili, o utilizzando una trasformazione delle variabili.
+
+## Coefficiente di determinazione
+
+Il coefficiente di determinazione in un modello di regressione lineare
+multipla è il rapporto tra la varianza dei valori stimati tramite la
+funzione di regressione multipla e la varianza i valori osservati della
+variabile dipendente. Se si denota con $(y_1, y_2, . . . , y_n)$ il
+vettore dei dati della variabile dipendente, con $\overline y$ la sua
+media campionaria e con $(\beta y_1, \beta y_2, . . . , \beta y_n)$ i
+valori stimati attraverso la funzione di regressione (la cui media
+campionaria $\overline y$), il coefficiente di determinazione è:
+
+$$ D^2 = \frac{\frac{1}{n-1}\sum^n_{i=1}(\hat y_i - \overline y_i)^2}{
+\frac{1}{n-1}\sum^n_{i=1}(y_i - \overline y_i)^2} = 
+\frac{\sum^n_{i=1}(\hat y_i - \overline y_i)^2}
+{\sum^n_{i=1}(y_i - \overline y_i)^2}
+$$
+
+L'indice $D^2$ è adimensionale e risulta $0 ≤ D^2 ≤ 1$. Quando $D^2 = 0$
+il modello di regressione multipla utilizzato non spiega per nulla i
+dati. Invece, quando $D^2 = 1$ il modello di regressione multipla
+utilizzato spiega perfettamente i dati. In R per calcolare l'indice
+$D^2$ per la regressione lineare multipla basta utilizzare la funzione:
+
+```{r}
+summary(modello_aggiornato)$r.squared
+
+```
+
+Il coefficiente di determinazione è *0.725*, ossia il modello di
+regressione multipla utilizzato spiega significativamente i dati.
 
 # Analisi dei cluster
 
@@ -1847,5 +2422,3 @@ permane al suo interno per sempre. I metodi non gerarchici non
 presentano questo problema poiché consentono di riallocare gli individui
 precedentemente classificati, ma richiedono una scelta opportuna della
 configurazione iniziale.
-
-# 

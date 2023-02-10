@@ -1093,8 +1093,8 @@ gli altri combustibili: elettricità, diesel o carburante normale.
 #### Grafico frequenze relative cumulative
 
 Le frequenze assolute cumulative sono il numero di osservazioni di una
-variabile che sono inferiori o uguali a un determinato valore
-In R, utilizziamo la funzione **`cumsum()`** per calcolare le frequenze
+variabile che sono inferiori o uguali a un determinato valore In R,
+utilizziamo la funzione **`cumsum()`** per calcolare le frequenze
 assolute cumulative di una variabile.
 
 ```{r}

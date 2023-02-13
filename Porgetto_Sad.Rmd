@@ -1,7 +1,7 @@
 ---
 title: "Report SAD"
-author: "Genito Leone"
-date: "2023-01-09"
+author: "Genito e Leone"
+date: "2023-02-20"
 output:
   pdf_document: default
   html_document: default
@@ -13,6 +13,8 @@ editor_options:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+***`VEDI SE RIESCI AD INFILARCI LA LEGGE DI PARETO perché il 20% dei marchi hanno l'80% del mercato nella var manufacturer`***
 
 # Dati sull'efficienza del carburante dal 1999 al 2008 per 38 modelli di auto popolari
 
@@ -71,6 +73,7 @@ library(caret)
 library(stats)
 library(cluster)
 library(GGally)
+
 ```
 
 ## Import del dataset
@@ -80,6 +83,7 @@ memoria.
 
 ```{r}
 data(mpg)
+
 ```
 
 ## Panoramica del dataset
@@ -89,7 +93,8 @@ osservazioni del dataset. Questo ci darà un'idea di come sono
 strutturati i dati e delle variabili incluse nel dataset.
 
 ```{r}
-head(df)
+head(mpg)
+
 ```
 
 Il comando **`head()`** è utile per esplorare i dati e avere una
@@ -99,14 +104,16 @@ utilizziamo il comando **`tail(mpg)`**.
 
 ```{r}
 tail(mpg)
+
 ```
 
 Vogliamo visualizzare un numero specifico di osservazioni, quindi
 utilizziamo il comando **`head(mpg, n)`**, dove **`n`** è il numero di
-osservazioni che vuoi visualizzare.
+osservazioni che vogliamo visualizzare.
 
 ```{r}
 head(mpg, 10)
+
 ```
 
 ## Pulizia dei dati
@@ -135,11 +142,12 @@ diverse attività, come:
 
 ### Verifica della presenza di valori mancanti
 
-Verificare la presenza di NA nel dataset, dunque procediamo con il
+Verifichiamo la presenza di NA nel dataset, dunque procediamo con il
 comando **`sum(is.na(mpg))`** per contare il numero di valori mancanti.
 
 ```{r}
 sum(is.na(mpg))
+
 ```
 
 Non sono presenti valori nulli nel data frame. In caso contrario avremmo
@@ -147,10 +155,10 @@ potuto scegliere di sostituirli con la media o la moda, nel caso fossero
 stati valori numerici.
 
 Agli altri step non è dedicato nessun paragrafo in quanto non serve
-affrontarli. Non ci sono valori errati, come sarà possibile vedere nel
-summary mostrato successivamente nel report. Non c'è bisogno di
-effettuare nessuna trasformazione di tipo in quanto ognuno è coerente.
-Non vediamo il bisogno di creare nuove variabili.
+affrontarli. Non ci sono valori errati, come sarà possibile osservare
+nel summary mostrato successivamente nel report. Non c'è bisogno di
+effettuare nessuna trasformazione di tipo in quanto ognuno è coerente e
+non vediamo il bisogno di creare nuove variabili.
 
 ## Descrizione del dataset
 
@@ -161,6 +169,7 @@ presenti per ogni variabile.
 
 ```{r}
 str(mpg)
+
 ```
 
 Il comando **`str()`** è utile per ottenere informazioni sulla struttura
@@ -185,6 +194,7 @@ statistiche descrittive per ogni variabile del dataset.
 
 ```{r}
 summary(mpg)
+
 ```
 
 La funzione **`summary()`** calcola automaticamente alcune statistiche
@@ -211,6 +221,7 @@ Visualizziamo i grafici delle variabili numeriche del dataset mpg
 ```{r}
 dfm <- mpg %>% 
   select_if(is.numeric)
+
 ```
 
 Ora che abbiamo raccolto tutte le variabili di tipo numerico, guardiamo
@@ -218,6 +229,7 @@ il grafico ottenuto con pairs
 
 ```{r}
 pairs(dfm)
+
 ```
 
 Dal grafico notiamo che c'è una correlazione negativa tra le variabili
@@ -538,13 +550,8 @@ Il grafico a torta mostra la distribuzione delle osservazioni per ogni
 produttore di auto presente nella variabile 'manufacturer' del dataset
 'mpg'.
 
-LE PERCENTUALI SONO SBAGLIATE
-
-l grafico mostra che il produttore 'Toyota' è presente in circa il 20%
-delle osservazioni, seguito da 'Dodge' con il 15% e 'Ford' con il 10%.
-
-VEDI SE RIESCI AD INFILARCI LA LEGGE DI PARETO perché il 20% dei marchi
-hanno l'80% del mercato
+ll grafico mostra che il produttore 'volkswagen' è presente in circa il
+40% delle osservazioni, seguito da 'toyota' con il 50% e così via\...
 
 ### Variabile model
 
@@ -681,7 +688,7 @@ di carburante in città, in miglia per gallone
 Dal grafico vediamo che all'aumentare del numero di cilindri diminuisce
 il consumo di carburante in città.
 
-### Funzione di distribuzione empirica discreta
+#### Funzione di distribuzione empirica discreta
 
 La funzione di distribuzione empirica $F(x)$ è definita per ogni $x$
 reale ed è una funzione a gradini in cui ogni gradino indica quale
@@ -771,6 +778,35 @@ p8
 Il boxplot in questo caso appare anomalo, perché non ha i baffi, questo
 perché il primo quartile corrisponde al minimo e il terzo quartile
 corrisponde al massimo.
+
+#### Boxplot ad intaglio
+
+Possiamo utilizzare anche i boxplot ad intaglio i quali sono una
+rappresentazione grafica dei boxplot ma con l'aggiunta dell'intervallo
+di confidenza:
+
+```{r}
+p8 <- ggplot(mpg, aes(x = year)) + geom_boxplot(notch = TRUE) + coord_flip()
+p8 <- p8 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
+               panel.grid.major = element_line(color = '#fff68f', linetype = 'longdash'),
+               panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
+
+p8
+```
+
+```{r}
+IQR <- quantile(mpg$year,0.75) - quantile(mpg$year, 0.25)
+M1 <- quantile(mpg$year,0.5) - 1.57 *IQR/sqrt(length(mpg$year))
+M2 <- quantile(mpg$year,0.5) + 1.57 *IQR/sqrt(length(mpg$year))
+c(M1 ,M2)
+
+```
+
+Il numero 1.57 è dovuto al rapporto $(1.25 · 1.7)/1.35$ che appare
+nell'approssimazione della formula dell'intervallo di confidenza(che
+vedremo in seguito); quindi, con un grado di fiducia del 95%
+l'intervallo di confidenza approssimato per la mediana è
+$(2002.576, 2004.424)$.
 
 ### Variabile Cyl
 
@@ -982,8 +1018,7 @@ La media campionaria è la media aritmetica di questi valori.
 Definizione 4.1: Si definisce media campionaria e si denota con $x$, la
 quantità:
 
-$$
-\overline x = \frac1n \sum^n_{i=1}x_i$$
+$$\overline x = \frac1n \sum^n_{i=1}x_i$$
 
 La media campionaria è una media pesata dei valori distinti assunti dai
 dati. Ogni valore distinto usa come peso la sua frequenza relativa,
@@ -1226,6 +1261,83 @@ p20
 La maggior parte dei veicoli presenti in questo dataset percorrono su
 strada tra i 20 e i 30 miglia con un gallone.
 
+Introduciamo a tal proposito le definizioni di simmetria (skewness) e di
+curtosi di una distribuzione:
+
+**Definizione del coefficiente di simmetria**: Assegnato un insieme di
+dati numerici $x_1, x_2,…x_n$ si definisce skewness campionaria il
+valore:
+
+$$\gamma = \frac{m_3}{m_2^{3/2}}$$
+
+si nota che:
+
+-   $\gamma = 0$ se la distribuzione di frequenze è simmetrica
+
+-   $\gamma > 0$ se la distribuzione di frequenze è asimmetria positiva
+    (ossia ha la coda di destra più allungata)
+
+-    $\gamma < 0$ se la distribuzione di frequenze è asimmetria negativa
+    (ossia ha la coda di sinistra più allungata).
+
+Si nota che $\gamma$ è un indice adimensionale, ossia è indipendente
+dall'unità di misura dei dati.
+
+Il calcolo della skewness campionaria può essere così implementato in R:
+
+```{r}
+skw <- function (x){
+n <-length (x)
+m2 <-(n -1) *var (x)/n
+m3 <- (sum ( (x-mean(x))^3) )/n
+m3/(m2 ^1.5)
+ }
+
+```
+
+```{r}
+skw(mpg$hwy)
+
+```
+
+il vettore presenta un'asimmetria positiva infatti ha la coda di destra
+più allungata.
+
+**Definizione della curtosi campionaria**
+
+Un indice che permette di misurare la densità dei dati intorno alla
+media è la curtosi campionaria;
+
+Assegnato un insieme di dati numerici $x_1, x_2, . . . , x_n$, si
+definisce curtosi campionaria il valore:
+
+$$\gamma_2 = \beta_2-3$$
+
+dove $\beta_2=\frac{m_4}{m_2^2}$ è l'indice di Pearson che è un indice
+adimensionale, ossia è indipendente dall'unità di misura dei dati.
+
+Gli indici $γ_2$ e $β_2$ permettono di confrontare la distribuzione di
+frequenze dei dati con una densità di probabilità normale standard,
+caratterizzata da $β_2 = 3$ e indice di curtosi $γ_2 = 0$. Se risulta:
+
+-   $β_2 < 3 \ (γ_2 < 0)$: la distribuzione di frequenze si definisce
+    platicurtica, ossia la distribuzione di frequenze è più piatta di
+    una normale;
+
+-   $β_2 > 3 \  (γ_2 > 0)$: la distribuzione di frequenze si definisce
+    leptocurtica, ossia la distribuzione di frequenze è più piccata di
+    una normale;
+
+-   $β_2 = 3 \ (γ_2 = 0)$: la distribuzione di frequenze si definisce
+    normocurtica (mesocurtica), ossia piatta come una normale.
+
+Il calcolo della curtosi campionaria ha significato soltanto per
+distribuzioni di frequenze unimodali, dato che tale indice è confrontato
+con quello di una normale standard.
+
+Quindi nel nostro caso non ha senso calcolarlo dato che la nostra
+distribuzione è bimodale
+
 #### Grafico a dispersione
 
 ```{r}
@@ -1249,7 +1361,7 @@ può percorrere su strada, con un gallone, diminuisce la cilindrata del
 motore, dunque più alta è la cilindrata e minori sono le miglia che il
 veicolo percorrerà con un gallone su strada.
 
-### Funzione di distribuzione empirica continua
+#### Funzione di distribuzione empirica continua
 
 Per fenomeni quantitativi continui occorre considerare la funzione di
 distribuzione empirica continua, ossia una funzione di distribuzione
@@ -1369,7 +1481,7 @@ LabelF <- paste(LabelF, "%", sep = "")
 pie ( perc , label = LabelF , col = rainbow ( length ( LabelF )), main = "Valori percentuali ")
 ```
 
-### Distribuzioni delle frequenze relative marginali
+#### Distribuzioni delle frequenze relative marginali
 
 In R per calcolare la distribuzione delle frequenze relative congiunte
 si può utilizzare il comando prop.table(nomeTabella) e da questa
@@ -1518,10 +1630,11 @@ nostro dataset, l'altra classe di veicoli molto frequente è *compact* e
 
 Il dataset "mpg" fornito con il pacchetto **`ggplot2`** in R potrebbe
 essere adeguato per eseguire un'analisi di regressione lineare multipla,
-a seconda della domanda di ricerca o dell'ipotesi che vuoi verificare.
-La regressione lineare multipla è un modello statistico che permette di
-indagare le relazioni tra più variabili indipendenti (chiamate anche
-"predictor") e una variabile dipendente (chiamata anche "risposta").
+a seconda della domanda di ricerca o dell'ipotesi che vogliamo
+verificare. La regressione lineare multipla è un modello statistico che
+permette di indagare le relazioni tra più variabili indipendenti
+(chiamate anche "predictor") e una variabile dipendente (chiamata anche
+"risposta").
 
 Per eseguire un'analisi di regressione lineare multipla, è importante
 che il dataset contenga almeno una variabile dipendente e due o più
@@ -1532,12 +1645,11 @@ variabili del dataset (ad esempio, "manufacturer", "displ", "year",
 "cyl", "trans", "drv" e "class") potrebbero essere utilizzate come
 variabili indipendenti.
 
-Tieni presente che, per eseguire un'analisi di regressione lineare
-multipla, è importante che i dati soddisfino alcune assunzioni
-statistiche, come la linearità e la varianza costante. Se queste
-assunzioni non sono soddisfatte, potrebbe essere necessario trasformare
-o selezionare le variabili o utilizzare un modello di regressione
-alternativo.
+Ricordiamo che, per eseguire un'analisi di regressione lineare multipla,
+è importante che i dati soddisfino alcune assunzioni statistiche, come
+la linearità e la varianza costante. Se queste assunzioni non sono
+soddisfatte, potrebbe essere necessario trasformare o selezionare le
+variabili o utilizzare un modello di regressione alternativo.
 
 Dato che lo scopo è quello di prevedere il consumo di carburante in base
 alle altre caratteristiche del veicolo (ad esempio, il volume del
@@ -1555,17 +1667,17 @@ quindi possibile utilizzare questi dati per addestrare il modello e
 quindi utilizzarlo per fare previsioni sulla variabile dipendente per
 nuove osservazioni.
 
-Se si definisce un data frame dfm, contenente n osservazioni delle p + 1
-variabili Y, X1, X2, . . . , Xp, allora cov(dfm) e cor(dfm) forniscono
-due matrici di dimensioni (p + 1) · (p + 1) i cui elementi solo le
-covarianze e le correlazioni tra coppie di variabili. In particolare,
-tali matrici sono simmetriche; la matrice delle covarianze contiene
-sulla diagonale principale la varianza delle singole colonne del data
-frame, mentre la matrice delle correlazioni contiene il numero 1 sulla
-diagonale principale. La matrice di correlazione evidenzia tutte le
-correlazioni lineari tra le coppie di variabili, ossia misura la forza
-del legame di natura lineare esistente tra tutte le coppie di variabili
-quantitative.
+Se si definisce un data frame $dfm$, contenente n osservazioni delle p +
+1 variabili $Y, X_1, X_2, . . . , X_p$, allora $cov(dfm)$ e $cor(dfm)$
+forniscono due matrici di dimensioni (p + 1) · (p + 1) i cui elementi
+solo le covarianze e le correlazioni tra coppie di variabili. In
+particolare, tali matrici sono simmetriche; la matrice delle covarianze
+contiene sulla diagonale principale la varianza delle singole colonne
+del data frame, mentre la matrice delle correlazioni contiene il numero
+1 sulla diagonale principale. La matrice di correlazione evidenzia tutte
+le correlazioni lineari tra le coppie di variabili, ossia misura la
+forza del legame di natura lineare esistente tra tutte le coppie di
+variabili quantitative.
 
 La funzione seguente ci permette di selezionare solo le variabili
 numeriche dunque le variabili di cui andremo a calcolare la correlazione
@@ -1587,7 +1699,7 @@ Assegnato un campione bivariato
 $(x_1, y_1), (x_2, y_2), . . . , (x_n, y_n)$ di una variabile
 quantitativa bidimensionale $(X, Y )$, siano $x$ e $y$ rispettivamente
 le medie campionarie di $x_1, x_2, . . . , x_n$ e di
-$y_1, y_2, . . . , y_n$. La covariana campionaria tra le due variabili
+$y_1, y_2, . . . , y_n$. La covarianza campionaria tra le due variabili
 $X$ e $Y$ è così definita:
 
 $$
@@ -1645,9 +1757,13 @@ che direzione va la relazione. La correlazione può assumere valori
 compresi tra -1 e 1.
 
 Il coefficiente di correlazione campionario ha lo stesso segno della
-covarianza. Quando $r_{xy} > 0$ si dice che le variabili sono correlate
-positivamente, se $r_{xy} < 0$ le variabili sono correlate negativamente
-e, infine, se $r_{xy} = 0$ le variabili sono non correlate.
+covarianza. Quando:
+
+-    $r_{xy} > 0$ si dice che le variabili sono correlate positivamente
+
+-    $r_{xy} < 0$ le variabili sono correlate negativamente
+
+-    $r_{xy} = 0$ le variabili sono non correlate.
 
 In questo caso la matrice delle correlazioni campionarie è
 
@@ -1734,18 +1850,17 @@ summary(modello)
 
 Nel modello di regressione lineare multiplo si è interessati a
 sottoporre a verifica l'ipotesi nulla, la quale equivale a dire che la
-variabile Xj non influenza la variabile Y.
+variabile $X_j$ non influenza la variabile $Y$.
 
--   H0 : βj = 0
+-   $H0 : βj = 0$
 
--   H1 : βj ≠ 0
+-   $H1 : βj ≠ 0$
 
 Se l'ipotesi nulla è vera, la statistica t è :
-$$t = \frac{(\overline \beta_{j})}{s . \sqrt(c_{}jj)} \sim t_{n-p-1}$$la
-statistica *t* è anche detta *t-value*.
+$$t = \frac{(\overline \beta_{j})}{s . \sqrt(c_{}jj)} \sim t_{n-p-1}$$
 
-Fissato un livello di significatività $$\alpha$$si determina il valore
-soglia $$t_{\alpha/2} $$ tale che:
+Fissato un livello di significatività $\alpha$ si determina il valore
+soglia $t_{\alpha/2}$ tale che:
 $$P(|T| > t_{\alpha/2})= P(T < -t_{\alpha/2})+P(T>t_{\alpha/2}) = \alpha$$
 Si rifiuta l'ipotesi *nulla* se: $$ |t|>t_{\alpha/2}$$In alternativa, si
 calcola il *p-value*: $$P(T > t)=2[1-F(t)]$$ dove *F(t)* è la funzione
@@ -1782,10 +1897,10 @@ previsioni <- predict(modello_aggiornato, test_set)
 
 ```
 
-### Misure di accuratezza
+#### Misure di accuratezza
 
 Per valutare l'accuratezza delle previsioni del modello di regressione
-lineare multipla, puossiamo utilizzare diverse metriche di valutazione.
+lineare multipla, possiamo utilizzare diverse metriche di valutazione.
 Ad esempio:
 
 -   Errore quadratico medio (MSE): indica la deviazione media quadratica

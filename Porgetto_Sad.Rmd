@@ -1961,20 +1961,22 @@ regressione multipla utilizzato spiega significativamente i dati.
 # Analisi dei cluster
 
 La cluster analysis (analisi di raggruppamento o dei gruppi) è uno
-strumento molto popolare per analizzare dati multivariati non
-strutturati. La metodica è composta di diversi algoritmi, ciascuno dei
-quali cerca di organizzare un dataset in sottogruppi omogenei, o
-"cluster". Non c'è garanzia che si trovi più di un gruppo. Tuttavia,
-l'ipotesi fondamentale è che i dati formino un insieme eterogeneo che
-dovrebbe suddividersi in gruppi naturali, familiari agli esperti
-dell'area analizzata.
+strumento molto utilizzato per raggruppare elementi rispetto a delle
+caratteristiche, utilizzata ad esempio in finanza per identificare
+investitori con preferenze simili e fare proposte di investimento
+adeguate, o nelle scienze sociali per identificare individui con
+tendenze sociali simili. La metodica è composta di diversi algoritmi,
+ciascuno dei quali cerca di organizzare una matrice in sottogruppi
+omogenei, o "cluster". Tuttavia, l'ipotesi fondamentale è che i dati
+formino un insieme eterogeneo che dovrebbe suddividersi in gruppi
+naturali, familiari agli esperti dell'area analizzata.
 
-I metodi per raggruppare gli item (che siano osservazioni o variabili)
-si basano sulla somiglianza (o dissomiglianza) degli item tra loro. Gli
-item simili sono quindi trattati come classe o gruppo omogeneo. Gran
-parte dell'output di una analisi dei cluster è visiva, con i risultati
-visualizzati usando scatterplot, alberi, dendrogrammi, grafici a
-silhouette, ed altri strumenti grafici.
+I metodi per raggruppare gli elementi si basano sulla somiglianza (o
+dissomiglianza) degli item tra loro. Gli item simili sono quindi
+trattati come classe o gruppo omogeneo. Gran parte dell'output di una
+analisi dei cluster è visiva, con i risultati visualizzati usando
+scatterplot, alberi, dendrogrammi, grafici a silhouette, ed altri
+strumenti grafici.
 
 Gli algoritmi di clustering (o di partizionamento) sono usualmente
 suddivisi tra approcci gerarchici e non gerarchici; gli algoritmi

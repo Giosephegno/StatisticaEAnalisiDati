@@ -1277,7 +1277,7 @@ si nota che:
 -   $\gamma > 0$ se la distribuzione di frequenze è asimmetria positiva
     (ossia ha la coda di destra più allungata)
 
--    $\gamma < 0$ se la distribuzione di frequenze è asimmetria negativa
+-   $\gamma < 0$ se la distribuzione di frequenze è asimmetria negativa
     (ossia ha la coda di sinistra più allungata).
 
 Si nota che $\gamma$ è un indice adimensionale, ossia è indipendente
@@ -1759,11 +1759,11 @@ compresi tra -1 e 1.
 Il coefficiente di correlazione campionario ha lo stesso segno della
 covarianza. Quando:
 
--    $r_{xy} > 0$ si dice che le variabili sono correlate positivamente
+-   $r_{xy} > 0$ si dice che le variabili sono correlate positivamente
 
--    $r_{xy} < 0$ le variabili sono correlate negativamente
+-   $r_{xy} < 0$ le variabili sono correlate negativamente
 
--    $r_{xy} = 0$ le variabili sono non correlate.
+-   $r_{xy} = 0$ le variabili sono non correlate.
 
 In questo caso la matrice delle correlazioni campionarie è
 

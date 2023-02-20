@@ -16,8 +16,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ***`siamo arrivati a momenti campionari`***
 
-***`aggiungere percentili,quantili`***
-
 # Dati sull'efficienza del carburante dal 1999 al 2008 per 38 modelli di auto
 
 ## Descrizione
@@ -1044,11 +1042,24 @@ frequenze relative.
     l'insieme di dati ordinati in 4 parti uguali. (quantili di ordine
     1/4, 1/2, 3/4)
 
+    ```{r}
+    quantile(mpg$cty, probs = c(0.25,0.50,0.75))
+
+    ```
+
 -   I *percentili*, invece, dividendo la distribuzione in 100 parti
     (quantili di ordine 1/100)
 
+    ```{r}
+    quantile(mpg$cty, probs=seq (0, 1, 0.01)) 
+    ```
+
 -   I *decili,* infine, dividono la distribuzione in 10 parti uguali
-    (quantili di ordine 1/10).
+    (quantili di ordine 1/10)
+
+    ```{r}
+    quantile(mpg$cty, probs=seq (0, 1, 0.1))
+    ```
 
 #### Varianza, deviazione standard e coefficiente di variazione
 
@@ -1817,6 +1828,7 @@ l'accuratezza del modello.
 
 ```{r}
 # Divisione del dataset mpg in un set di training (80%) e un set di test (20%)
+set.seed(3)
 partizioni <- createDataPartition(mpg$cty, p = 0.8, list = FALSE)
 
 # Creazione del set di training utilizzando le partizioni ottenute
@@ -1843,10 +1855,11 @@ summary(modello_semplice)
 
 Osservando il summary possiamo affermare che la variabile $displ$
 influenza la variabile dipendente ma negativamente (infatti ha segno
-negativo), pertanto possiamo affermare che al decrescere di $displ$ la
-variabile $cty$ aumenta.
+negativo e dunque anche la pendenza della retta sarà decrescente),
+pertanto possiamo affermare che al decrescere di $displ$ la variabile
+$cty$ aumenta.
 
-#### Previsioni
+### Previsioni
 
 Dopo aver stimato il modello di regressione possiamo prevedere i valori
 della variabile dipendente su un set di dati che non è stato usato per
@@ -1857,11 +1870,11 @@ previsioni_semplice <- predict(modello_semplice, test_set)
 
 ```
 
-## Coefficiente di determinazione
+### Coefficiente di determinazione
 
 Il coefficiente di determinazione per la regressione lineare semplice è
-il rapporto tra la varianza dei valori stimati tramite la retta di
-regressione e la varianza dei valori osservati. Pertanto, se si denota
+*il rapporto tra la varianza dei valori stimati tramite la retta di
+regressione e la varianza dei valori osservati.* Pertanto, se si denota
 con $y_1,y_2,…,y_n$ il vettore dei dati della variabile dipendente, con
 $\overline y$ la sua media campionaria e con
 $\hat y_1,\hat y_2,…,\hat y_n$ i valori stimati attraverso la retta di
@@ -1887,7 +1900,7 @@ correlazione, ossia:
 
 $$D^2 = r^2_{xy}$$
 
-## Regressione con trasformazione semilogaritmica
+## Modello di regressione con trasformazione semilogaritmica
 
 Consideriamo il modello non lineare:
 
@@ -1936,7 +1949,9 @@ d2
 
 Possiamo notare che il coefficiente del modello con trasformazione
 semilogaritmica è migliore rispetto al modello di regressione lineare
-semplice
+semplice che era:
+
+    0.6276219
 
 ## Modello di regressione lineare multiplo
 
@@ -1999,7 +2014,7 @@ Pertanto possiamo dedurre che sono 3 le variabili che contribuiscono a
 definire la variabile dipendente *cty* (miglia per gallone) e sono:
 *displ*, *cyl* e *drv.*
 
-#### Previsioni
+### Previsioni
 
 Dopo aver stimato il modello di regressione possiamo prevedere i valori
 della variabile dipendente su un set di dati che non è stato usato per
@@ -2010,7 +2025,7 @@ previsioni_aggiornato <- predict(modello_aggiornato, test_set)
 
 ```
 
-#### Misure di accuratezza
+### Misure di accuratezza
 
 Per valutare l'accuratezza delle previsioni del modello di regressione
 lineare multipla, possiamo utilizzare diverse metriche di valutazione e
@@ -2063,13 +2078,29 @@ MAE_c
 
 ```
 
++-----------------+-------------------------+-------------------------+
+|                 | Modello di regressione  | Modello di regressione  |
+|                 | semplice                | multiplo                |
++=================+=========================+=========================+
+| Errore          |     7.327401            |     5.571242            |
+| quadratico      |                         |                         |
+| medio (MSE)     |                         |                         |
++-----------------+-------------------------+-------------------------+
+| Coefficiente di |     0.7056375           |     0.7599574           |
+| determinazione  |                         |                         |
+| (R²)            |                         |                         |
++-----------------+-------------------------+-------------------------+
+| Errore assoluto |      1.815805           |      1.50492            |
+| medio (MAE)     |                         |                         |
++-----------------+-------------------------+-------------------------+
+
 Osservando le misure di accuratezza possiamo affermare che il modello di
 regressione multiplo che abbiamo stimato è un buon modello ovvero è un
 modello che è in grado di fare previsioni accurate della variabile
 dipendente utilizzando le variabili indipendenti: *displ*, *cyl* e
 *drv*.
 
-## Residui
+### Residui
 
 In generale, esisteranno degli scostamenti (residui) tra le ordinate dei
 punti $y_i$ (valori osservati) e i corrispondenti valori stimati
@@ -2166,12 +2197,12 @@ Se i residui non seguono una distribuzione normale e casuale, può essere
 necessario modificare il modello, ad esempio aggiungendo o rimuovendo
 delle variabili, o utilizzando una trasformazione delle variabili.
 
-## Coefficiente di determinazione
+### Coefficiente di determinazione
 
 Il coefficiente di determinazione in un modello di regressione lineare
-multipla è il rapporto tra la varianza dei valori stimati tramite la
+multipla è *il rapporto tra la varianza dei valori stimati tramite la
 funzione di regressione multipla e la varianza i valori osservati della
-variabile dipendente. Se si denota con $(y_1, y_2, . . . , y_n)$ il
+variabile dipendente*. Se si denota con $(y_1, y_2, . . . , y_n)$ il
 vettore dei dati della variabile dipendente, con $\overline y$ la sua
 media campionaria e con $(\hat y_1, \hat y_2, . . . , \hat y_n)$ i
 valori stimati attraverso la funzione di regressione (la cui media
@@ -2194,6 +2225,17 @@ summary(modello_aggiornato)$r.squared
 
 ```
 
-Il coefficiente di determinazione è *0.725*, ossia il modello di
+Il coefficiente di determinazione è *0.73*, ossia il modello di
 regressione multipla utilizzato spiega significativamente i dati ed è
 migliore perfino del modello con trasformazione semilogaritmica.
+
++----------------------+----------------------+----------------------+
+| Modello di           | Modello con          | Modello di           |
+| regressione semplice | trasformazione       | regressione multiplo |
+|                      | semilogaritmica      |                      |
++======================+======================+======================+
+|     0.6276219        |     0.6702734        |     0.7315415        |
++----------------------+----------------------+----------------------+
+
+Secondo il coefficiente di determinazione il modello di regressione
+multiplo è di gran lunga migliore.

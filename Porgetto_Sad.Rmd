@@ -14,8 +14,6 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-***`siamo arrivati a momenti campionari`***
-
 # Dati sull'efficienza del carburante dal 1999 al 2008 per 38 modelli di auto
 
 ## Descrizione
@@ -1127,26 +1125,6 @@ cv(mpg$displ)
 
 le variabili presentano evidenti variazioni tra esse.
 
-#### Momenti campionari
-
-Assegnato un insieme di dati numerici $x1, x2, . . . , xn$, si definisce
-momento campionario di ordine j e si denota con $M_j$ la quantità:
-
-$$M_j = \frac {1}{n} \sum^n_{i=1} x^j_i$$
-
-con $$(j=1,2,...)$$
-
-#### Momento centrato
-
-Assegnato un insieme di dati numerici $x1, x2, . . . , xn$, si definisce
-momento campionario centrato intorno alla media di ordine j e si denota
-con $m_j$ la quantità:
-
-$$
-m_j = \sum^n_{i=1} (x_i-
-\overline x)^j
-$$
-
 #### Scatterplot
 
 ```{r}
@@ -1177,7 +1155,7 @@ p18 <- p18 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9
 p18
 ```
 
-Osservando lo scatter plot possiamo affermare che le auto con un numero
+Osservando lo scatterplot possiamo affermare che le auto con un numero
 di cilindri pari a *4 e 5* riescono a percorrere più miglia con un
 gallone in città mentre le auto con *6* e *8* cilindri riescono a
 percorrere meno miglia per gallone in zona urbana.
@@ -1254,12 +1232,12 @@ l'intervallo di confidenza approssimato per la mediana è $(23, 25)$.
 #### Kernel density plot
 
 Il grafico kernel density plot è un grafico che mostra l'approssimazione
-della distribuzione dei valori di una variabile continuamente misurata.
-È ottenuto tramite l'utilizzo di una tecnica di smoothing nota come
-"kernel density estimation", che consiste nell'aggiungere una curva di
-densità di kernel sopra ogni osservazione. La curva di densità di kernel
-è una funzione continua che rappresenta la distribuzione di probabilità
-dei valori di una variabile.
+della distribuzione dei valori di una variabile continua. È ottenuto
+tramite l'utilizzo di una tecnica di smoothing nota come "kernel density
+estimation", che consiste nell'aggiungere una curva di densità di kernel
+sopra ogni osservazione. La curva di densità di kernel è una funzione
+continua che rappresenta la distribuzione di probabilità dei valori di
+una variabile.
 
 Il grafico kernel density plot è spesso utilizzato per esplorare la
 distribuzione di una variabile e per confrontare le distribuzioni di
@@ -1280,7 +1258,10 @@ p20
 ```
 
 La maggior parte dei veicoli presenti in questo dataset percorrono su
-strada tra i 20 e i 30 miglia con un gallone.
+strada tra i 20 e i 30 miglia con un gallone, possiamo notare anche che
+la distribuzione è bimodale (perchè presenta due mode), inoltre è
+presente un evidente asimmetria positiva perchè la coda di destra è più
+allungata rispetto alla coda di sinistra.
 
 Introduciamo a tal proposito le definizioni di simmetria (skewness) e di
 curtosi di una distribuzione:
@@ -1324,13 +1305,12 @@ skw(mpg$hwy)
 il vettore presenta un'asimmetria positiva infatti ha la coda di destra
 più allungata.
 
-**Definizione della curtosi campionaria**
-
 Un indice che permette di misurare la densità dei dati intorno alla
 media è la curtosi campionaria;
 
-Assegnato un insieme di dati numerici $x_1, x_2, . . . , x_n$, si
-definisce curtosi campionaria il valore:
+**Definizione della curtosi campionaria:** Assegnato un insieme di dati
+numerici $x_1, x_2, . . . , x_n$, si definisce curtosi campionaria il
+valore:
 
 $$\gamma_2 = \beta_2-3$$
 
@@ -1346,7 +1326,7 @@ caratterizzata da $β_2 = 3$ e indice di curtosi $γ_2 = 0$. Se risulta:
     una normale;
 
 -   $β_2 > 3 \  (γ_2 > 0)$: la distribuzione di frequenze si definisce
-    leptocurtica, ossia la distribuzione di frequenze è più piccata di
+    leptocurtica, ossia la distribuzione di frequenze è più a punta di
     una normale;
 
 -   $β_2 = 3 \ (γ_2 = 0)$: la distribuzione di frequenze si definisce
@@ -1435,8 +1415,8 @@ axis(2, format (Fcum , digits = 2))
 box()
 ```
 
-Grafico della funzione di distribuzione empirica continua del vettore
-*hwy* utilizzando le classi:
+Abbiamo realizzato il grafico della funzione di distribuzione empirica
+continua del vettore *hwy* utilizzando le classi:
 
     [15,18)  [18,21)  [21,24)  [24,27)  [27,30)  [30,33) [33,36)  [36,39)  [39,44) 
 
@@ -1464,10 +1444,11 @@ p22
 
 ```
 
-Possiamo notare che la maggiore parte delle auto presenti nel set di
+Possiamo notare che la maggiore parte delle auto presenti nel dataset di
 riferimento, circa il 72%, usa il gasolio regolare per viaggiare, il 22%
 si rifornisce con il carburante premium ed il restante 6% delle auto con
-gli altri combustibili: elettricità, diesel o carburante normale.
+gli altri tipi di risorse energetiche: elettricità, diesel o carburante
+normale.
 
 #### Grafico frequenze relative cumulative
 
@@ -1481,14 +1462,13 @@ fac <- cumsum(table(mpg$fl)/length(mpg$fl))
 names(fac) <- c("Normal_gasoline", "Diesel", "Elettricity", "Premium_Gasoline", "Regular gas")
 
 plot(fac, type = "s", main = "FRC Carburante", ylim = c(-0.5,1.3), xlab= "Tipo di carburante")
+abline(h=0.3, col = "red")
+legend("topleft", legend = c("1 = Normal gasoline", "2 = Diesel", "3 = Elettricity", "4 = Premium gasoline", "5 = Regular gas"), title = "Tipi di carburante")
 ```
 
-Il grafico a gradini mostra il numero di automobili con trasmissione
-"fl" che sono presenti nel dataset e che hanno una trasmissione di tipo
-uguale o inferiore a quello indicato sull'ascissa. Ad esempio, il primo
-segmento orizzontale del grafico rappresenta il numero di automobili con
-trasmissione "manual", mentre il secondo segmento orizzontale
-rappresenta il numero di automobili con trasmissione "manual" o "auto".
+Dal grafico possiamo notare che meno del 30% delle auto presenti nel
+dataset utilizza un carburante diverso dal regular gasoline e ciò
+possiamo verificarlo anche dal grafico a torta seguente:
 
 #### Grafico a torta
 
@@ -1549,7 +1529,7 @@ $$f_{ij} = f_{i}.f_{j}$$ con
 
 $$(i=1,2,...,h;j=1,2,...,k).$$
 
-Questa circostanza si verifica molto raramente sui dati reali
+Questa circostanza si verifica molto raramente sui dati reali.
 
 #### Grafici per le frequenze assolute congiunte
 
@@ -1709,7 +1689,7 @@ dfm <- mpg %>%
 
 La covarianza (cov) è una misura della correlazione tra due variabili.
 Indica se le due variabili cambiano in modo simile o in modo opposto e
-in che misura cambiano insieme.
+in che misura.
 
 Assegnato un campione bivariato
 $(x_1, y_1), (x_2, y_2), . . . , (x_n, y_n)$ di una variabile
@@ -1735,6 +1715,10 @@ In questo caso la matrice delle covarianze campionarie è
 cov(dfm)
 
 ```
+
+Lo svantaggio della covarianza è che non è racchiudibile in un range
+definito di valori, quindi non si riesce a capire quanto le variabili
+sono dipendenti tra loro, per questo introduciamo la correlazione.
 
 ### Correlazione
 
@@ -1768,9 +1752,7 @@ Si nota che il coefficiente di correlazione campionario
     così come accade per la media campionaria e la varianza campionaria.
 
 La correlazione (cor) è una misura della relazione lineare tra due
-variabili. Indica se c'è una relazione lineare tra le due variabili e in
-che direzione va la relazione. La correlazione può assumere valori
-compresi tra -1 e 1.
+variabili e può assumere valori compresi tra -1 e 1.
 
 Il coefficiente di correlazione campionario ha lo stesso segno della
 covarianza. Quando:
@@ -1788,12 +1770,11 @@ cor(dfm)
 
 ```
 
-Osservando i valori della covarianza e della correlazione possiamo
-notare che le variabili *displ* e *cyl* sono unite da un forte legame
-lineare, a differenza delle variabili *displ* e *cty*, *hwy* le quali
-sono correlate ma negativamente. Infine osservando i valori di *year*
-possiamo affermare che è correlata in modo molto debole con tutte le
-variabili.
+Osservando i valori della correlazione possiamo notare che le variabili
+*displ* e *cyl* sono unite da un forte legame lineare, a differenza
+delle variabili *displ* e *cty*, *hwy* le quali sono correlate ma
+negativamente. Infine osservando i valori di *year* possiamo affermare
+che è correlata in modo molto debole con tutte le variabili.
 
 Per avere un'ulteriore conferma della forte correlazione tra la
 variabile *hwy* e *cty* (0.95) rappresentiamo tale relazione in un
@@ -1841,11 +1822,31 @@ test_set <- mpg[-partizioni, ]
 
 ## Modello di regressione lineare semplice
 
-Il modello di regressione lineare semplice è un tipo di modello di
-regressione che viene utilizzato per prevedere una variabile dipendente
-(chiamata anche variabile risposta o target) in base alla relazione con
-una variabile indipendente (chiamata anche variabile esplicativa o
-predictor).
+Il modello di regressione lineare semplice è uno dei metodi più comuni
+per analizzare la relazione tra una variabile dipendente (o di risposta)
+e una variabile indipendente (o predittiva). In particolare, il modello
+assume che la relazione tra le due variabili possa essere descritta da
+una linea retta.
+
+In termini matematici, il modello di regressione lineare semplice è
+espresso come:
+
+$$y = β₀ + β₁x + ε$$
+
+dove y è la variabile dipendente, x è la variabile indipendente, β₀ e β₁
+sono i coefficienti di intercetta e di pendenza della retta di
+regressione, e ε rappresenta l'errore residuo.
+
+L'obiettivo della regressione lineare è quello di stimare i coefficienti
+β₀ e β₁ in modo da ottenere la linea retta che meglio si adatta ai dati.
+Questo viene fatto minimizzando la somma dei quadrati degli errori
+residui (SSE), ovvero la somma delle differenze tra i valori osservati
+di y e i valori predetti dalla retta di regressione.
+
+Il modello di regressione lineare semplice può essere utilizzato per
+molteplici scopi, tra cui la previsione di valori futuri di y sulla base
+di x, la valutazione dell'effetto di x su y e l'identificazione di
+eventuali outlier o influenti nella relazione tra le due variabili.
 
 ```{r}
 modello_semplice <- lm(cty ~ displ, data = train_set)
@@ -2078,23 +2079,24 @@ MAE_c
 
 ```
 
-+----------------+----------------------+----------------------+
-|                | Modello di           | Modello di           |
-|                | regressione semplice | regressione multiplo |
-+================+======================+======================+
-| Errore         |     7.327401         |     5.571242         |
-| quadratico     |                      |                      |
-| medio (MSE)    |                      |                      |
-+----------------+----------------------+----------------------+
-| Coefficiente   |     0.7056375        |     0.7599574        |
-| di             |                      |                      |
-| determinazione |                      |                      |
-| (R²)           |                      |                      |
-+----------------+----------------------+----------------------+
-| Errore         |      1.815805        |      1.50492         |
-| assoluto medio |                      |                      |
-| (MAE)          |                      |                      |
-+----------------+----------------------+----------------------+
++----------------+--------------------+--------------------+
+|                | Modello di         | Modello di         |
+|                | regressione        | regressione        |
+|                | semplice           | multiplo           |
++================+====================+====================+
+| Errore         |     7.327401       |     5.571242       |
+| quadratico     |                    |                    |
+| medio (MSE)    |                    |                    |
++----------------+--------------------+--------------------+
+| Coefficiente   |     0.7056375      |     0.7599574      |
+| di             |                    |                    |
+| determinazione |                    |                    |
+| (R²)           |                    |                    |
++----------------+--------------------+--------------------+
+| Errore         |      1.815805      |      1.50492       |
+| assoluto medio |                    |                    |
+| (MAE)          |                    |                    |
++----------------+--------------------+--------------------+
 
 Osservando le misure di accuratezza possiamo affermare che il modello di
 regressione multiplo che abbiamo stimato è un buon modello ovvero è un
@@ -2231,13 +2233,13 @@ Il coefficiente di determinazione è *0.73*, ossia il modello di
 regressione multipla utilizzato spiega significativamente i dati ed è
 migliore perfino del modello con trasformazione semilogaritmica.
 
-+-------------------+-------------------+-------------------+
-| Modello di        | Modello con       | Modello di        |
-| regressione       | trasformazione    | regressione       |
-| semplice          | semilogaritmica   | multiplo          |
-+===================+===================+===================+
-|     0.6276219     |     0.6702734     |     0.7315415     |
-+-------------------+-------------------+-------------------+
++-----------------+-----------------+-----------------+
+| Modello di      | Modello con     | Modello di      |
+| regressione     | trasformazione  | regressione     |
+| semplice        | semilogaritmica | multiplo        |
++=================+=================+=================+
+|     0.6276219   |     0.6702734   |     0.7315415   |
++-----------------+-----------------+-----------------+
 
 Secondo il coefficiente di determinazione il modello di regressione
 multiplo è di gran lunga migliore.

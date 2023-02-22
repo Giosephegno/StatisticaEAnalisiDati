@@ -2079,24 +2079,24 @@ MAE_c
 
 ```
 
-+----------------+--------------------+--------------------+
-|                | Modello di         | Modello di         |
-|                | regressione        | regressione        |
-|                | semplice           | multiplo           |
-+================+====================+====================+
-| Errore         |     7.327401       |     5.571242       |
-| quadratico     |                    |                    |
-| medio (MSE)    |                    |                    |
-+----------------+--------------------+--------------------+
-| Coefficiente   |     0.7056375      |     0.7599574      |
-| di             |                    |                    |
-| determinazione |                    |                    |
-| (R²)           |                    |                    |
-+----------------+--------------------+--------------------+
-| Errore         |      1.815805      |      1.50492       |
-| assoluto medio |                    |                    |
-| (MAE)          |                    |                    |
-+----------------+--------------------+--------------------+
++----------------+-------------------+-------------------+
+|                | Modello di        | Modello di        |
+|                | regressione       | regressione       |
+|                | semplice          | multiplo          |
++================+===================+===================+
+| Errore         |     7.327401      |     5.571242      |
+| quadratico     |                   |                   |
+| medio (MSE)    |                   |                   |
++----------------+-------------------+-------------------+
+| Coefficiente   |     0.7056375     |     0.7599574     |
+| di             |                   |                   |
+| determinazione |                   |                   |
+| (R²)           |                   |                   |
++----------------+-------------------+-------------------+
+| Errore         |      1.815805     |      1.50492      |
+| assoluto medio |                   |                   |
+| (MAE)          |                   |                   |
++----------------+-------------------+-------------------+
 
 Osservando le misure di accuratezza possiamo affermare che il modello di
 regressione multiplo che abbiamo stimato è un buon modello ovvero è un
@@ -2233,18 +2233,19 @@ Il coefficiente di determinazione è *0.73*, ossia il modello di
 regressione multipla utilizzato spiega significativamente i dati ed è
 migliore perfino del modello con trasformazione semilogaritmica.
 
-+-----------------+-----------------+-----------------+
-| Modello di      | Modello con     | Modello di      |
-| regressione     | trasformazione  | regressione     |
-| semplice        | semilogaritmica | multiplo        |
-+=================+=================+=================+
-|     0.6276219   |     0.6702734   |     0.7315415   |
-+-----------------+-----------------+-----------------+
++----------------+----------------+----------------+
+| Modello di     | Modello con    | Modello di     |
+| regressione    | trasformazione | regressione    |
+| semplice       | s              | multiplo       |
+|                | emilogaritmica |                |
++================+================+================+
+|     0.6276219  |     0.6702734  |     0.7315415  |
++----------------+----------------+----------------+
 
 Secondo il coefficiente di determinazione il modello di regressione
 multiplo è di gran lunga migliore.
 
-# Analisi dei cluster
+## Analisi dei cluster
 
 L'analisi dei cluster è una metodologia che raggruppa le entità di un
 insieme più grande in sottoinsiemi detti cluster. L'obiettivo generale è
@@ -2374,7 +2375,7 @@ mpg_std <- scale(part_mpg,center = TRUE,scale = TRUE)
 
 In seguito calcoliamo le metriche di distanze.
 
-### Euclidea
+#### Euclidea
 
 ```{r}
 ## Metrica Euclidea
@@ -2391,7 +2392,7 @@ $d(p, q) = \sqrt{(q_1 - p_1)^2 + (q_2 - p_2)^2 + ... + (q_n - p_n)^2)}$
 La matrice generata ci fornisce n(n-1)/2 distanze, dove n è la
 numerosità del campione.
 
-### Altre metriche
+#### Altre metriche
 
 ```{r}
 
@@ -2414,13 +2415,15 @@ La distanza di Manhattan, chiamata anche metrica "L-1", è calcolata come
 la somma delle differenze assolute tra le coppie di valori di due punti.
 Questa distanza è utile quando le dimensioni sono indipendenti.
 
-$Inserire formula manhattan$
+$$d_1(X_i,X_j) = \sum_{k=1}^p|x_{ik}-x_{jk}|$$
 
-La distanza di Chebyshev è anche nota come distanza "L-infinito" e si
+La distanza di Chebycev è anche nota come distanza "L-infinito" e si
 basa sulla differenza massima tra le coppie di valori dei due punti. La
 metrica di Chebycev coinvolge anche una procedura di ordinamento.
 
-$InserireformulaChebycev$
+$$
+d_\infty(X_i,X_j) = max_{ \ k=1,2,...,p} |x_{ik} - x_{jk}|
+$$
 
 La distanza di Minkowski ha come caso particolare le distanze di
 Manhattan e di Euclidea, dove il parametro "p" determina se la distanza
@@ -2428,7 +2431,7 @@ Manhattan e di Euclidea, dove il parametro "p" determina se la distanza
 utile per adattarsi a situazioni dove le dimensioni sono importanti e le
 relazioni tra le dimensioni sono complesse.
 
-$InserireformulaMinkowski$
+$$d_r(X_i,X_j) = \Biggl[ {\sum_{k=1}^p}|x_{ik}-x_{jk}|^r\Biggl]^{1/r}$$
 
 La distanza di Canberra è una misura di dissimilarità tra due punti e si
 basa sulla somma delle differenze normalizzate tra le coppie di valori.
@@ -2437,7 +2440,7 @@ possibile utilizzare la distanza Euclidea, perché è adimensionale. Però
 se uno dei due valori è uguale a zero la distanza totale è
 automaticamente 1, ossia la massima, e ciò non ha senso.
 
-$Inserireformulacamberra$
+$$d_c(X_i,X_j) = \sum^p_{k=1} \frac{|x_{ik}-x_{jk}|}{|x_{ik}|+|x_{jk}|}$$
 
 #### Similarità
 
@@ -2621,7 +2624,9 @@ nell'algoritmo, calcolata la matrice D, prendiamo il punto con distanza
 minore e uniamo i due cluster. Una volta fatto ciò la nuova matrice
 delle distanze la calcoliamo come:
 
-$d_{((ij),k)} = min(d_{(i,k)},d_{(j,k)})$
+$$
+d_{((ij),k)} = min(d_{(i,k)},d_{(j,k)})
+$$
 
 Dove $i$ e $j$ indicano i due elementi che sono stati uniti e $k$ indica
 uno degli altri con la quale calcolare la distanza.
@@ -2845,7 +2850,7 @@ matrice delle distanze D e creiamo il primo cluster, successivamente
 calcoliamo la nuova matrice delle distanze, con questo nuovo gruppo, ed
 è questo che differenzia il metodo:
 
-$d_{(ij),k)} = max(d_{(i,k)},d_{(j,k)})$
+$$d_{(ij),k)} = max(d_{(i,k)},d_{(j,k)})$$
 
 Dove $i$ e $j$ indicano i due elementi che sono stati uniti e $k$ indica
 uno degli altri con la quale calcolare la distanza.
@@ -2945,7 +2950,7 @@ Il metodo del legame medio è un algoritmo di clustering gerarchico che
 definisce la distanza tra due gruppi come la media aritmetica delle
 distanze tra tutte le coppie di unità che compongono i due gruppi.
 
-$d_{((ij),k)} = \frac{1}{2}(d_{(i,k)},d_{(j,k)})$
+$$d_{((ij),k)} = \frac{1}{2}(d_{(i,k)},d_{(j,k)})$$
 
 Nella procedura si parte da un insieme di n cluster e ad ogni passo si
 uniscono i due cluster più vicini fino ad ottenere un unico cluster
@@ -3047,7 +3052,7 @@ calcola la distanza tra due cluster come la distanza tra i loro
 centroidi, ovvero le medie campionarie calcolate sui dati dei due
 cluster.
 
-$d_{((i,j),k} = \frac{1}{2}(d_{(i,k)}^2 + d_{(j,k)}^2) - \frac{1}{4}d_{i,j}^2$
+$$d_{((i,j),k} = \frac{1}{2}(d_{(i,k)}^2 + d_{(j,k)}^2) - \frac{1}{4}d_{i,j}^2$$
 
 ```{r}
 d_quadro <- d_2^2
@@ -3233,7 +3238,7 @@ cluster è soddisfacente.
 Vediamo come si presentano i cluster graficamente
 
 ```{r}
-clusplot(mpg_2, cut_mediana, color=TRUE, shade=TRUE, labels=3, lines=0, xlab="Mediana", ylab = "Distanza", main = "Mediana")Ris
+clusplot(mpg_2, cut_mediana, color=TRUE, shade=TRUE, labels=3, lines=0, xlab="Mediana", ylab = "Distanza", main = "Mediana")
 ```
 
 Rispetto al metodo del centroide i gruppi sono anche più distanziati tra
@@ -3376,3 +3381,5 @@ plot(mpg_2, col = km_c$cluster , main = " Metodo non gerarchico del k-
 means con 3 centroidi")
 points (km_c$center , col = 1:2, pch = 8, cex =1)
 ```
+
+# $$Fine \ prima \ parte$$

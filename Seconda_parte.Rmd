@@ -1,4 +1,11 @@
-***`Il progetto è finito ma è necessario rivedere la definizione di p-value e la definizione del chi quadrato`***
+---
+title: "Statistica e analisi dei dati"
+author: "Genito e Leone"
+date: "2023/02/20"
+output:
+  pdf_document: default
+  latex_engine: xelatex
+---
 
 # Seconda parte
 
@@ -15,7 +22,7 @@ data(mpg)
 
 L'indagine statistica è sempre effettuata su un insieme di entità (individui, oggetti,. . .) su cui si manifesta il fenomeno che si studia. Questo insieme è detto popolazione o universo e può essere costituito da un numero finito oppure infinito di unità; nel primo caso si parla di *popolazione finita*, nel secondo caso di *popolazione illimitata*. La conoscenza delle caratteristiche di una popolazione finita può essere ottenuta osservando la totalità delle entità della popolazione oppure un sottoinsieme di questa, detto campione estratto dalla popolazione. Una popolazione illimitata può invece essere studiata soltanto tramite un campione estratto.
 
-Di particolare importanza in statistica è l'*inferenza statistica*. Essa ha lo scopo di estendere le misure ricavate dall'esame di un campione alla popolazione da cui il campione è stato estratto.
+Di particolare importanza in statistica è l'*inferenza*. Essa ha lo scopo di estendere le misure ricavate dall'esame di un campione alla popolazione da cui il campione è stato estratto.
 
 L'inferenza statistica si basa su due metodi fondamentali di indagine:
 
@@ -25,9 +32,15 @@ L'inferenza statistica si basa su due metodi fondamentali di indagine:
 
 ### Stima dei parametri
 
-La stima dei parametri ha lo scopo di determinare i valori non noti dei parametri di una popolazione (come il valore medio, la varianza,. . .) per mezzo dei corrispondenti parametri derivati dal campione estratto dalla popolazione (come la media campionaria, la varianza campionaria,. . .). Si possono usare *stime puntuali* o *stime per intervallo*.
+La stima dei parametri ha lo scopo di determinare i valori non noti di una popolazione (come il valore medio, la varianza,. . .) per mezzo dei corrispondenti parametri derivati dal campione estratto dalla popolazione (come la media campionaria, la varianza campionaria,. . .).
 
-Si parla di stima puntuale quando si stima un parametro non noto di una popolazione usando un singolo valore reale.
+Si possono usare *stime puntuali* o *stime per intervallo*.
+
+La stima puntuale è una tecnica di inferenza statistica che permette di stimare un parametro di interesse, come ad esempio la media o la varianza di una popolazione, a partire da un campione di osservazioni. In altre parole, la stima puntuale consiste nel calcolare un valore numerico che rappresenta la nostra migliore previsione del valore del parametro.
+
+La stima puntuale si basa sul fatto che, se il campione è rappresentativo della popolazione, le caratteristiche del campione dovrebbero essere simili a quelle della popolazione. Ad esempio, se si vuole stimare la media della popolazione, si può calcolare la media campionaria e utilizzarla come stima puntuale della media della popolazione.
+
+Tuttavia, la stima puntuale non fornisce informazioni sulla precisione o l'accuratezza della stima. In altre parole, non ci dice quanto vicino sia il valore stimato al valore vero del parametro. Per questo motivo, spesso è utile accompagnare la stima puntuale con un intervallo di confidenza, che indica la probabilità che il vero valore del parametro si trovi entro un certo intervallo intorno alla stima puntuale.
 
 Alla stima puntuale di un parametro non noto di una popolazione (costituita da un unico valore) spesso si preferisce sostituire un intervallo di valori, detto intervallo di confidenza, ossia si cerca di determinare in base al campione osservato $(x_1, x_2, ..., x_n)$ due limiti (uno inferiore e uno superiore) entro i quali sia compreso il parametro non noto con un certo grado di confidenza, detto anche grado di fiducia.
 
@@ -50,9 +63,9 @@ La tabella precedente viene definita *distribuzione della probabilità della var
 
 Pertanto condizione necessaria e sufficiente affinché una v.c discreta X sia ben definita è che tali probabilità soddisfino le seguenti condizioni:
 
-$$p_i ≥ 0, ∀_i = 1,2,...;$$
+$$p_i \geq 0, \forall_i = 1,2,...;$$
 
-$$\sum_{i=1}^∞ p_i=1$$
+$$\sum_{i=1}^{\infty} p_i=1$$
 
 Si noti che nessun vincolo viene imposto sui valori reali che una v.c può assumere. La rappresentazione grafica più naturale di una v.c. discreta è quella di porre in ascissa i valori $(x_i, x_2,…)$ che la v.c. può assumere ed in ordinata le corrispondenti probabilità $(p_1,p_2,…)$, secondo la Figura seguente:
 
@@ -60,7 +73,7 @@ Si noti che nessun vincolo viene imposto sui valori reali che una v.c può assum
 
 la *funzione di ripartizione* $F(x_0)$ di una variabile casuale X discreta calcolata nel punto $x_0$ è :
 
-$$F(x_0) = Pr(X ≤ x_0) = \sum_{x ≤ x_0} p_i$$
+$$F(x_0) = Pr(X \leq x_0) = \sum_{x \leq x_0} p_i$$
 
 Il sistema R mette a disposizione per ciascuna delle principali variabili aleatorie discrete:
 
@@ -82,17 +95,17 @@ Le v.c. continue presentano una maggiore complessità analitica poiché per esse
 
 Una v.c. continua X è nota se, per ogni $x_0$ reale e prefissato, è nota la probabilità che tale v.c. assuma un valore in un intervallo di ampiezza infinitesimo rispetto a $x_0$ mediante la relazione seguente:
 
-$$P_r(x_0 < X ≤ x_0 + d_x) = f(x_0)dx$$
+$$P_r(x_0 < X \leq x_0 + d_x) = f(x_0)dx$$
 
 dove $f(x)$ è una funzione a valori reali, detta *funzione di densità* della v.c. continua X. Spesso, scriveremo: $X \sim f(x)$ per indicare che la v.c. X possiede $f(x)$ come propria funzione di densità.
 
 ![](images/image-286733116.png){width="552"}
 
-La probabilità che la v.c X assuma valori nell'intervallo raffigurata è uguale a $f(x)dx$ perchè essa è uguale all'aerea del rettangolo la cui base misura $dx$ e la cui altezza è $f(x_0)$, perchè per la continuità deve essere: $f(x_0) = f(x_0 + dx)$.
+La probabilità che la v.c X assuma valori nell'intervallo raffigurato è uguale a $f(x)dx$ perchè essa è uguale all'aerea del rettangolo la cui base misura $dx$ e la cui altezza è $f(x_0)$, perchè per la continuità deve essere: $f(x_0) = f(x_0 + dx)$.
 
 la *funzione di ripartizione* $F(x_0)$ di una variabile casuale X continua calcolata nel punto $x_0$ è :
 
-$$F(x_0) = Pr(X ≤ x_0) = \int^{x_0}_{-\infty} f(w)d_w$$
+$$F(x_0) = Pr(X \leq x_0) = \int^{x_0}_{-\infty} f(w)d_w$$
 
 Il sistema R mette a disposizione per ciascuna delle principali variabili aleatorie continue:
 
@@ -122,7 +135,7 @@ La v.c. Normale è di gran lunga la distribuzione più importante del Calcolo de
 
 *A titolo di curiosità, si può ricordare che la funzione di densità della v.c. Normale è l'unica formula matematica che, nella storia, sia stata impressa su una banconota con ampia circolazione.*
 
-La distribuzione normale è una distribuzione continua, ciò significa che può assumere qualsiasi valore all'interno di un intervallo specifico, anziché solo valori discreti. La distribuzione normale è descritta da una curva a campana, con la maggior parte dei valori concentrati intorno alla media e i valori estremi che diventano meno probabili man mano che ci si allontana dalla media.
+La distribuzione normale è una distribuzione continua, ciò significa che può assumere qualsiasi valore all'interno di un intervallo specifico, anziché solo valori discreti. La distribuzione normale è descritta da una curva a campana, con la maggior parte dei valori concentrati intorno alla media e i valori estremi che diventano meno probabili man mano che ci si allontana dalla media (cioè man mano si va verso le code).
 
 La media (o la mediana) di una distribuzione normale è il valore centrale della distribuzione e rappresenta il valore più probabile. La deviazione standard è una misura della dispersione dei dati intorno alla media. La distribuzione normale standard ha una media di 0 e una deviazione standard di 1.
 
@@ -158,7 +171,7 @@ con $- \infty < x < \infty$
 
 Poiché il parametro $\mu$ può assumere qualsiasi valore reale mentre il parametro $\sigma^2$ può solo essere non negativo, lo spazio parametrico di questa v.c. è il semipiano positivo, cioè:
 
-$$\Omega(\mu,\sigma^2) = {(\mu,\sigma^2): -\infty < \mu < +\infty; 0 ≤ \sigma^2 < +\infty} $$
+$$\Omega(\mu,\sigma^2) = {(\mu,\sigma^2): -\infty < \mu < +\infty; 0 \leq \sigma^2 < +\infty} $$
 
 Lo studio analitico della funzione di densità di una v.c. Normale mostra che essa ha una forma campanulare simmetrica rispetto al suo valore medio (punto di ascissa $x=\mu$ ), in corrispondenza del quale si presenta il massimo ovvero $f(x)=\frac{1}{\sigma\sqrt{2 \pi}}$. Quindi, il parametro $\mu$ è la moda, la mediana e il valore medio della v.c. *X*. Utilizzando le derivate seconde, si dimostra che $f(x)$ presenta due flessi equidistanti dal punto $x=\mu$ in corrispondenza delle ascisse $x = \mu \pm \sigma$. Inoltre, $f(x) -> 0$ per $x -> \pm \infty$, cioè l'asse x è un asintoto orizzontale per tale funzione.
 
@@ -178,22 +191,22 @@ $$
 
 In R la densità normale si calcola attraverso la funzione:
 
-```{r}
+```{r fig.align = 'center'}
 curve(dnorm(x,mean =0, sd =1), from =-6, to=6, xlab="x", ylab="f(x)", lty =1, main = "Densità normale standard")
 
 ```
 
 dove:
 
--   x è il valore assunto (o i valori assunti) dalla variabile aleatoria normale;
+-   x sono i valori assunti dalla variabile aleatoria normale;
 -   mean e sd sono il valore medio e la deviazione standard della densità normale standard.
 
 ### Funzione di distribuzione
 
-In R la funzione di distribuzione di una variabile $X ∼ N(μ, σ)$ si calcola tramite la funzione:
+In R la funzione di distribuzione di una variabile $X \sim N(\mu, \sigma)$ si calcola tramite la funzione:
 
-```{r}
-curve(pnorm(x, mean = 0, sd = 0.5, lower.tail = TRUE), from = -4, to = 4, xlab = "x", ylab ="P(X≤x)", main="media=0; sd =0.5, 1, 1.5",lty =2, col = "blue")
+```{r fig.align = 'center'}
+curve(pnorm(x, mean = 0, sd = 0.5, lower.tail = TRUE), from = -4, to = 4, xlab = "x", ylab ="P(X < x)", main="media=0; sd =0.5, 1, 1.5",lty =2, col = "blue")
 
 curve(pnorm(x, mean = 0, sd = 1, lower.tail = TRUE), add =TRUE)
 
@@ -203,11 +216,11 @@ curve(pnorm(x, mean =0, sd =1.5, lower.tail = TRUE), add =TRUE, lty =3, col = "r
 
 dove:
 
-\- x è il valore assunto (o i valori assunti) dalla variabile aleatoria normale;
+-   x sono i valori assunti dalla variabile aleatoria normale;
 
-\- mean e sd sono il valore medio e la deviazione standard della densità normale;
+-   mean e sd sono il valore medio e la deviazione standard della densità normale;
 
-\- lower.tail se tale parametro è TRUE (caso di default) calcola $P(X ≤ x)$, mentre se tale parametro è FALSE calcola $P(X > x)$.
+-   lower.tail se tale parametro è TRUE (caso di default) calcola $P(X \leq x)$, mentre se tale parametro è FALSE calcola $P(X > x)$.
 
 ### Quantili
 
@@ -220,20 +233,15 @@ qnorm(z, mean = 0, sd = 1)
 ```
 
 -   Primo quartile: -0.67
-
-<!-- -->
-
 -   Secondo quartile (media e mediana): 0
-
 -   Terzo quartile: 0.67
-
 -   Max = inf, Min = -inf
 
 ### Variabile aleatoria normale
 
 È possibile simulare in R la variabile aleatoria normale generando una sequenza di numeri pseudocasuali mediante la funzione:
 
-```{r}
+```{r fig.align = 'center'}
 v_c <- rnorm(n = 100, mean = 0, sd = 1)
 hist(v_c, main = "Variabile casuale", xlim = c(-3,3), xlab = "valori pseudocasuali")
 
@@ -247,9 +255,9 @@ dove:
 
 ### Confronto tra valori medi differenti
 
-Variazioni del parametro *μ* comportano traslazioni della curva lungo l'asse delle ascisse; infatti, al crescere del parametro *μ* la curva si sposta lungo l'asse delle ascisse senza cambiare forma, ecco un esempio:
+Variazioni del parametro $\mu$ comportano traslazioni della curva lungo l'asse delle ascisse; infatti, al crescere del parametro $\mu$ la curva si sposta lungo l'asse delle ascisse senza cambiare forma, ecco un esempio:
 
-```{r}
+```{r fig.align = 'center'}
 curve(dnorm(x,mean =-2, sd =1), from =-6, to=6, xlab="x", ylab="f(x)", lty =1, col = "blue")
 
 curve(dnorm(x,mean =0, sd =1), from =-6, to=6, xlab="x", ylab="f(x)", lty =1, add = TRUE)
@@ -264,7 +272,7 @@ Nel grafico la curva di colore rosso ha un valore di $\mu=2$ (pari a due) ed è 
 
 Il parametro $\sigma$, pari alla semiampiezza tra i due punti di flesso, caratterizza invece la larghezza della funzione.
 
-```{r}
+```{r fig.align = 'center'}
 curve(dnorm(x,mean =0, sd =1), from =-6, to=6, xlab="x", ylab="f(x)", lty =1, col = "blue")
 
 curve(dnorm(x,mean =0, sd =3), from =-6, to=6, xlab="x", ylab="f(x)", lty =1, add = TRUE)
@@ -277,7 +285,7 @@ All'aumentare del valore di $\sigma$ la curva tende a diventare più piatta, inf
 
 ### Variabile casuale normale standardizzata
 
-Una variabile aleatoria normale standard, solitamente denotata con Z, può essere ottenuta da una variabile aleatoria normale non standard $X ∼ N(μ, σ)$ standardizzando, ossia sottraendo il valore medio e dividendo per la deviazione standard: $$Z = \frac{X-\mu}{\sigma}$$ da cui segue $X = μ + σ Z$.
+Una variabile aleatoria normale standard, solitamente denotata con Z, può essere ottenuta da una variabile aleatoria normale non standard $X \sim N(\mu, \sigma)$ standardizzando, ossia sottraendo il valore medio e dividendo per la deviazione standard: $$Z = \frac{X-\mu}{\sigma}$$ da cui segue $X = \mu + \sigma Z$.
 
 Dunque $Z \sim N(0,1)$ è la v.c. *Normale standardizzata,* ossia una normale con valore medio nullo e varianza unitaria, la cui funzione di distribuzione è $\Phi(z)$: $$
 \Phi(z) = 
@@ -289,11 +297,17 @@ La funzione di distribuzione della v.c. *Z* non ammette una formulazione esplici
 
 ### Regola del 3 $\sigma$
 
-Per una qualsiasi variabile aleatoria normale $X ∼ N(μ, σ)$ risulta:
+La regola del 3 sigma, nota anche come regola empirica o regola dei tre sigma, è un concetto statistico che descrive la distribuzione di una variabile casuale normale o gaussiana. La regola afferma che circa il 68% dei dati si trova entro un intervallo di un sigma (standard deviation) dalla media, circa il 95% si trova entro un intervallo di due sigma dalla media, e circa il 99,7% si trova entro un intervallo di tre sigma dalla media.
+
+In altre parole, se si assume che una variabile casuale segua una distribuzione normale, si può aspettare che la maggior parte dei dati si concentri intorno alla media, e che l'ampiezza della distribuzione diminuisca man mano che ci si allontana dalla media. Il valore di sigma rappresenta la dispersione dei dati attorno alla media, e una maggiore dispersione indica una distribuzione più ampia.
+
+La regola del 3 sigma può essere utile per la valutazione della precisione di una misura o per la rilevazione di eventuali valori anomali nella distribuzione dei dati. Ad esempio, se si osserva un valore che si trova a più di tre sigma dalla media, potrebbe essere considerato come un valore anomalo o "outlier" che richiede ulteriori indagini.
+
+Per una qualsiasi variabile aleatoria normale $X \sim N(\mu, \sigma)$ risulta:
 
 $$P(\mu - 3\sigma < X < \mu + 3\sigma) = P(-3 < \frac{X-\mu}{\sigma} < 3)= P(-3 < Z <3)=0.99$$
 
-Quindi la probabilità che una variabile aleatoria $X ∼ N(μ, σ)$ assuma valori in un intervallo avente come centro $μ$ e semiampiezza $3σ$ è prossima all'unità. Questa proprietà delle variabili aleatorie normali è nota come regola del $3σ$.
+Quindi la probabilità che una variabile aleatoria $X \sim N(\mu, \sigma)$ assuma valori in un intervallo avente come centro $\mu$ e semiampiezza $3\sigma$ è prossima all'unità. Questa proprietà delle variabili aleatorie normali è nota come regola del $3\sigma$.
 
 Per un ulteriore dimostrazione sostituiamo i valori dell'espressione con $\mu =0$ e $\sigma=1$:
 
@@ -320,10 +334,6 @@ Per ottenere informazioni sui parametri non noti della popolazione, si può fare
 
 Nei metodi di indagine dell'inferenza statistica si considera *un **campione casuale*** $X_1,X_2, ...,X_n$ *di ampiezza* $n$ *se le variabili aleatorie del vettore sono osservabili, indipendenti e identicamente distribuite (iid) con la stessa legge di probabilità della popolazione* (ossia costituiscono delle osservazioni di X) e si cerca di ottenere informazioni sui parametri non noti facendo uso di alcune variabili aleatorie, che sono funzioni misurabili del campione casuale, dette *statistiche* e *stimatori*.
 
-Una **statistica** $t(X_1,X_2, . . . ,X_n)$ è una funzione misurabile e osservabile del campione casuale $X_1,X_2, . . . ,X_n$. Essendo la statistica osservabile, i valori da essa assunti dipendono soltanto dal campione osservato $(x_1, x_2, ..., x_n)$ estratto dalla popolazione e i parametri non noti sono presenti soltanto nella funzione di distribuzione della statistica.
-
-Uno **stimatore** $\hat\Theta = t(X_1,X_2, . . . ,X_n)$ è una funzione misurabile e osservabile del campione casuale $X_1,X_2, . . . ,X_n$ i cui valori possono essere usati per stimare un parametro non noto $\theta$ della popolazione. I valori $\hat\theta$ assunti da tale stimatore sono detti stime del parametro non noto $\theta$.
-
 **Ogni volta che una statistica campionaria è usata per stimare un parametro, viene chiamata stimatore**.
 
 Statistiche tipiche sono la media campionaria e la varianza campionaria.
@@ -332,7 +342,7 @@ Statistiche tipiche sono la media campionaria e la varianza campionaria.
 
 $$\overline X = \frac{1}{n}\sum_{i=1}^n X_i$$
 
-**La varianza campionaria è:**
+**Varianza campionaria è:**
 
 $$S^2 = \frac{1}{n-1} \sum^n_{i=1}(X_i - \overline X)^2$$
 
@@ -378,17 +388,17 @@ In ogni caso, è importante valutare sempre la validità e l'accuratezza degli s
 
 ##### Metodo dei momenti per una popolazione normale
 
-Si è interessati a determinare con il metodo dei momenti gli stimatori dei parametri $μ$ e $σ^2$ di una popolazione normale descritta da una variabile aleatoria $X ∼ N(μ, σ)$ di densità di probabilità:
+Si è interessati a determinare con il metodo dei momenti gli stimatori dei parametri $\mu$ e $\sigma^2$ di una popolazione normale descritta da una variabile aleatoria $X \sim N(\mu, \sigma)$ di densità di probabilità:
 
-$$f_x(x)=\frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}$$ con $(x∈R, \mu∈R,\sigma>0)$.
+$$f_x(x)=\frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}$$ con $(x\in R, \mu \in R,\sigma>0)$.
 
-Occorre quindi stimare due parametri $μ$ e $σ^2$. Poiché $E(X) = μ$ e $E(X^2) =σ^2 + μ^2$, si ha:
+Occorre quindi stimare due parametri $\mu$ e $\sigma^2$. Poiché $E(X) = \mu$ e $E(X^2) =\sigma^2 + \mu^2$, si ha:
 
 $\hat\mu=\frac{x_1,x_2,...,x_n}{n}$, $\hat{\sigma^2} + \hat{\mu^2}=\frac{x_1^2+x_2^2+...+x_n^2}{n}$ da cui si ricava:
 
 $$\hat{\sigma^2} = \frac{x_1^2+x_2^2+...+x^2_n}{n}-\frac{(x_1+x_2+...+x_n)^2}{n^2}=\frac{1}{n}[\sum^n_{i=1}x_1^2-\overline x\sum^n_{i=1}x_i]=\frac{1}{n}\sum^n_{i=1}(x_i-\overline x)^2=\frac{(n-1)s^2}{n}$$
 
-Il metodo dei momenti fornisce quindi come stimatore del valore medio $μ$ la media campionaria $\overline X$ e come stimatore della varianza $σ^2$ la variabile aleatoria $\frac{(n − 1)S^2}{n}$.
+Il metodo dei momenti fornisce quindi come stimatore del valore medio $\mu$ la media campionaria $\overline X$ e come stimatore della varianza $\sigma^2$ la variabile aleatoria $\frac{(n-1)S^2}{n}$.
 
 Nel seguente chunk illustreremo quando dimostrato, utilizzeremo il nostro dataset *mpg*:
 
@@ -406,7 +416,7 @@ stimasigma2
 
 ```
 
-la stima del parametro $μ$ con il metodo dei momenti è $\hatμ = 23.44017$ e la stima del parametro $σ^2$ con il metodo dei momenti è $\hat{σ^2} = 35.30625$.
+la stima del parametro $\mu$ con il metodo dei momenti è $\hat \mu = 23.44017$ e la stima del parametro $\sigma^2$ con il metodo dei momenti è $\hat{\sigma^2} = 35.30625$.
 
 #### Metodo della massima verosimiglianza
 
@@ -436,29 +446,29 @@ Come per qualsiasi metodo di stima, è importante valutare sempre la validità e
 
 ##### Metodo della massima verosimiglianza per una **popolazione normale**
 
-Si desidera determinare lo stimatore di massima verosimiglianza dei parametri $μ$ e $σ^2$ di una popolazione normale caratterizzata da funzione densità di probabilità:
+Si desidera determinare lo stimatore di massima verosimiglianza dei parametri $\mu$ e $\sigma^2$ di una popolazione normale caratterizzata da funzione densità di probabilità:
 
-$$f_X(x) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}$$ con $(x∈R,μ∈R,σ>0)$, si ha:
+$$f_X(x) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}$$ con $(x \in R,\mu \in R,\sigma>0)$, si ha:
 
 $$L(\mu,\sigma^2)=(\frac{1}{\sqrt{2\pi\sigma^2}})^n e^{-\sum^n_{i=1}\frac{(x_i-\mu)^2}{2\sigma^2}}$$
 
-con $(\mu∈R,\sigma>0)$
+con $(\mu \in R,\sigma>0)$
 
-dove le $x_i∈R$. Si nota che:
+dove le $x_i \in R$. Si nota che:
 
 $$logL(\mu,\sigma^2) = -\frac{n}{2}log\sigma^2-\frac{n}{2}log(2\pi)-\frac{1}{2\sigma^2}\sum^n_{i=1}(x_i-\mu)^2$$
 
-con $(\mu∈R,\sigma>0)$ e quindi si ha:
+con $(\mu \in R,\sigma>0)$ e quindi si ha:
 
 $\frac{\partial logL(\mu,\sigma^2)}{\partial \mu} = \frac{1}{\sigma^2}\sum^n_{i=1}(x_i-\mu)=\frac{n}{\sigma^2}(\frac{1}{n}\sum^n_{i=1}x_i-\mu)$
 
 $\frac{\partial logL(\mu,\sigma^2)}{\partial \sigma^2} = -\frac{n}{2\sigma^4}(\sigma^2-\frac{1}{n}\sum^n_{i=1}(x_i-\mu)^2)$
 
-Le stime di massima verosimiglianza dei parametri $μ$ e $σ^2$ sono rispettivamente:
+Le stime di massima verosimiglianza dei parametri $\mu$ e $\sigma^2$ sono rispettivamente:
 
 $\hat\mu=\frac{1}{n}\sum^n_{i=1}x_i$ $\hat{\sigma^2}=\frac{1}{n}\sum^n_{i=1}(x_i-\hat\mu)^2$
 
-Lo stimatore di massima verosimiglianza e dei momenti del valore medio $μ$ è la media campionaria $\overline X$. Invece lo stimatore di massima verosimiglianza e dei momenti della varianza $σ^2$ è $(n − 1)S^2/n$.
+Lo stimatore di massima verosimiglianza e dei momenti del valore medio $\mu$ è la media campionaria $\overline X$. Invece lo stimatore di massima verosimiglianza e dei momenti della varianza $\sigma^2$ è $(n-1)S^2/n$.
 
 ##### Proprietà degli stimatori
 
@@ -476,7 +486,7 @@ In generale esistono molti stimatori che possono essere utilizzati per stimare i
 
 ##### Stimatore corretto
 
-**Definizione**:Uno **stimatore** $\hat \Theta= t(X_1,X_2, . . . ,X_n)$ del parametro non noto $\theta$ della popolazione è detto **corretto** (non distorto) se e solo se per ogni $\theta ∈ \Theta$ si ha:
+**Definizione**:Uno **stimatore** $\hat \Theta= t(X_1,X_2, . . . ,X_n)$ del parametro non noto $\theta$ della popolazione è detto **corretto** (non distorto) se e solo se per ogni $\theta \in \Theta$ si ha:
 
 $$E(\hat \Theta) = \theta$$
 
@@ -500,23 +510,23 @@ In generale, dati due possibili stimatori corretti $\hat \Theta_1$ e $\hat \Thet
 
 ##### Stimatore corretto con varianza uniformemente minima
 
-Uno stimatore $\hat \Theta$ si dice corretto con varianza uniformemente minima per il parametro non noto $\theta$ se e solo se per ogni $\theta ∈ \Theta$ risulta:
+Uno stimatore $\hat \Theta$ si dice corretto con varianza uniformemente minima per il parametro non noto $\theta$ se e solo se per ogni $\theta \in \Theta$ risulta:
 
-$$E(\hat\Theta) = \theta \\Var(\hat \Theta) ≤ Var(*)$$
+$$E(\hat\Theta) = \theta \\Var(\hat \Theta) \leq Var(*)$$
 
-per ogni altro stimatore ⋆ corretto del parametro $ϑ$.
+per ogni altro stimatore $\ast$ corretto del parametro $\theta$.
 
 ###### Disuguaglianza di Cramér--Rao
 
-Sia $\hat \Theta = t(X_1, X_2, ..., X_n)$ uno stimatore corretto del parametro non noto $ϑ$ di una popolazione caratterizzata da funzione di probabilità (nel caso discreto) oppure densità di probabilità (nel caso assolutamente continuo) $f(x; ϑ)$. Se sono soddisfatte le seguenti ipotesi:
+Sia $\hat \Theta = t(X_1, X_2, ..., X_n)$ uno stimatore corretto del parametro non noto $\theta$ di una popolazione caratterizzata da funzione di probabilità (nel caso discreto) oppure densità di probabilità (nel caso assolutamente continuo) $f(x; \theta)$. Se sono soddisfatte le seguenti ipotesi:
 
 $$
-\frac{\partial}{\partial \theta} log f(x;\theta) \ esiste \ per \ ogni \ x \ e \ per \ ogni\ \theta ∈ \Theta \\ E\{ [\frac{\partial}{\partial \theta} logf(X;\theta)]^2 \} \ esiste \ finito \ per \ ogni \ \theta ∈ \Theta$$
+\frac{\partial}{\partial \theta} log f(x;\theta) \ esiste \ per \ ogni \ x \ e \ per \ ogni\ \theta \in \Theta \\ E\{ [\frac{\partial}{\partial \theta} logf(X;\theta)]^2 \} \ esiste \ finito \ per \ ogni \ \theta \in \Theta$$
 
 la varianza dello stimatore $\hat \Theta$ soddisfa la disuguaglianza:
 
 $$
-Var(\hat \Theta) ≥ \frac{1}{nE\{ [\frac{\partial}{\partial \theta} log f(X;\theta)]^2\}}$$
+Var(\hat \Theta) \geq \frac{1}{nE\{ [\frac{\partial}{\partial \theta} log f(X;\theta)]^2\}}$$
 
 Si noti che la disuguaglianza di Cramér--Rao individua l'estremo inferiore della varianza di uno stimatore corretto, ma non implica che esista sempre uno stimatore con varianza uguale al suo estremo.
 
@@ -525,11 +535,11 @@ Dunque se:
 $$
 Var(\hat \Theta) = \frac{1}{nE\{ [\frac{\partial}{\partial \theta} log f(X;\theta)]^2\}}$$
 
-allora $\hat \Theta$ è uno stimatore corretto con varianza uniformemente minima per il parametro $ϑ$.
+allora $\hat \Theta$ è uno stimatore corretto con varianza uniformemente minima per il parametro $\theta$.
 
 **Stimatore corretto con varianza uniformemente minima per una popolazione normale**
 
-Si desidera verificare che $X$ sia uno stimatore corretto con varianza uniformemente minima del valore medio $E(X) = μ$ di una popolazione normale descritta da una variabile aleatoria $X ∼ N(μ, σ)$ avente varianza nota $\sigma^2$.
+Si desidera verificare che $X$ sia uno stimatore corretto con varianza uniformemente minima del valore medio $E(X) = \mu$ di una popolazione normale descritta da una variabile aleatoria $X \sim N(\mu, \sigma)$ avente varianza nota $\sigma^2$.
 
 La densità di probabilità che caratterizza la popolazione è:
 
@@ -537,9 +547,9 @@ $$
 f_X(x)=\frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}
 $$
 
-con $x∈R,\mu∈R,\sigma>0$
+con $x \in R,\mu \in R,\sigma>0$
 
-Poiché $E(X) = μ$, il parametro da stimare è $\theta = μ$. Osserviamo che: $$logf(x;\mu)=-log(\sigma\sqrt{2\pi})-\frac{(x-\mu)^2}{2\sigma^2}$$
+Poiché $E(X) = \mu$, il parametro da stimare è $\theta = \mu$. Osserviamo che: $$logf(x;\mu)=-log(\sigma\sqrt{2\pi})-\frac{(x-\mu)^2}{2\sigma^2}$$
 
 e quindi:
 
@@ -549,7 +559,7 @@ $$E{[\frac{\partial}{\partial\mu}logf(X;\mu)]^2}=E[(\frac{x-\mu}{\sigma^2})^2]=\
 
 $Var(\overline X)=\frac{\sigma^2}{n}$, $\frac{1}{n\frac{1}{\sigma^2}}=\frac{\sigma^2}{n}$
 
-segue quindi che $X$ è uno stimatore corretto con varianza uniformemente minima del valore medio $μ$ di una popolazione normale con varianza nota $\sigma^2$.
+**segue quindi che** $\overline X$ **è uno stimatore corretto con varianza uniformemente minima del valore medio** $\mu$ **di una popolazione normale con varianza nota** $\sigma^2$**.**
 
 Occorre sottolineare che la media campionaria $\overline X$ non è sempre uno stimatore corretto con varianza uniformemente minima del valore medio di una specifica popolazione.
 
@@ -557,15 +567,29 @@ Per campioni di grande ampiezza alcune proprietà asintotica di uno stimatore so
 
 ##### Stimatore asintoticamente corretto
 
-Uno stimatore $\hat \Theta_n = t(X_1,X_2, . . . ,X_n)$ del parametro non noto $\theta$ della popolazione è detto **asintoticamente corretto** (asintoticamente non distorto) se e solo se per ogni $\theta∈\Theta$ si ha:
+Uno stimatore $\hat \Theta_n = t(X_1,X_2, . . . ,X_n)$ del parametro non noto $\theta$ della popolazione è detto **asintoticamente corretto** (asintoticamente non distorto) se e solo se per ogni $\theta \in \Theta$ si ha:
 
-$$lim_{n->+\infty} E(\hat \Theta_n)=\theta$$ ossia se il valore medio dello stimatore $\Theta_n$ tende al crescere dell'ampiezza del campione casuale al corrispondente parametro non noto della popolazione.
+$$\lim_{n->+\infty} E(\hat \Theta_n)=\theta$$ ossia se il valore medio dello stimatore $\Theta_n$ tende al crescere dell'ampiezza del campione casuale al corrispondente parametro non noto della popolazione.
+
+**Stimatore asintoticamente corretto della varianza per una popolazione normale**
+
+Si desidera verificare che:
+
+$$\hat \Theta_n = \frac{n-1}{n}S^2 = \frac{1}{n} \sum^n_{i=1}(X_i - \overline X)^2$$
+
+è uno stimatore asintoticamente corretto della varianza $\sigma^2$ di una popolazione.
+
+Ricordando che $E(S^2) = \sigma^2$, si ottiene immediatamente:
+
+$$\lim_{n \to \infty}E(\hat \Theta_n) = \lim_{n\to\infty} \frac{n-1}{n}E(S^2)=\sigma^2$$
+
+**Dunque, per una popolazione normale lo stimatore** $(n-1)S^2/n$ **della varianza** $\sigma^2$**, individuato sia con il metodo dei momenti che con il metodo della massima verosimiglianza, è asintoticamente corretto.**
 
 ##### Stimatore consistente
 
-Uno stimatore $\hat \Theta_n = t(X_1,X_2,...,X_n)$ del parametro non noto $\theta$ della popolazione è detto **consistente** se e solo se per ogni $∈>0$ si ha:
+Uno stimatore $\hat \Theta_n = t(X_1,X_2,...,X_n)$ del parametro non noto $\theta$ della popolazione è detto **consistente** se e solo se per ogni $\in >0$ si ha:
 
-$$lim_{n \to + \inf} P(|\hat \Theta_n - \theta|<∈) =1$$
+$$\lim_{n \to + \infty} P(|\hat \Theta_n - \theta|< \in) =1$$
 
 ossia se e solo se $\hat \Theta_n$ converge in probabilità a $\theta$.
 
@@ -573,11 +597,11 @@ Infatti, se si verifica che all'aumentare di $n$ cresce la probabilità che il p
 
 In particolare se:
 
-$$lim_{n\to inf} E(\hat \Theta_n)=\theta \\lim_{n \to +inf} Var(\hat \Theta_n)=0$$
+$$\lim_{n\to \infty} E(\hat \Theta_n)=\theta \\ \lim_{n \to \infty} Var(\hat \Theta_n)=0$$
 
 Quindi, una condizione sufficiente affinché lo stimatore sia consistente è che sia asintoticamente corretto e la sua varianza tende a zero al crescere del campione; da notare che uno stimatore può essere consistente senza essere asintoticamente corretto.
 
-Un metodo molto utilizzato per la scelta di uno stimatore è invece il **Best Linear Unbiased Estimator (BLUE)**, che consiste nella scelta nella classe degli stimatori lineari corretti di $θ$ di quello che presenta la varianza campionaria minima
+Un metodo molto utilizzato per la scelta di uno stimatore è invece il **Best Linear Unbiased Estimator (BLUE)**, che consiste nella scelta nella classe degli stimatori lineari corretti di $\theta$ di quello che presenta la varianza campionaria minima
 
 ## Intervalli di confidenza
 
@@ -587,13 +611,13 @@ Sia $X_1, X_2, ..., X_n$ un campione casuale di ampiezza $n$ estratto da una pop
 
 Denotiamo con $Cn = g_1(X_1,X_2, . . . ,X_n)$ e con $\overline Cn = g_2(X_1,X_2, . . . ,X_n)$ due statistiche (funzioni osservabili del campione casuale) che soddisfino la condizione $Cn < \overline Cn$, cioè che godono della proprietà che per ogni possibile fissato campione osservato $x = (x_1, x_2, ..., x_n)$ risulti $g_1(x) < g_2(x)$.
 
-Fissato un coefficiente di confidenza $1 − α$ $(0 < α < 1)$, è utile scegliere le statistiche $Cn$ e $\overline Cn$ in modo tale che
+Fissato un coefficiente di confidenza $1-\alpha$ $\ (0 < \alpha < 1)$, è utile scegliere le statistiche $Cn$ e $\overline Cn$ in modo tale che
 
-$$P (Cn < ϑ < \overline Cn) = 1 − α$$
+$$P (Cn < \theta < \overline Cn) = 1-\alpha$$
 
-allora si dice che $(Cn,\overline Cn)$ è un intervallo di confidenza (intervallo di fiducia) di grado $1 − α$ per $\theta$. Inoltre, le statistiche $Cn$ e $\overline Cn$ sono dette limite inferiore e superiore dell'intervallo di confidenza.
+allora si dice che $(Cn,\overline Cn)$ è un intervallo di confidenza (intervallo di fiducia) di grado $1-\alpha$ per $\theta$. Inoltre, le statistiche $Cn$ e $\overline Cn$ sono dette limite inferiore e superiore dell'intervallo di confidenza.
 
-Se $g_1(x)$ e $g_2(x)$ sono i valori assunti dalle statistiche $Cn$ e $\overline Cn$ per il campione osservato $x = (x_1, x_2, . . . , x_n)$, allora l'intervallo $(g_1(x),g_2(x))$ è detto stima dell'intervallo di confidenza di grado $1 − \alpha$ per $\theta$ ed i punti finali $g_1(x)$ e $g_2(x)$ di tale intervallo sono detti rispettivamente stima del limite inferiore e stima del limite superiore dell'intervallo di confidenza.
+Se $g_1(x)$ e $g_2(x)$ sono i valori assunti dalle statistiche $Cn$ e $\overline Cn$ per il campione osservato $x = (x_1, x_2, . . . , x_n)$, allora l'intervallo $(g_1(x),g_2(x))$ è detto stima dell'intervallo di confidenza di grado $1-\alpha$ per $\theta$ ed i punti finali $g_1(x)$ e $g_2(x)$ di tale intervallo sono detti rispettivamente stima del limite inferiore e stima del limite superiore dell'intervallo di confidenza.
 
 ### Metodo pivotale
 
@@ -603,7 +627,7 @@ Un metodo per la costruzione degli intervalli di confidenza è il metodo pivotal
 
 -   dipende dal parametro non noto $\theta$ della popolazione;
 
--   la sua funzione di distribuzione non contiene il parametro $ϑ$ da stimare;
+-   la sua funzione di distribuzione non contiene il parametro $\theta$ da stimare;
 
 Se sono verificate tali ipotesi allora la variabile può essere interpretata come una variabile aleatoria di pivot
 
@@ -611,19 +635,19 @@ Il principale vantaggio del metodo pivotale è che esso è valido per un'ampia g
 
 ##### Popolazione normale
 
-Sia $X = N(μ, σ)$ una variabile casuale aleatoria con valore medio $μ$ e varianza $σ^2$.
+Sia $X = N(\mu, \sigma)$ una variabile casuale aleatoria con valore medio $\mu$ e varianza $\sigma^2$.
 
 Si possono analizzare i seguenti problemi:
 
--   determinare un intervallo di confidenza di grado $1 − α$ per il valore medio $μ$ nel caso in cui la varianza $σ^2$ della popolazione normale è nota;
+-   determinare un intervallo di confidenza di grado $1-\alpha$ per il valore medio $\mu$ nel caso in cui la varianza $\sigma^2$ della popolazione normale è nota;
 
--   determinare un intervallo di confidenza di grado $1 − α$ per il valore medio $μ$ nel caso in cui la varianza della popolazione normale è non nota;
+-   determinare un intervallo di confidenza di grado $1-\alpha$ per il valore medio $\mu$ nel caso in cui la varianza della popolazione normale è non nota;
 
--   determinare un intervallo di confidenza di grado $1 − α$ per la varianza $σ^2$ nel caso in cui il valore medio $μ$ della popolazione normale è noto;
+-   determinare un intervallo di confidenza di grado $1-\alpha$ per la varianza $\sigma^2$ nel caso in cui il valore medio $\mu$ della popolazione normale è noto;
 
--   determinare un intervallo di confidenza di grado $1 − α$ per la varianza $σ^2$ nel caso in cui il valore medio della popolazione normale è non noto.
+-   determinare un intervallo di confidenza di grado $1-alpha$ per la varianza $\sigma^2$ nel caso in cui il valore medio della popolazione normale è non noto.
 
-##### **Intervallo di confidenza per** $μ$ **con** $σ^2$ **nota**
+##### **Intervallo di confidenza per** $\mu$ **con** $\sigma^2$ **nota**
 
 consideriamo la variabile aleatoria:
 
@@ -631,19 +655,19 @@ $$Z_n = \frac{\overline X_n - \mu}{\sigma / \sqrt n}$$
 
 $Zn$ può essere interpretata come una variabile aleatoria di pivot.
 
-Scegliendo $α_1 = −z_{α/2}$ e $α_2 = z_{α/2}$ si ha:
+Scegliendo $\alpha_1 = -z_{\alpha/2}$ e $\alpha_2 = z_{\alpha/2}$ si ha:
 
 $$
-P(−z_{α/2} < Z_n < z_{α/2})= 1 − α.
+P(-z_{\alpha/2} < Z_n < z_{\alpha/2})= 1-\alpha.
 $$
 
 Effettuando le sostituzioni si ottiene:
 
 $$
-P(X_n − z_{α/2\frac{σ}{√n}}< μ < X_n + z_{α/2\frac{σ}{√n}})= 1 − α.
+P(X_n-z_{\alpha/2\frac{\sigma}{\sqrt n}}< \mu < X_n + z_{\alpha/2\frac{\sigma}{\sqrt n}})= 1-\alpha.
 $$
 
-Ponendo $C_n = X_n - z_{\alpha/2\frac{\sigma}{\sqrt n}}$ e $\overline C_n = X_n + z_{\alpha/2\frac{\sigma}{\sqrt n}}$ si ha una stima dell'intervallo di confidenza di grado $1 − α$ per il valore medio $μ$ :
+Ponendo $C_n = X_n - z_{\alpha/2\frac{\sigma}{\sqrt n}}$ e $\overline C_n = X_n + z_{\alpha/2\frac{\sigma}{\sqrt n}}$ si ha una stima dell'intervallo di confidenza di grado $1-\alpha$ per il valore medio $\mu$ :
 
 $$
 C_n < \mu < \overline C_n
@@ -658,7 +682,7 @@ mean(mpg$hwy)
 
 ```
 
-Calcoliamo l'intervallo di confidenza di grado $1-alpha = 0.90$ nel quale dovrebbe essere compreso tale valore, supponendo che la popolazione da cui proviene il campione sia normale con deviazione standard nota $\sigma^2 = 4 \ m^2$:
+Calcoliamo l'intervallo di confidenza di grado $1- \alpha = 0.90$ nel quale dovrebbe essere compreso tale valore, supponendo che la popolazione da cui proviene il campione sia normale con deviazione standard nota $\sigma^2 = 4 \ m^2$:
 
 ```{r}
 alpha <- 1-0.90
@@ -676,7 +700,7 @@ mean(mpg$hwy)+qnorm (1- alpha /2, mean=0, sd =1) *4/ sqrt(n)
 
 La stima dell'intervallo di confidenza di grado $1 - \alpha = 0.90$ è (23.01, 23.87) possiamo notare che la media campionaria è compresa in tale intervallo.
 
-##### Intervallo di confidenza per $μ$ con $\sigma^2$ non nota
+##### Intervallo di confidenza per $\mu$ con $\sigma^2$ non nota
 
 Consideriamo la variabile aleatoria di pivot:
 
@@ -688,13 +712,13 @@ $$
 S^2_n = \frac{1}{n-1}\sum_{i=1}^n(X_i - \overline X_n)^2
 $$
 
-Scegliendo $α_1 = −t_{α/2,n−1}$ e $α_2 = t_{α/2,n−1}$ si ha:
+Scegliendo $\alpha_1 =-t_{\alpha/2,n-1}$ e $\alpha_2 = t_{\alpha/2,n-1}$ si ha:
 
 $$
 P(-t_{\alpha/2,n-1} < T_n < t_{\alpha/2,n-1})
 $$
 
-Possiamo dunque dedurre che la stima dell'intervallo di confidenza di grado $1 − α$ per il valore medio $μ$ è:
+Possiamo dunque dedurre che la stima dell'intervallo di confidenza di grado $1-\alpha$ per il valore medio $\mu$ è:
 
 $$ \overline x_n - t_{\alpha/2,n-1}\frac{s_n}{\sqrt n} < \mu < \overline x_n + t_{\alpha/2,n-1}\frac{s_n}{\sqrt n}$$
 
@@ -734,14 +758,14 @@ Consideriamo la variabile aleatoria di pivot:
 
 $$V_n = \sum^n_{i=1}(\frac{X_i - \mu}{\sigma}) ^ 2$$
 
-Scegliendo $α_1 = χ^2_{1−α/2,n}$ e $α_2 = χ^2_{α/2,n}$ si ha:
+Scegliendo $\alpha_1 = \chi^2_{1-\alpha/2,n}$ e $\alpha_2 = \chi^2_{\alpha/2,n}$ si ha:
 
-$$P(χ^2_{1−α/2,n} < V_n < χ^2_{α/2,n}) = 1 - \alpha$$
+$$P(\chi^2_{1-\alpha/2,n} < V_n < \chi^2_{\alpha/2,n}) = 1 - \alpha$$
 
-Pertanto possiamo affermare che la stima dell'intervallo di confidenza di grado $1 − α$ per la varianza $σ^2$ è:
+Pertanto possiamo affermare che la stima dell'intervallo di confidenza di grado $1-\alpha$ per la varianza $\sigma^2$ è:
 
 $$
-\frac{(n-1)s^2_n + n(\overline x_n - \mu)^2}{χ^2_{α/2,n}} < \sigma^2 < \frac{(n-1)s^2_n + n(\overline x_n - \mu)^2}{χ^2_{1-α/2,n}}$$
+\frac{(n-1)s^2_n + n(\overline x_n - \mu)^2}{\chi^2_{\alpha/2,n}} < \sigma^2 < \frac{(n-1)s^2_n + n(\overline x_n - \mu)^2}{\chi^2_{1-\alpha/2,n}}$$
 
 dove $\overline x_n$ è la media campionaria e $s_n^2$ è la varianza campionaria.
 
@@ -756,7 +780,7 @@ var(mpg$hwy)
 
 ```
 
-Supponiamo che il peso sia distribuito normalmente con valore medio $μ = 23 \ gr$ e varianza non nota $σ^2$, determiniamo una stima dell'intervallo di confidenza di grado $1−α = 0.90$ per la varianza $σ^2$.
+Supponiamo che il peso sia distribuito normalmente con valore medio $\mu = 23 \ gr$ e varianza non nota $\sigma^2$, determiniamo una stima dell'intervallo di confidenza di grado $1-\alpha = 0.90$ per la varianza $\sigma^2$.
 
 ```{r}
 n <- length(mpg$hwy)
@@ -774,7 +798,7 @@ x_2 <- qchisq(1-alpha/2, df=n)
 
 ```
 
-La stima dell'intervallo di confidenza di grado $1 − α = 0.90$ per la varianza della popolazione normale è quindi (30.69, 41.62).
+La stima dell'intervallo di confidenza di grado $1-\alpha = 0.90$ per la varianza della popolazione normale è quindi (30.69, 41.62).
 
 ##### Intervallo di confidenza per $\sigma^2$ con $\mu$ non noto
 
@@ -782,13 +806,13 @@ Consideriamo la variabile aleatoria di pivot:
 
 $$Q_n = \frac{(n-1)S^2_n}{\sigma^2}$$
 
-Scegliendo $α_1 = χ^2_{1−α/2,n−1}$ e $α_2 = χ^2_{α/2,n−1}$ si ha:
+Scegliendo $\alpha_1 = \chi^2_{1-\alpha/2,n-1}$ e $\alpha_2 = \chi^2_{\alpha/2,n-1}$ si ha:
 
-$$P(χ^2_{1−α/2,n−1} < Q_n < χ^2_{α/2,n−1}) = 1 - \alpha$$
+$$P(\chi^2_{1-\alpha/2,n-1} < Q_n < \chi^2_{\alpha/2,n-1}) = 1 - \alpha$$
 
-Osservando le precedenti disuguaglianze possiamo affermare che la stima dell'intervallo di confidenza di grado $1 − α$ per la varianza $σ^2$ è:
+Osservando le precedenti disuguaglianze possiamo affermare che la stima dell'intervallo di confidenza di grado $1-\alpha$ per la varianza $\sigma^2$ è:
 
-$$\frac{(n-1)s^2_n}{χ^2_{α/2,n−1}} < \sigma^2 < \frac{(n-1)s^2_n}{χ^2_{1−α/2,n−1}}$$
+$$\frac{(n-1)s^2_n}{\chi^2_{\alpha/2,n-1}} < \sigma^2 < \frac{(n-1)s^2_n}{\chi^2_{1-\alpha/2,n-1}}$$
 
 dove $s_n^2$ è la varianza campionaria.
 
@@ -823,103 +847,28 @@ x_4 <- qchisq(1-alpha/2, df=n-1)
 
 La stima dell'intervallo di confidenza di grado $1 - \alpha = 0.90$ per la varianza della popolazione normale è (30.64, 41.58).
 
-## Intervalli di fiducia approssimati
-
-Utilizzando il teorema centrale di convergenza costruiamo degli intervalli di confidenza approssimati per campioni di dimensioni elevate.
-
-Se la dimensione del campione è elevata $(n ≥ 30)$ è possibile utilizzare il teorema centrale di convergenza per determinare un intervallo di confidenza di grado $1−α$ per il parametro non noto $\theta$ di una popolazione.
-
-Data la variabile aleatoria che descrive la popolazione $X \sim (\mu, \sigma^2)$, il teorema centrale di convergenza afferma che la variabile:
-
-$$Z_n = \frac{\overline X_n - \mu}{\sigma / \sqrt n} \stackrel {d}{\to} Z$$
-
-converge in distribuzione ad una variabile aleatoria normale standard.
-
-Se il valore medio $E(X) = μ$ e $Var(X) = σ^2$ dipendono da un parametro non noto $\theta$ della popolazione, possiamo affermare che la variabile aleatoria $Z_n$ può essere interpretata come una variabile aleatoria di pivot.
-
-Pertanto, per campioni di ampiezza elevata possiamo applicare il metodo pivotale in forma approssimata, ossia:
-
-$$P(-z_{\alpha/2} < \frac{\overline X_n - \mu}{\sigma \sqrt n} < z_{\alpha/2}) \simeq 1 - \alpha$$
-
-#### Confronto tra due popolazioni normali
-
-Siano $X_1,X_2, . . . ,X_{n1}$ e $Y_1, Y_2, . . . , Y_{n2}$ due campioni casuali indipendenti di ampiezza $n_1$ e $n_2$ estratti rispettivamente da due popolazioni normali $X ∼ N(μ_1, σ_1)$ e $Y ∼ N(μ_2, σ_2)$. Vogliamo analizzare i seguenti problemi:
-
--   determinare un intervallo di confidenza di grado $1 − α$ per $μ_1 − μ_2$ quando entrambe le varianze $σ_1^2$ e $σ_2^2$ sono note;
-
--   determinare un intervallo di confidenza di grado $1−α$ per $μ_1 −μ_2$ quando le varianze $σ_1^2$ e $σ_2^2$ sono non note per campioni numerosi estratti dalle due popolazioni.
-
-##### Intervallo di confidenza per $μ_1 − μ_2$ con $σ_1^2$ e $σ_2^2$ note
-
-Le medie campionarie delle due popolazioni normali sono:
-
-$\overline X_{n1} = \frac{1}{n_1}\sum^{n_1}_{i=1}X_i$ e $\overline Y_{n2} = \frac{1}{n2}\sum^{n2}_{i=1} Y_i$ per ipotesi i campioni casuali $X_1,X_2, . . . ,X_{n1}$ e $Y_1, Y_2, . . . , Y_{n2}$ sono indipendenti pertanto la statistica $\overline X_{n1} − \overline Y_{n2}$ è distribuita normalmente con valore medio e varianza rispettivamente: $E(\overline X_{n1} − \overline Y_{n2}) = \mu_1 - \mu_2$ e $Var(\overline X_{n1} − \overline Y_{n2})=\frac{\sigma^2_1}{n_1}+\frac{\sigma^2_2}{n_2}$ ottenute ricordando la proprietà di linearità del valore medio e le proprietà della varianza per combinazioni lineari di variabili aleatorie indipendenti.
-
-Per determinare un intervallo di confidenza di grado $1 − α$ per $μ_1 − μ_2$ quando entrambe le varianze $σ_1^2$ e $σ_2^2$ delle due popolazioni normali sono note, consideriamo la variabile aleatoria di pivot:
-
-$$Z_n = \frac{\overline X_n - \overline Y_n - (\mu_1 - \mu_2)}{\sqrt{ \frac{\sigma^2_1}{n_1}+\frac{\sigma^2_2}{n_2}}}$$
-
-utilizzando il metodo pivotale si ha: $P(-z_{\alpha/2} < \frac{\overline X_{n1} - \overline Y_{n2} - (\mu_1-\mu_2)}{\sqrt{\frac{\sigma^2_1}{n_1} + \frac{\sigma^2_2}{n_2}}} < z_{\alpha/2}) = 1 - \alpha$
-
-La stima dell'intervallo di confidenza di grado $1 − α$ per la differenza tra le due medie $μ_1 − μ_2$ è: $$\overline x_{n1} - \overline y_{n2} - z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma^2_2}{n_2}} < \mu_1 - \mu_2 < \overline x_{n1} - \overline y_{n2} + z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma^2_2}{n_2}}$$
-
-dove $\overline x_n$ e $\overline y_n$ sono le medie campionarie.
-
-Nell'esempio seguente determiniamo la stima dell'intervallo di confidenza di grado $1−α = 0.90$ della differenza tra i consumi medi $μ1 −μ2$ di carburante delle auto raccolte nel dataset *mpg*.
-
-```{r}
-alpha <- 1-0.90
-z_1 <- qnorm(1-alpha/2, mean=0, sd=1)
-
-n1 <-length(mpg$hwy)
-n2 <-length(mpg$cty)
-m1 <-mean(mpg$hwy)
-m2 <-mean(mpg$cty)
-sigma1 <- sd(mpg$hwy)
-sigma2 <- sd(mpg$cty)
-
-#limite inferiore
-m1-m2-qnorm(1-alpha/2, mean=0, sd=1)*sqrt(sigma1^2/n1+ sigma2^2/n2)
-
-#limite superiore
-m1-m2+qnorm(1-alpha/2, mean=0, sd=1)*sqrt(sigma1^2/n1+ sigma2^2/n2)
-
-```
-
-La stima dell'intervallo di confidenza di grado $1−α = 0.90$ per la differenza dei consumi medi $μ1 − μ2$ delle auto è $(5.79, 7.37)$; possiamo osservare che il valore risultante della differenza tra le media campionarie rientra nell'intervallo, infatti è pari a: $23.44 - 16.86=6.58$.
-
-Poichè il limite inferiore e il limite superiore sono positivi, si può dedurre che il consumo di carburante in autostrada è più alto rispetto al consumo di carburante in città con un grado di fiducia del 90%.
-
-##### Intervallo di confidenza per $μ1 − μ2$ con varianze non note
-
-Siano $X_1, X_2, ...,X_{n_1}$ e $Y_1, Y_2, ..., Y_{n_2}$ due campioni osservati indipendenti di ampiezza $n_1$ e $n_2$ estratti rispettivamente da due popolazioni normali $X ∼ N(μ_1, σ_1)$ e $Y ∼ N(μ_2, σ_2)$ le cui varianze sono non note. La stima dell'intervallo di confidenza di grado $1 − α$ per la differenza tra le due medie $μ_1 − μ_2$ è:
-
-$$\overline x_{n1} - \overline y_{n2} - z_{\alpha/2}\sqrt{\frac{s^2_{n1}}{n_1}+ \frac{s^2_{n_2}}{n_2}} < \mu_1- \mu_2 < \overline x_{n1} - \overline y_{n2} + z_{\alpha/2}\sqrt{\frac{s^2_{n1}}{n_1}+ \frac{s^2_{n_2}}{n_2}}$$
-
-dove $\overline x_{n1}$ e $\overline y_{n2}$ denotano le medie campionarie e $s^2_{n1}$ e $s^2_{n2}$ le varianze campionarie.
-
 ## Verifica delle ipotesi con R
 
 L'ipotesi soggetta a verifica è denotata con $H_0$ ed è chiamata ipotesi nulla. Si chiama **test di ipotesi** il procedimento o regola con cui si decide, sulla base dei dati del campione, se accettare o rifiutare $H_0$. La costruzione del test richiede la formulazione, in contrapposizione all'ipotesi nulla, di una proposizione alternativa.
 
-Questa proposizione prende il nome di ipotesi alternativa ed è di solito indicata con $H_1$. L'ipotesi nulla, cioè l'ipotesi soggetta a verifica, si ha quando $\theta ∈ \Theta_{0}$ e l'ipotesi alternativa si ha quando $\theta ∈ \Theta_1$ e si scrive $H_0 : \theta ∈ \Theta_0$, $H_1 : \theta ∈ \Theta_1$, avendo denotato con $\Theta_0$ e $\Theta_1$ due sottoinsiemi disgiunti dello spazio $\Theta$ dei parametri.
+Questa proposizione prende il nome di ipotesi alternativa ed è di solito indicata con $H_1$. L'ipotesi nulla, cioè l'ipotesi soggetta a verifica, si ha quando $\theta \in \Theta_{0}$ e l'ipotesi alternativa si ha quando $\theta \in \Theta_1$ e si scrive $H_0 : \theta \in \Theta_0$, $H_1 : \theta \in \Theta_1$, avendo denotato con $\Theta_0$ e $\Theta_1$ due sottoinsiemi disgiunti dello spazio $\Theta$ dei parametri.
 
-Il problema della verifica delle ipotesi consiste nel determinare un test $\psi$ che permetta di suddividere, mediante opportuni criteri, l'insieme dei possibili campioni, ossia l'insieme delle n--ple $(x_1, x_2, . . . , x_n)$ assumibili dal vettore aleatorio $X_1,X_2, . . . ,X_n$, in due sottoinsiemi: una regione di accettazione A dell'ipotesi nulla ed una regione di rifiuto R dell'ipotesi nulla. Il test $\psi$ può allora essere così formulato: accettare come valida l'ipotesi nulla se il campione osservato $(x_1, x_2, . . . , x_n) ∈ A$ e rifiutare l'ipotesi nulla se $(x_1, x_2, . . . , x_n) ∈ R$. Nel caso si verifichi che l'ipotesi nulla sia falsa, l'ipotesi alternativa sarà vera e viceversa.
+Il problema della verifica delle ipotesi consiste nel determinare un test $\psi$ che permetta di suddividere, mediante opportuni criteri, l'insieme dei possibili campioni, ossia l'insieme delle n--ple $(x_1, x_2, . . . , x_n)$ assumibili dal vettore aleatorio $X_1,X_2, . . . ,X_n$, in due sottoinsiemi: una regione di accettazione A dell'ipotesi nulla ed una regione di rifiuto R dell'ipotesi nulla. Il test $\psi$ può allora essere così formulato: accettare come valida l'ipotesi nulla se il campione osservato $(x_1, x_2, . . . , x_n) \in A$ e rifiutare l'ipotesi nulla se $(x_1, x_2, . . . , x_n) \in R$. Nel caso si verifichi che l'ipotesi nulla sia falsa, l'ipotesi alternativa sarà vera e viceversa.
 
 A causa di tali premesse possiamo incorrere in due tipi di errori:
 
 -   rifiutare l'ipotesi nulla $H_0$ nel caso in cui tale ipotesi sia vera; si dice allora che si commette un errore di tipo I e si denota la probabilità di commettere tale errore con:
 
-    $$\alpha(\theta) = P(rifiutare \ H_0|\theta), \ \theta ∈ \Theta_0$$
+    $$\alpha(\theta) = P(rifiutare \ H_0|\theta), \ \theta \in \Theta_0$$
 
 -   accettare l'ipotesi nulla $H_0$ nel caso in cui tale ipotesi sia falsa; si dice allora che si commette un errore di tipo II e si denota la probabilità di commettere tale errore con:
 
-    $$\beta(\theta) = P(accettare \ H_0|\theta), \ \theta ∈ \Theta_1.$$
+    $$\beta(\theta) = P(accettare \ H_0|\theta), \ \theta \in \Theta_1.$$
 
 Nella seguente tabella sono riassunti tutti i possibili casi:
 
 |             |                                        |                                         |
-|-------------------|--------------------------|---------------------------|
+|------------------|---------------------------|----------------------------|
 |             | Rifiutare $H_0$                        | Accettare $H_0$                         |
 | $H_0$ vera  | Errore del I tipo Probabilità $\alpha$ | Decisione esatta Probabilità $1-\alpha$ |
 | $H_0$ falsa | Decisione esatta Probabilità $1-\beta$ | Errore del II tipo Probabilità $\beta$  |
@@ -939,7 +888,7 @@ Un test bilaterale è il seguente:
 $$
 H_0 : \theta = \theta_0
 \\
-H_1 : \theta ≠ \theta_0
+H_1 : \theta \ne \theta_0
 $$
 
 mentre il test unilaterale sinistro e test unilaterale destro sono rispettivamente i seguenti:
@@ -952,7 +901,7 @@ $$
 
 avendo fissato a priori un livello di significatività $\alpha$.
 
-Le conclusioni dei test statistici unilaterali e bilaterali dipendono dal livello di significatività $α$, scelto a priori dal decisore per verificare l'ipotesi nulla $H_0$.
+Le conclusioni dei test statistici unilaterali e bilaterali dipendono dal livello di significatività $\alpha$, scelto a priori dal decisore per verificare l'ipotesi nulla $H_0$.
 
 ![](images/Significativita.jpg){width="400"}
 
@@ -972,11 +921,11 @@ Il *p-value* è la probabilità, per un'ipotesi supposta vera, di ottenere risul
 
 ![](images/Pvalue-sx.jpg){width="400"}
 
-Ad esempio, se $\alpha = 0.05$, allora *p-value ≥ 0,05* implica che il test non è statisticamente significativo (cioè, può trattarsi di un effetto casuale del campionamento) e l'ipotesi è accettata, mentre *p-value \< 0,05* implica che l'ipotesi è rifiutata ed il test è, più in particolare:
+Ad esempio, se $\alpha = 0.05$, allora $p-value \geq 0,05$ implica che il test non è statisticamente significativo (cioè, può trattarsi di un effetto casuale del campionamento) e l'ipotesi è accettata, mentre *p-value \< 0,05* implica che l'ipotesi è rifiutata ed il test è, più in particolare:
 
--   statisticamente significativo se $0.01 ≤ p-value < 0.05$;
+-   statisticamente significativo se $0.01 \leq p-value < 0.05$;
 
--   molto significativo se $0.01 ≤ p-value <0.01$;
+-   molto significativo se $0.01 \leq p-value <0.01$;
 
 -   estremamente significativo se $p-value < 0.001$.
 
@@ -984,30 +933,30 @@ In generale, possiamo dire che, più è basso il p-value, maggiore è la signifi
 
 #### **Popolazione normale**
 
-(i) Verifica di ipotesi sul valore medio $μ$ nel caso in cui la varianza $σ^2$ della popolazione normale è nota;
+(i) Verifica di ipotesi sul valore medio $\mu$ nel caso in cui la varianza $\sigma^2$ della popolazione normale è nota;
 
-(ii) Verifica di ipotesi sul valore medio $μ$ nel caso in cui la varianza della popolazione normale è non nota;
+(ii) Verifica di ipotesi sul valore medio $\mu$ nel caso in cui la varianza della popolazione normale è non nota;
 
-(iii) Verifica di ipotesi sulla varianza $σ^2$ nel caso in cui il valore medio $μ$ della popolazione normale è noto;
+(iii) Verifica di ipotesi sulla varianza $\sigma^2$ nel caso in cui il valore medio $\mu$ della popolazione normale è noto;
 
-(iv) Verifica di ipotesi sulla varianza $σ^2$ nel caso in cui il valore medio della popolazione normale è non noto.
+(iv) Verifica di ipotesi sulla varianza $\sigma^2$ nel caso in cui il valore medio della popolazione normale è non noto.
 
-##### **Test su** $μ$ **con varianza** $\sigma^2$ **nota**
+##### **Test su** $\mu$ **con varianza** $\sigma^2$ **nota**
 
 **Test bilaterale**
 
-Sia $X_1,X_2, . . .,X_n$ un campione casuale estratto da una popolazione normale descritta da una variabile aleatoria $X ∼ N(μ, σ)$ con varianza nota $σ^2$.
+Sia $X_1,X_2, . . .,X_n$ un campione casuale estratto da una popolazione normale descritta da una variabile aleatoria $X \sim N(\mu, \sigma)$ con varianza nota $\sigma^2$.
 
 Si considerino le ipotesi:
 
 $$
-H_0 : \mu = \mu_0 \\ H_1 : \mu ≠ \mu_0$$
+H_0 : \mu = \mu_0 \\ H_1 : \mu \ne \mu_0$$
 
 La statistica test è:
 
 $$Z_n = \frac{\overline X_n - \mu_0}{\sigma/ \sqrt n}$$
 
-Pertanto il test bilaterale $\psi$ di misura $α$ è il seguente:
+Pertanto il test bilaterale $\psi$ di misura $\alpha$ è il seguente:
 
 -   Si accetti $H_0$ se: $-z_{\alpha/2} < \frac{\overline X_n - \mu_0}{\sigma \sqrt n} < z_{\alpha/2}$
 
@@ -1021,7 +970,7 @@ dall'uguaglianza osserviamo che il *p-value* corrisponde alla probabilità, supp
 
 **Facciamo un esempio di quanto descritto:**
 
-Alcuni automobilisti sostengono che il consumo medio di carburante in autostrada delle auto sia di $23 \ miglia \ per \ gallone$ altri invece sostengono che sia $17 \ miglia \ per \ gallone$, pertanto costruiamo un test delle ipotesi di misura $\alpha = 0.05$ per verificare l'ipotesi nulla $H_0: \mu = 23$ contro l'ipotesi alternativa $H_1: \mu ≠ 23$
+Alcuni automobilisti sostengono che il consumo medio di carburante in autostrada delle auto sia di $23 \ miglia \ per \ gallone$ altri invece sostengono che sia $17 \ miglia \ per \ gallone$, pertanto costruiamo un test delle ipotesi di misura $\alpha = 0.05$ per verificare l'ipotesi nulla $H_0: \mu = 23$ contro l'ipotesi alternativa $H_1: \mu \ne 23$
 
 ```{r}
 alpha = 0.05
@@ -1042,37 +991,37 @@ pvalue
 
 ```
 
-Si nota che $z_{α/2} = 1.959964$ e $z_{os} = -17$ cade al di fuori della regione di accettazione; occorre quindi rifiutare l'ipotesi nulla con un livello di significatività del $5 \%$. Si nota anche che $pvalue < α$ e quindi anche il criterio del p-value consiglia di rifiutare l'ipotesi nulla.
+Si nota che $z_{\alpha/2} = 1.959964$ e $z_{os} = -17$ cade al di fuori della regione di accettazione; occorre quindi rifiutare l'ipotesi nulla con un livello di significatività del $5 \%$. Si nota anche che $pvalue < \alpha$ e quindi anche il criterio del p-value consiglia di rifiutare l'ipotesi nulla.
 
-##### **Test su** $μ$ **con varianza non nota**
+##### **Test su** $\mu$ **con varianza non nota**
 
 **Test bilaterale**
 
-Sia $X_1,X_2, . . .,X_n$ un campione casuale estratto da una popolazione normale con varianza non nota $σ^2$.
+Sia $X_1,X_2, . . .,X_n$ un campione casuale estratto da una popolazione normale con varianza non nota $\sigma^2$.
 
 Si considerino le ipotesi:
 
-$$H_0 : μ = μ_0 \\ H_1 : μ ≠ μ_0$$
+$$H_0 : \mu = \mu_0 \\ H_1 : \mu \ne \mu_0$$
 
 La statistica test è:
 
 $$T_n = \frac{\overline X_n - \mu_0}{S_n/ \sqrt n}$$
 
-Il test bilaterale $ψ$ di misura $α$ per le ipotesi considerate è il seguente:
+Il test bilaterale $\psi$ di misura $\alpha$ per le ipotesi considerate è il seguente:
 
--   si accetti $H_0$ se: $-t_{α/2,n−1} < \frac{\overline x_n - \mu_0}{s_n\sqrt n} < t_{\alpha/2,n-1}$
+-   si accetti $H_0$ se: $-t_{\alpha/2,n-1} < \frac{\overline x_n - \mu_0}{s_n\sqrt n} < t_{\alpha/2,n-1}$
 
 -   si rifiuti $H_0$ se: $\frac{\overline x_n - \mu_0}{s_n\sqrt n} < -t_{\alpha/2,n-1}$ oppure $\frac{\overline x_n - \mu_0}{s_n\sqrt n} > t_{\alpha/2,n-1}$
 
 Denotando la stima della statistica test con $t_{os} = \frac{\overline x_n - \mu_0}{s_n \sqrt n}$ calcoliamo ora il p-value per il test bilaterale considerato:
 
 $$
-pvalue = P(T_n < −|t_{os}|) + P(T_n > |t_{os}|) = 2 P(T_n > |t_{os}|)= 2[1 − P(T_n ≤ |t_{os}|)]
+pvalue = P(T_n < -|t_{os}|) + P(T_n > |t_{os}|) = 2 P(T_n > |t_{os}|)= 2[1-P(T_n \leq |t_{os}|)]
 $$
 
 **Facciamo un esempio di quanto descritto:**
 
-Alcuni automobilisti sostengono che il consumo medio di carburante in città delle auto sia di $17 \ miglia \ per \ gallone$ altri invece sostengono che sia $23 \ miglia \ per \ gallone$, pertanto costruiamo un test delle ipotesi di misura $\alpha = 0.01$ per verificare l'ipotesi nulla $H_0: \mu = 17$ contro l'ipotesi alternativa $H_1: \mu ≠ 17$
+Alcuni automobilisti sostengono che il consumo medio di carburante in città delle auto sia di $17 \ miglia \ per \ gallone$ altri invece sostengono che sia $23 \ miglia \ per \ gallone$, pertanto costruiamo un test delle ipotesi di misura $\alpha = 0.01$ per verificare l'ipotesi nulla $H_0: \mu = 17$ contro l'ipotesi alternativa $H_1: \mu \ne 17$
 
 ```{r}
 alpha <- 0.01
@@ -1092,23 +1041,23 @@ pvalue
 
 ```
 
-Si nota che $z_{α/2} = 2.597094$ e $z_{os} = 17$ cade al di fuori della regione di accettazione; occorre quindi rifiutare l'ipotesi nulla con un livello di significatività del $1 \%$. Si nota anche che $pvalue < α$ e quindi anche il criterio del p-value consiglia di rifiutare l'ipotesi nulla.
+Si nota che $z_{\alpha/2} = 2.597094$ e $z_{os} = 17$ cade al di fuori della regione di accettazione; occorre quindi rifiutare l'ipotesi nulla con un livello di significatività del $1 \%$. Si nota anche che $pvalue < \alpha$ e quindi anche il criterio del p-value consiglia di rifiutare l'ipotesi nulla.
 
 ##### **Test su** $\sigma^2$ **con valore medio noto**
 
 **Test bilaterale**
 
-Sia $X_1,X_2, . . . ,X_n$ un campione casuale estratto da una popolazione normale con valore medio noto $μ$.
+Sia $X_1,X_2, . . . ,X_n$ un campione casuale estratto da una popolazione normale con valore medio noto $\mu$.
 
 Si considerino le ipotesi:
 
-$$H_0 : \sigma^2 = \sigma^2_0 \\ H_1 : \sigma^2 ≠ \sigma^2_0$$
+$$H_0 : \sigma^2 = \sigma^2_0 \\ H_1 : \sigma^2 \ne \sigma^2_0$$
 
 La statistica test è:
 
 $$V_n = \sum^n_{i=1}(\frac{X_i - \mu}{\sigma_0})^2 = \frac{(n-1)S^2_n}{\sigma^2_0} + (\frac{\overline X_n - \mu}{\sigma_0/ \sqrt n})^2$$
 
-Il test bilaterale $\psi$ di misura $α$ per le ipotesi considerate è il seguente:
+Il test bilaterale $\psi$ di misura $\alpha$ per le ipotesi considerate è il seguente:
 
 -   si accetti $H_0$ se: $\chi^2_{1-\alpha/2,n} < \sum^n_{i=1}(\frac{x_i - \mu}{\sigma_0}) < \chi^2_{\alpha/2,n}$
 
@@ -1116,7 +1065,7 @@ Il test bilaterale $\psi$ di misura $α$ per le ipotesi considerate è il seguen
 
 **Facciamo un esempio di quanto descritto:**
 
-Alcuni automobilisti sostengono che la varianza del consumo di carburante in autostrada delle auto sia di $6 \ miglia \ per \ gallone$ altri invece sostengono che sia $4 \ miglia \ per \ gallone$, pertanto costruiamo un test delle ipotesi di misura $\alpha = 0.05$ per verificare l'ipotesi nulla $H_0: \mu = 6$ contro l'ipotesi alternativa $H_1: \mu ≠ 6$
+Alcuni automobilisti sostengono che la varianza del consumo di carburante in autostrada delle auto sia di $6 \ miglia \ per \ gallone$ altri invece sostengono che sia $4 \ miglia \ per \ gallone$, pertanto costruiamo un test delle ipotesi di misura $\alpha = 0.05$ per verificare l'ipotesi nulla $H_0: \mu = 6$ contro l'ipotesi alternativa $H_1: \mu \ne 6$
 
 ```{r}
 alpha = 0.05
@@ -1137,18 +1086,18 @@ z
 
 ```
 
-Si nota che $χ^2_{α/2} = 193$, $χ^2_{1-α/2} = 278$. Poichè il valore osservato $χ^2 = 2548$ è compreso nella regione di rifiuto, si rifiuta l'ipotesi nulla con un livello di significatività del $5 \%$.
+Si nota che $\chi^2_{\alpha/2} = 193$, $\chi^2_{1-\alpha/2} = 278$. Poichè il valore osservato $\chi^2 = 2548$ è compreso nella regione di rifiuto, si rifiuta l'ipotesi nulla con un livello di significatività del $5 \%$.
 
 ##### **Test su** $\sigma^2$ **con valore medio non noto**
 
 **Test bilaterale**
 
-Sia $X_1,X_2, . . . ,X_n$ un campione casuale estratto da una popolazione normale con valore medio noto $μ$.
+Sia $X_1,X_2, . . . ,X_n$ un campione casuale estratto da una popolazione normale con valore medio noto $\mu$.
 
 Si considerino le ipotesi:
 
 $$
-H_0 : \sigma^2 = \sigma^2_0 \\ H_1 : \sigma^2 ≠ \sigma^2_0
+H_0 : \sigma^2 = \sigma^2_0 \\ H_1 : \sigma^2 \ne \sigma^2_0
 $$
 
 La statistica test è:
@@ -1161,7 +1110,7 @@ $$Q_n = \frac{(n-1)S^2_n}{\sigma_0^2} = \frac{1}{\sigma^2_0}\sum^n_{i=1}(X_i - \
 
 **Facciamo un esempio di quanto descritto:**
 
-Alcuni automobilisti sostengono che la varianza del consumo di carburante in città delle auto sia di $4 \ miglia \ per \ gallone$ altri invece sostengono che sia $6 \ miglia \ per \ gallone$, pertanto costruiamo un test delle ipotesi di misura $\alpha = 0.05$ per verificare l'ipotesi nulla $H_0: \mu = 4$ contro l'ipotesi alternativa $H_1: \mu ≠ 4$:
+Alcuni automobilisti sostengono che la varianza del consumo di carburante in città delle auto sia di $4 \ miglia \ per \ gallone$ altri invece sostengono che sia $6 \ miglia \ per \ gallone$, pertanto costruiamo un test delle ipotesi di misura $\alpha = 0.05$ per verificare l'ipotesi nulla $H_0: \mu = 4$ contro l'ipotesi alternativa $H_1: \mu \ne 4$:
 
 ```{r}
 alpha = 0.05
@@ -1180,31 +1129,7 @@ z
 
 ```
 
-Si nota che $χ^2_{α/2} = 193$, $χ^2_{1-α/2} = 277$. Poichè il valore osservato $χ^2 = 326$ è compreso nella regione di rifiuto, si rifiuta l'ipotesi nulla con un livello di significatività del $5 \%$.
-
-#### **Test statistici per grandi campioni**
-
-Quando l'ampiezza del campione è grande, per una popolazione descritta da una variabile aleatoria $X$ caratterizzata da valore medio $μ$ e varianza $σ^2$, entrambi finiti, si può utilizzare il teorema centrale di convergenza ricordando che la variabile aleatoria:
-
-$$Z_n = \frac{\overline X_n - \mu}{\sigma/ \sqrt n} \to^d Z$$
-
-converge in distribuzione ad una variabile normale standard.
-
-##### **Test bilaterale approssimato**
-
-Per campioni numerosi, di misura $\alpha$ le ipotesi sono:
-
-$$H_0 : \mu = \mu_0 \\ H_1 : \mu ≠ \mu_0$$
-
-la statistica test è:
-
-$$Z_n = \frac{\overline X_n - \mu_0}{\sigma_0/ \sqrt n}$$
-
-il test bilaterale $\psi$ di misura $\alpha$ è il seguente:
-
--   Si accetti $H_0$ se: $-z_{\alpha/2} < \frac{\overline x_n - \mu_0}{\sigma_0/ \sqrt n}< z_{\alpha/2}$
-
--   Si rifiuti $H_0$ se: $\frac{\overline x_n - \mu_0}{\sigma_0/ \sqrt n}< -z_{\alpha/2}$ oppure $\frac{\overline x_n - \mu_0}{\sigma_0/ \sqrt n} > z_{\alpha/2}$
+Si nota che $\chi^2_{\alpha/2} = 193$, $\chi^2_{1-\alpha/2} = 277$. Poichè il valore osservato $\chi^2 = 326$ è compreso nella regione di rifiuto, si rifiuta l'ipotesi nulla con un livello di significatività del $5 \%$.
 
 ## Criterio del chi-quadrato
 
@@ -1216,7 +1141,7 @@ Il criterio chi--quadrato si basa sulla statistica:
 
 $$Q=\sum^r_{i=1}(\frac{N_i - np_i}{\sqrt{np_i}})^2$$
 
-Per un campione sufficientemente numeroso di ampiezza $n$, il test chi--quadrato bilaterale di misura $α$ è il seguente:
+Per un campione sufficientemente numeroso di ampiezza $n$, il test chi--quadrato bilaterale di misura $\alpha$ è il seguente:
 
 -   si accetti l'ipotesi $H_0$ se: $\chi^2_{1-\alpha/2,r-k-1} < \chi^2 < \chi^2_{\alpha/2, r-k-1}$
 
@@ -1239,7 +1164,7 @@ sigma <- sd(mpg$hwy)
 
 ```
 
-Applicando il test chi--quadrato di misura $α = 0.05$, si desidera verificare se la popolazione da cui proviene il campione può essere descritta da una variabile aleatoria $X$ di densità normale.
+Applicando il test chi--quadrato di misura $\alpha = 0.05$, si desidera verificare se la popolazione da cui proviene il campione può essere descritta da una variabile aleatoria $X$ di densità normale.
 
 Supponiamo di suddividere l'insieme dei valori che tale variabile aleatoria normale $X$ può assumere in $r = 5$ sottoinsiemi,utilizzando i quantili della distribuzione normale possiamo determinare i sottoinsiemi:
 
@@ -1280,7 +1205,7 @@ chi
 
 $\chi^2 = 534$.
 
-La distribuzione normale ha due parametri non noti $(μ, σ^2)$ e quindi $k = 2$.Pertanto, la funzione di distribuzione della statistica $Q$ è approssimabile con la funzione di distribuzione chi--quadrato con $r − k − 1 = 2$ gradi di libertà. Occorre quindi calcolare $χ^2_{α/2,2}$ e$χ^2_{1−α/2,2}$ con $α = 0.05$.
+La distribuzione normale ha due parametri non noti $(\mu, \sigma^2)$ e quindi $k = 2$.Pertanto, la funzione di distribuzione della statistica $Q$ è approssimabile con la funzione di distribuzione chi--quadrato con $r-k-1 = 2$ gradi di libertà. Occorre quindi calcolare $\chi^2_{\alpha/2,2}$ e$\chi^2_{1-\alpha/2,2}$ con $\alpha = 0.05$.
 
 ```{r}
 r <- 5

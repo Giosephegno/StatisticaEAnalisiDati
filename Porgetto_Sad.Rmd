@@ -1,13 +1,14 @@
 ---
 title: "Statistica e analisi dei dati"
 author: "Genito e Leone"
-date: "2023-02-20"
+date: "2023-02-27"
 output:
   pdf_document: default
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, fig.align = 'center'}
 knitr::opts_chunk$set(echo = TRUE)
+
 ```
 
 # Dati sull'efficienza del carburante dal 1999 al 2008 per 38 modelli di auto
@@ -175,7 +176,9 @@ La funzione **`table()`** è utile anche per ottenere una panoramica delle carat
 La variabile manufacturer del dataset mpg rappresenta il produttore del veicolo. Si tratta di una variabile categorica nominale (di tipo carattere o factor), in quanto i valori possibili sono limitati e non possono essere ordinati in base alla loro posizione nella scala di valori. I valori possibili per la variabile manufacturer sono 15 categorie diverse, ad esempio "audi", "chevrolet", "dodge", "Ford", "Toyota", "Nissan" e così via.
 
 ```{r}
-df <- data.frame(Freq = c(table(mpg$manufacturer)), Perc_freq = c(table(mpg$manufacturer)/length(mpg$manufacturer)*100))
+df <- data.frame(Freq = c(table(mpg$manufacturer)), 
+Perc_freq = c(table(mpg$manufacturer)/length(mpg$manufacturer)*100))
+
 df
 
 ```
@@ -330,7 +333,7 @@ Per visualizzare la variabile "manufacturer" del dataset "mpg" con ggplot2, util
 
 Il grafico a barre è un tipo di grafico utilizzato per visualizzare le frequenze di una variabile che può essere di tipo carattere o factor. In particolare, ogni barra del grafico rappresenta il numero di osservazioni per un determinato livello o valore univoco della variabile.
 
-```{r message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, fig.align = 'center'}
 p1 <- ggplot(mpg, aes(x = manufacturer)) +
      geom_bar(color = "black", fill = "white") + theme(axis.text.x = element_text(angle = 90)) + ylab("Manufacturer")
 
@@ -351,7 +354,7 @@ In questo caso dodge è l'osservazione più diffusa mentre lincoln quella meno f
 
 Il grafico a torta (o grafico a settori) è un tipo di grafico utilizzato per visualizzare le frequenze di una variabile di tipo carattere o factor. In particolare, ogni settore della torta rappresenta la percentuale di osservazioni per un determinato livello o valore univoco della variabile.
 
-```{r}
+```{r fig.align = 'center'}
 Manufacturer <- factor(mpg$manufacturer, levels = names(sort(table(mpg$manufacturer))))
 
 p2 <- ggplot(mpg, aes(x = "", y = manufacturer, fill = Manufacturer)) +
@@ -376,7 +379,7 @@ Anche in questo caso essendo la variabile categoriale procediamo con la rapprese
 
 #### Grafico a barre
 
-```{r}
+```{r fig.align = 'center'}
 p3 <- ggplot(mpg, aes(x = model, fill = Manufacturer)) +
   geom_bar(position = "dodge")+ theme(axis.text.x = element_text(angle = 90))+ ylab("Manufacturer")
 
@@ -401,7 +404,7 @@ Gli istogrammi sono formati da bins, ossia le barre verticali che dividono l'ass
 
 L'istogramma è un grafico che mostra la distribuzione delle frequenze di una variabile numerica. Dall'istogramma possiamo vedere la forma della distribuzione, il valore medio ecc.
 
-```{r message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, fig.align = 'center'}
 p4 <- ggplot(mpg, aes(x = displ)) + geom_histogram(bins = 30, aes(y = ..density..), color = "black", fill = "white") + 
   geom_freqpoly(aes(y = ..density..), color = "red", size = 1) + labs(title = "Distribuzione dei valori di displ") 
 
@@ -425,7 +428,7 @@ La kernel sovrapposta al grafico indica l'andamento delle osservazioni della var
 
 Vogliamo confrontare i valori della variabile "displ" tra le diverse categorie della variabile "class". Per farlo utilizziamo un grafico a barre con i valori di "displ" come valori in ascissa e le categorie di "class" come valori in ordinata:
 
-```{r}
+```{r fig.align = 'center'}
 macchina <- factor(mpg$class, ordered = T)
 
 p5 <- ggplot(mpg, aes(x = macchina, y = displ)) +
@@ -445,7 +448,7 @@ Dal grafico possiamo osservare sulle ascisse i tipi di veicoli, da notare inoltr
 
 Questo grafico mostra la relazione tra due variabili numeriche. Utilizziamo il grafico a dispersione per visualizzare come i valori di "displ" sono correlati ai valori di un'altra variabile numerica, come "cty" (l consumo di carburante in città, in miglia per gallone).
 
-```{r}
+```{r fig.align = 'center'}
 p6 <- ggplot(mpg, aes(x = displ, y = cty)) +
   geom_point()
 
@@ -472,7 +475,7 @@ La funzione di distribuzione empirica $F(x)$ gode delle seguenti proprietà:
 
 \- la funzione vale 0 per ogni valore minore dell'osservazione minima e vale 1 per ogni valore maggiore o uguale dell'osservazione massima.
 
-```{r}
+```{r fig.align = 'center'}
 # Frequenze relative cumulative
 valori_ecdf <- round(cumsum(table(mpg$displ)/length(mpg$displ)),3)
 
@@ -480,7 +483,7 @@ valori_ecdf <- round(cumsum(table(mpg$displ)/length(mpg$displ)),3)
 
 La funzione $ecdf()$ (empirical cumulative distribution function) permette di disegnare il grafico della funzione di distribuzione empirica per variabili quantitative discrete.
 
-```{r}
+```{r fig.align = 'center'}
 plot(ecdf(mpg$displ),main=" Funzione di distribuzione empirica discreta ",verticals =FALSE ,col ="red ")
 
 ```
@@ -502,7 +505,7 @@ L'auto più vecchia del dataset è del 1999, mentre la più recente è del 2008.
 
 Nel chunk successivo applichiamo la funzione **`geom_histogram`**, l'equivalente di **`hist()`**, per creare un istogramma della variabile **`Year`**. L'istogramma ci aiuterà a visualizzare la distribuzione dei valori della variabile e a identificare eventuali outlier.
 
-```{r}
+```{r fig.align = 'center'}
 p7 <- ggplot(mpg, aes(x = year)) + geom_histogram(bins = 30, aes(y = ..density..), color = "black", fill = "white")
 p7 <- p7 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#fff68f', linetype = 'longdash'),
@@ -517,13 +520,14 @@ Da questo grafico capiamo che gli anni di produzione sono solo 2, il 1999 e il 2
 
 Con la funzione **`boxplot()`** creiamo un grafico a scatola a baffi della variabile **`Year`**.
 
-```{r}
+```{r fig.align = 'center'}
 p8 <- ggplot(mpg, aes(x = year)) + geom_boxplot() + coord_flip()
 p8 <- p8 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#fff68f', linetype = 'longdash'),
                panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
 
 p8
+
 ```
 
 Il boxplot in questo caso appare anomalo, perché non ha i baffi, questo perché il primo quartile corrisponde al minimo e il terzo quartile corrisponde al massimo.
@@ -536,7 +540,7 @@ La variabile **`cyl`** del dataset **`mpg`** rappresenta il numero di cilindri d
 
 Nel seguente chunk abbiamo creato un grafico a barre per visualizzare la distribuzione dei valori.
 
-```{r}
+```{r fig.align = 'center'}
 p9 <- ggplot(data = mpg, mapping = aes(cyl)) + geom_bar(stat = "count", fill= "white", col = "black") + ggtitle("Variabile cyl") + ylab("Cilindri")
 
 p9 <- p9 + theme(panel.background = element_rect(fill = '#f0e2a8', color = "#9a8262"), panel.grid.major = element_line(color = '#ffffff', linetype="longdash"),panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash"))
@@ -554,13 +558,13 @@ Utilizziamo un grafico a torta per mostrare le frequenze di ogni valore di "cyl"
 
 Per avere un grafico a torta corretto, bisogna prima trasformare la variabile cyl in un fattore e riordinare i valori in base alla frequenza,
 
-```{r}
+```{r fig.align = 'center'}
 Cilindri <- factor(mpg$cyl, levels = names(sort(table(mpg$cyl))))
 ```
 
 In questo modo, i valori di "Cilindri" verranno ordinati in base alla frequenza, dal valore più frequente al meno frequente
 
-```{r}
+```{r fig.align = 'center'}
 
 p10 <- ggplot(mpg, aes(x = "", y = Cilindri, fill = Cilindri)) +
   geom_bar(width = 1,stat = "identity") +
@@ -582,7 +586,7 @@ La variabile **`trans`** del dataset **`mpg`** rappresenta il tipo di trasmissio
 
 #### Barplot
 
-```{r}
+```{r fig.align = 'center'}
 p11 <- ggplot(mpg, mapping = aes(trans)) +
   geom_bar(fill = "white", col = "black") + ylab("Trasmissione")
 
@@ -598,7 +602,7 @@ Dall'istogramma possiamo notare che ci sono molti veicoli con il tipo di trasmis
 
 #### Boxplot
 
-```{r}
+```{r fig.align = 'center'}
 p12 <- ggplot(mpg, aes(x = trans, y = displ)) +
   geom_boxplot()
 
@@ -626,7 +630,7 @@ La variabile Drv rappresenta il tipo di trazione dell'automobile (anteriore, pos
 
 #### Barplot
 
-```{r}
+```{r fig.align = 'center'}
 drive <- factor(mpg$drv, levels = c("4", "f", "r"), labels = c("trazione integrale", "trazione anteriore", "trazione posteriore"))
 p13 <- ggplot(mapping = aes(drive)) + 
   geom_bar(fill = "white", col = "black") + ylab("Trazione")
@@ -643,7 +647,7 @@ La maggior parte dei veicoli possiede la trazione integrale e la trazione anteri
 
 #### Scatterplot
 
-```{r}
+```{r fig.align = 'center'}
 p14 <- ggplot(mpg, aes(x = drive, y = displ)) +
   geom_point()
 
@@ -660,7 +664,7 @@ Giungiamo alla medesima conclusione osservando il boxplot in basso.
 
 #### Boxplot
 
-```{r}
+```{r fig.align = 'center'}
 p15 <- ggplot(mpg, aes(x = drv, y = displ)) +
   geom_boxplot() + coord_flip()
 
@@ -673,7 +677,7 @@ p15
 
 La centralità delle scatole, espressa dalla mediana vediamo che non è propriamente al centro, ciò sta a significare che non c'è simmetria nei dati, piuttosto la distribuzione è asimmetrica, come nel caso del primo boxplot che è fortemente asimmetrica a sinistra. Dall'ultimo boxplot notiamo dalla lunghezza dei baffi che c'è molta dispersione nei dati. Mentre nel secondo boxplot vediamo che c'è un outliers, ossia un valore anomalo che va molto al di fuori dei baffi.
 
-Adesso ci soffermiamo a capire quel'outlier presente nel boxplot a cosa si riferisce:
+Adesso ci soffermiamo a capire quell'outlier presente nel boxplot a cosa si riferisce:
 
 ```{r}
 outlier <- mpg %>%
@@ -689,7 +693,7 @@ La variabile Cty rappresenta il consumo di carburante in città, in miglia per g
 
 #### Istogramma e kernel density
 
-```{r}
+```{r fig.align = 'center'}
 p16 <- ggplot(data = mpg, mapping = aes(cty,..density..)) + 
   geom_histogram(bins = 30, fill = "white", col = "black")+
   geom_density()
@@ -818,7 +822,7 @@ le variabili presentano evidenti variazioni tra esse.
 
 #### Scatterplot
 
-```{r}
+```{r fig.align = 'center'}
 p17 <- ggplot(data = mpg, mapping = aes(x = cty, y = displ)) +
   geom_point()
 
@@ -832,7 +836,7 @@ p17
 
 Le variabili displ (volume dei cilindri dell'automobile, in litri) e cty (consumo di carburante in città, in miglia per gallone) sono correlate negativamente, infatti all'aumentare delle miglia che il veicolo può percorrere con un gallone diminuisce la cilindrata del motore dell'auto.
 
-```{r}
+```{r fig.align = 'center'}
 p18 <- ggplot(mpg, aes(x = cyl, y = cty)) +
   geom_point()
 
@@ -856,7 +860,7 @@ fcut
 
 Gli intervalli sono scelti in modo da essere abbastanza equi.
 
-```{r}
+```{r fig.align = 'center'}
 barplot(fcut, col = rainbow(4), xlab = "miglia per gallone", main = "Grafico miglia per gallone", ylab = "n.osservazioni")
 ```
 
@@ -868,7 +872,7 @@ Usando le funzioni di visualizzazione come **`ggplot()`** del pacchetto **`ggplo
 
 #### Istogramma
 
-```{r}
+```{r fig.align = 'center'}
 p19 <- ggplot(data = mpg, mapping = aes(hwy)) +
   geom_histogram(bins = 30, fill = "white", col = "black") 
 
@@ -884,7 +888,7 @@ p19
 
 Possiamo utilizzare anche i boxplot ad intaglio i quali sono una rappresentazione grafica dei boxplot ma con l'aggiunta dell'intervallo di confidenza:
 
-```{r}
+```{r fig.align = 'center'}
 p8 <- ggplot(mpg, aes(x = hwy)) + geom_boxplot(notch = TRUE) + coord_flip()
 p8 <- p8 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#fff68f', linetype = 'longdash'),
@@ -909,7 +913,7 @@ Il grafico kernel density plot è un grafico che mostra l'approssimazione della 
 
 Il grafico kernel density plot è spesso utilizzato per esplorare la distribuzione di una variabile e per confrontare le distribuzioni di diverse variabili. Ad esempio, abbiamo utilizzato il grafico kernel density plot per confrontare la distribuzione dei valori della variabile **`hwy`**.
 
-```{r}
+```{r fig.align = 'center'}
 p20 <- ggplot(data = mpg, mapping = aes(hwy)) +
   geom_density(fill = "white", col = "black")
 
@@ -980,7 +984,7 @@ Quindi nel nostro caso non ha senso calcolarlo dato che la nostra distribuzione 
 
 #### Grafico a dispersione
 
-```{r}
+```{r fig.align = 'center'}
 p21 <- ggplot(data = mpg, mapping = aes(x = hwy, y = displ)) +
   geom_point()
 
@@ -1045,7 +1049,7 @@ La variabile fl del dataset mpg rappresenta il tipo di carburante utilizzato dal
 
 #### Grafico a barre
 
-```{r}
+```{r fig.align = 'center'}
 fuel <- factor(mpg$fl, levels = c("c","d","e","p","r"), labels = c("Normale gasoline", "Diesel", "Elettricity","Premium gasoline", "Regular gasoline")) 
 
 p22 <- ggplot(data = mpg, mapping = aes(x = fuel)) +
@@ -1063,7 +1067,7 @@ Possiamo notare che la maggiore parte delle auto presenti nel dataset di riferim
 
 #### Grafico a torta
 
-```{r}
+```{r fig.align = 'center'}
 freqRel <- table (mpg$fl )/ length (mpg$fl)
 perc <- freqRel*100
 perc <- round(perc,1)
@@ -1079,7 +1083,7 @@ La variabile Class rappresenta la classe di dimensioni dell'automobile.
 
 #### Barplot
 
-```{r}
+```{r fig.align = 'center'}
 p23 <- ggplot(data = mpg, mapping = aes(class)) + 
   geom_bar(fill = "white", col = "black") + ylab("Fuel")
 
@@ -1133,7 +1137,7 @@ cov(dfm)
 
 ```
 
-Lo svantaggio della covarianza è che non è racchiudibile in un range definito di valori, quindi non si riesce a capire quanto le variabili sono dipendenti tra loro, per questo introduciamo la correlazione.
+Lo svantaggio della covarianza è che non è rachiudibile in un range definito di valori, quindi non si riesce a capire quanto le variabili sono dipendenti tra loro, per questo introduciamo la correlazione.
 
 ### Correlazione
 
@@ -1615,7 +1619,7 @@ $$d_1(X_i,X_j) = \sum_{k=1}^p|x_{ik}-x_{jk}|$$
 La distanza di Chebycev è anche nota come distanza "L-infinito" e si basa sulla differenza massima tra le coppie di valori dei due punti. La metrica di Chebycev coinvolge anche una procedura di ordinamento.
 
 $$
-d_\infty(X_i,X_j) = max_{ \ k=1,2,...,p} |x_{ik} - x_{jk}|
+d_\infty(X_i,X_j) = \max_{ \ k=1,2,...,p} |x_{ik} - x_{jk}|
 $$
 
 La distanza di Minkowski ha come caso particolare le distanze di Manhattan e di Euclidea, dove il parametro "p" determina se la distanza è più simile a Manhattan (p = 1) o a Euclidea (p = 2). Questa distanza è utile per adattarsi a situazioni dove le dimensioni sono importanti e le relazioni tra le dimensioni sono complesse.
@@ -1740,7 +1744,7 @@ $$
 
 Dove $i$ e $j$ indicano i due elementi che sono stati uniti e $k$ indica uno degli altri con la quale calcolare la distanza.
 
-```{r}
+```{r fig.align = 'center'}
 single_hls <- hclust(d_2, method = "single")
 plot(single_hls,  hang = -2, xlab=" Metodo gerarchico agglomerativo", sub ="del legame singolo ", ylab = "Distanza", main = "Singolo")
 ```
@@ -1757,7 +1761,7 @@ cut_single <- cutree(single_hls, k = 3)
 
 Sulla base del dendrogramma proviamo a dividere il cluster in 3 gruppi, per farlo utilizziamo la funzione "**cutree**".
 
-```{r}
+```{r fig.align = 'center'}
 plot(single_hls,hang = -2, xlab=" Metodo gerarchico agglomerativo", sub ="del legame singolo ", ylab = "Distanza", main = "Singolo")
 rect.hclust(single_hls , k = 3, border = 2:6)
 ```
@@ -1880,7 +1884,7 @@ Ed infatti ci restituisce vero il confronto.
 
 Visualizziamo con un diagramma di Venn i tre cluster e i punti appartenenti agli insiemi
 
-```{r}
+```{r fig.align = 'center'}
 library(cluster)
 clusplot(mpg_2, cut_single, color=TRUE, shade=TRUE, labels=3, lines=0, xlab=" Legame singolo", ylab = "Distanza", main = "Singolo")
 ```
@@ -1901,7 +1905,7 @@ $$d_{(ij),k)} = max(d_{(i,k)},d_{(j,k)})$$
 
 Dove $i$ e $j$ indicano i due elementi che sono stati uniti e $k$ indica uno degli altri con la quale calcolare la distanza.
 
-```{r}
+```{r fig.align = 'center'}
 complete_hls <- hclust(d_2, method = "complete")
 plot(complete_hls,  hang = -2, xlab=" Metodo gerarchico agglomerativo", sub ="del legame completo ", ylab = "Distanza", main = "Completo")
 ```
@@ -1914,7 +1918,7 @@ Per confrontare i cluster tra loro divideremo tutti in 3 gruppi, quindi procedia
 
 Vediamo come appare il dendrogramma selezionando tre cluster
 
-```{r}
+```{r fig.align = 'center'}
 complete_hls <- hclust(d_2, method = "complete")
 plot(complete_hls,  hang = -2, xlab=" Metodo gerarchico agglomerativo", sub ="del legame completo ", ylab = "Distanza", main = "Completo")
 rect.hclust(complete_hls , k = 3, border = 2:6)
@@ -1983,7 +1987,7 @@ paste(c_perc,"%",sep="")
 
 Infatti come era logico aspettarsi il rapporto tra between e totale è 88% dunque il 10% in più del legame singolo ciò significa che questo metodo massimizza di più la misura di non omogeneità statistica tra i cluster, between, rispetto a quella precedente.
 
-```{r}
+```{r fig.align = 'center'}
 clusplot(mpg_2, cut_complete, color=TRUE, shade=TRUE, labels=3, lines=0, xlab=" Legame completo", ylab = "Distanza", main = "Complete")
 ```
 
@@ -1997,7 +2001,7 @@ $$d_{((ij),k)} = \frac{1}{2}(d_{(i,k)},d_{(j,k)})$$
 
 Nella procedura si parte da un insieme di n cluster e ad ogni passo si uniscono i due cluster più vicini fino ad ottenere un unico cluster formato da tutti gli individui.
 
-```{r}
+```{r fig.align = 'center'}
 average_hls <- hclust(d_2, method = "average")
 plot(average_hls,  hang = -2, xlab=" Metodo gerarchico agglomerativo", sub ="del legame medio ", ylab = "Distanza", main = "Medio")
 ```
@@ -2010,7 +2014,7 @@ Il dendrogramma ottenuto con il legame medio ha rami più lunghi rispetto al den
 
 Anche nel caso del metodo a legame medio la divisione avviene per tre gruppi
 
-```{r}
+```{r fig.align = 'center'}
 average_hls <- hclust(d_2, method = "average")
 plot(average_hls,  hang = -2, xlab=" Metodo gerarchico agglomerativo", sub ="del legame medio ", ylab = "Distanza", main = "Medio")
 rect.hclust(average_hls , k = 3, border = 2:6)
@@ -2079,7 +2083,7 @@ paste(a_perc,"%",sep="")
 
 Il rapporto tra between e totale è *71%* come nel metodo del legame singolo.
 
-```{r}
+```{r fig.align = 'center'}
 clusplot(mpg_2, cut_average, color=TRUE, shade=TRUE, labels=3, lines=0, xlab=" Legame medio", ylab = "Distanza", main = "Average")
 ```
 
@@ -2093,7 +2097,7 @@ Il metodo del centroide è un algoritmo di clustering gerarchico che calcola la 
 
 $$d_{((i,j),k} = \frac{1}{2}(d_{(i,k)}^2 + d_{(j,k)}^2) - \frac{1}{4}d_{i,j}^2$$
 
-```{r}
+```{r fig.align = 'center'}
 d_quadro <- d_2^2
 centroide_hls <- hclust(d_quadro, method = "centroid")
 plot(centroide_hls,  hang = -2, xlab=" Metodo gerarchico agglomerativo", sub ="del centroide ", ylab = "Distanza", main = "Centroide")
@@ -2167,7 +2171,7 @@ centroid_perc <- as.character(round((trBetween/tr_H),4)*100)
 paste(centroid_perc,"%",sep="")
 ```
 
-```{r}
+```{r fig.align = 'center'}
 cut_centroide_list <- list(cut_centroide)
 agmean <- aggregate (mpg_2, cut_centroide_list , mean )[,-1]
 plot(mpg_2, col = cut_centroide , main = " Metodo gerarchico del centroide ")
@@ -2177,7 +2181,7 @@ points (agmean ,col = 1:2, pch =8, cex =1)
 
 Con questo grafico riusciamo a vedere come si distribuiscono i punti dei vari gruppi, e possiamo vedere che la partizione a tre va bene in quanto si nota il distacco dai gruppi.
 
-```{r}
+```{r fig.align = 'center'}
 cut_centroide_list <- list(cut_centroide)
 agmean <- aggregate (mpg_2, cut_centroide_list , mean )[,-1]
 plot(mpg_2, col = cut_centroide , main = " Metodo gerarchico del centroide ", xlim = c(-4,17), ylim = c(-4,26))
@@ -2188,7 +2192,7 @@ points(outlier[,c(8,9)], col = "purple")
 
 In questo grafico abbiamo aggiunto gli outliers individuati durante l'esplorazione dei dati attraverso i boxplot costruiti precedentemente e possiamo notare che nella partizione non sono presenti.
 
-```{r}
+```{r fig.align = 'center'}
 clusplot(mpg_2, cut_centroide, color=TRUE, shade=TRUE, labels=3, lines=0, xlab=" Centroide", ylab = "Distanza", main = "Centroide")
 ```
 
@@ -2198,7 +2202,7 @@ Proprio come il metodo del legame singolo e del legame medio si è formato un fe
 
 Il metodo della mediana è simile a quello del centroide, con la differenza che la procedura è indipendente dalla numerosità dei cluster, quando due gruppi si aggregano il nuovo centroide è calcolato come la semisomma dei due centroidi precedenti.
 
-```{r}
+```{r fig.align = 'center'}
 Median_hls <- hclust(d_quadro, method = "median")
 plot(Median_hls,  hang = -2, xlab=" Metodo gerarchico agglomerativo", sub ="della mediana ", ylab = "Distanza", main = "Mediana")
 rect.hclust(Median_hls , k = 3, border = 2:6)
@@ -2271,7 +2275,7 @@ Il rapporto tra la misura di non omogeneità statistica tra i cluster between e 
 
 Vediamo come si presentano i cluster graficamente
 
-```{r}
+```{r fig.align = 'center'}
 clusplot(mpg_2, cut_mediana, color=TRUE, shade=TRUE, labels=3, lines=0, xlab="Mediana", ylab = "Distanza", main = "Mediana")
 ```
 
@@ -2319,7 +2323,7 @@ Il metodo non gerarchico utilizzato divide la partizione in due, con 13 elementi
 
 La misura di non omogeneità statistica within è circa 15, mentre quella tra cluster, between è 39
 
-```{r}
+```{r fig.align = 'center'}
 plot(mpg_2, col = km_1$cluster , main = " Metodo non gerarchico del k-
 means con 2  centroidi")
 points (km_1$center , col = 1:2, pch = 8, cex =1)
@@ -2345,7 +2349,7 @@ Oltre a cambiare il numero dei centroidi abbiamo cambiato anche nstart, ossia ri
 
 Anche in questo caso la misura within è circa 14, quindi diminuita e la between invece è cresciuta da 39 a 46. Dunque la partizione in 3 gruppi ci restituisce delle misure di non omogeneità statistica migliori
 
-```{r}
+```{r fig.align = 'center'}
 plot(mpg_2, col = km_2$cluster , main = " Metodo non gerarchico del k-
 means con 3 centroidi")
 points (km_2$center , col = 1:2, pch = 8, cex =1)
@@ -2369,7 +2373,7 @@ km_c$betweenss
 
 Vediamo che la somma del withinss ci da 6, che è molto più piccola di quella ottenuta con i metodi precedenti, e la between è di 46, dunque abbiamo ottimizzato le misure di non omogeneità.
 
-```{r}
+```{r fig.align = 'center'}
 plot(mpg_2, col = km_c$cluster , main = " Metodo non gerarchico del k-
 means con 3 centroidi")
 points (km_c$center , col = 1:2, pch = 8, cex =1)

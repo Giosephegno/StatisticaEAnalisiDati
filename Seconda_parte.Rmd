@@ -30,63 +30,6 @@ L'inferenza statistica si basa su due metodi fondamentali di indagine:
 
 -   la verifica delle ipotesi.
 
-### Stima dei parametri
-
-La stima dei parametri ha lo scopo di determinare i valori non noti di una popolazione (come il valore medio, la varianza,. . .) per mezzo dei corrispondenti parametri derivati dal campione estratto dalla popolazione (come la media campionaria, la varianza campionaria,. . .).
-
-Si possono usare *stime puntuali* o *stime per intervallo*.
-
-La stima puntuale è una tecnica di inferenza statistica che permette di stimare un parametro di interesse, come ad esempio la media o la varianza di una popolazione, a partire da un campione di osservazioni. In altre parole, la stima puntuale consiste nel calcolare un valore numerico che rappresenta la nostra migliore previsione del valore del parametro.
-
-La stima puntuale si basa sul fatto che, se il campione è rappresentativo della popolazione, le caratteristiche del campione dovrebbero essere simili a quelle della popolazione. Ad esempio, se si vuole stimare la media della popolazione, si può calcolare la media campionaria e utilizzarla come stima puntuale della media della popolazione.
-
-Tuttavia, la stima puntuale non fornisce informazioni sulla precisione o l'accuratezza della stima. In altre parole, non ci dice quanto vicino sia il valore stimato al valore vero del parametro. Per questo motivo, spesso è utile accompagnare la stima puntuale con un intervallo di confidenza, che indica la probabilità che il vero valore del parametro si trovi entro un certo intervallo intorno alla stima puntuale.
-
-Alla stima puntuale di un parametro non noto di una popolazione (costituita da un unico valore) spesso si preferisce sostituire un intervallo di valori, detto intervallo di confidenza, ossia si cerca di determinare in base al campione osservato $(x_1, x_2, ..., x_n)$ due limiti (uno inferiore e uno superiore) entro i quali sia compreso il parametro non noto con un certo grado di confidenza, detto anche grado di fiducia.
-
-### Verifica delle ipotesi
-
-La verifica delle ipotesi è un procedimento che consiste nel fare una congettura o un'ipotesi sul parametro non noto $\theta$ o sulla distribuzione di probabilità e nel decidere, sulla base del campione estratto se essa è accettabile o meno. *(approfondiremo questo argomento più avanti)*
-
-## Variabili aleatorie discrete
-
-Una variabile discreta può assumere un numero finito di valori reali (e, in tal caso, gli eventi elementari da cui deriva costituiscono l'elenco finito dei possibili risultati di una prova) oppure un numero infinito numerabile (e, in tal caso gli eventi elementari possono essere messi in corrispondenza con gli elementi della serie dei numeri naturali $1,2,…i,..$)
-
-Un variabile discreta è nota se si conoscono i valori che può assumere e le rispettive probabilità, cioè se sono ordinatamente note le seguenti informazioni:
-
-|                   |       |       |     |       |     |
-|-------------------|-------|-------|-----|-------|-----|
-| ***Valori di X*** | $x_1$ | $x_2$ | ... | $x_i$ | ... |
-| ***Probabilità*** | $p_1$ | $p_2$ | ... | $p_i$ | ... |
-
-La tabella precedente viene definita *distribuzione della probabilità della variabile casuale discreta X* e rappresenta un insieme di informazioni necessarie e sufficienti per calcolare la probabilità di qualsiasi evento concernente la v.c X.
-
-Pertanto condizione necessaria e sufficiente affinché una v.c discreta X sia ben definita è che tali probabilità soddisfino le seguenti condizioni:
-
-$$p_i \geq 0, \forall_i = 1,2,...;$$
-
-$$\sum_{i=1}^{\infty} p_i=1$$
-
-Si noti che nessun vincolo viene imposto sui valori reali che una v.c può assumere. La rappresentazione grafica più naturale di una v.c. discreta è quella di porre in ascissa i valori $(x_i, x_2,…)$ che la v.c. può assumere ed in ordinata le corrispondenti probabilità $(p_1,p_2,…)$, secondo la Figura seguente:
-
-![](images/download.jpg){width="357"}
-
-la *funzione di ripartizione* $F(x_0)$ di una variabile casuale X discreta calcolata nel punto $x_0$ è :
-
-$$F(x_0) = Pr(X \leq x_0) = \sum_{x \leq x_0} p_i$$
-
-Il sistema R mette a disposizione per ciascuna delle principali variabili aleatorie discrete:
-
-• la funzione di probabilità indicata con *d* che calcola la funzione di probabilità di una variabile aleatoria in uno specifico punto o in un insieme di punti (density mass).
-
-• la funzione di distribuzione indicata con *p che* calcola la funzione di distribuzione di una variabile aleatoria in uno specifico punto o in un insieme di punti (probability distribution).
-
-• la funzione per calcolare i quantili indicata con *q* che calcola i quantili.
-
-• la funzione che simula la variabile aleatoria mediante la generazione di sequenze di numeri pseudocasuali indicata con *r* che simula una variabile aleatoria generando una sequenza di numeri pseudocasuali.
-
-Tra le variabili casuali discrete rientrano: Bernoulli, Binomiale, Geometrica (geometrica modificata), Binomiale negativa (binomiale negativa modificata), Poisson, Ipergeometrica;
-
 ## Variabili aleatorie continue
 
 Una variabile aleatoria è continua se può assumere tutti i valori compresi in un (qualsiasi) intervallo reale. Formalmente, una v.c. continua X *assume un insieme continuo di valori con una densità di probabilità* $f_X(x)$, è una funzione misurabile e a valori reali che assegna ad ogni evento di uno spazio di probabilità continuo un numero reale.
@@ -345,6 +288,20 @@ $$\overline X = \frac{1}{n}\sum_{i=1}^n X_i$$
 **Varianza campionaria è:**
 
 $$S^2 = \frac{1}{n-1} \sum^n_{i=1}(X_i - \overline X)^2$$
+
+### Stima dei parametri
+
+La stima dei parametri ha lo scopo di determinare i valori non noti di una popolazione (come il valore medio, la varianza,. . .) per mezzo dei corrispondenti parametri derivati dal campione estratto dalla popolazione (come la media campionaria, la varianza campionaria,. . .).
+
+Si possono usare *stime puntuali* o *stime per intervallo*.
+
+La stima puntuale è una tecnica di inferenza statistica che permette di stimare un parametro di interesse, come ad esempio la media o la varianza di una popolazione, a partire da un campione di osservazioni. In altre parole, la stima puntuale consiste nel calcolare un valore numerico che rappresenta la nostra migliore previsione del valore del parametro.
+
+La stima puntuale si basa sul fatto che, se il campione è rappresentativo della popolazione, le caratteristiche del campione dovrebbero essere simili a quelle della popolazione. Ad esempio, se si vuole stimare la media della popolazione, si può calcolare la media campionaria e utilizzarla come stima puntuale della media della popolazione.
+
+Tuttavia, la stima puntuale non fornisce informazioni sulla precisione o l'accuratezza della stima. In altre parole, non ci dice quanto vicino sia il valore stimato al valore vero del parametro. Per questo motivo, spesso è utile accompagnare la stima puntuale con un intervallo di confidenza, che indica la probabilità che il vero valore del parametro si trovi entro un certo intervallo intorno alla stima puntuale.
+
+Alla stima puntuale di un parametro non noto di una popolazione (costituita da un unico valore) spesso si preferisce sostituire un intervallo di valori, detto intervallo di confidenza, ossia si cerca di determinare in base al campione osservato $(x_1, x_2, ..., x_n)$ due limiti (uno inferiore e uno superiore) entro i quali sia compreso il parametro non noto con un certo grado di confidenza, detto anche grado di fiducia.
 
 ### Metodi per la ricerca di stimatori
 
@@ -868,7 +825,7 @@ A causa di tali premesse possiamo incorrere in due tipi di errori:
 Nella seguente tabella sono riassunti tutti i possibili casi:
 
 |             |                                        |                                         |
-|------------------|---------------------------|----------------------------|
+|-------------------|--------------------------|---------------------------|
 |             | Rifiutare $H_0$                        | Accettare $H_0$                         |
 | $H_0$ vera  | Errore del I tipo Probabilità $\alpha$ | Decisione esatta Probabilità $1-\alpha$ |
 | $H_0$ falsa | Decisione esatta Probabilità $1-\beta$ | Errore del II tipo Probabilità $\beta$  |

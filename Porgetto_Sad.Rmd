@@ -715,7 +715,7 @@ Alcuni indici di sintesi, detti anche statistiche, utili a descrivere dei dati n
 
 La media campionaria è la media aritmetica di questi valori.
 
-**Definizione**: Si definisce media campionaria e si denota con $x$, la quantità:
+**Definizione**: Si definisce media campionaria e si denota con $\overline x$, la quantità:
 
 $$\overline x = \frac1n \sum^n_{i=1}x_i$$
 
@@ -726,6 +726,14 @@ mean(mpg$cty)
 ```
 
 La media campionaria utilizza tutti i dati ed è influenzata in maniera sensibile da valori eccezionalmente alti o bassi.
+
+Per ogni valore $x_i$ si definisce lo scarto dalla media campionaria la quantità:
+
+$$s_i = x_i - \overline x  \ \ con  \ \ i=(1,2,...,n)$$
+
+che indica il grado di scostamento del singolo valore $x_i$ dalla media campionaria $\overline x$. Si nota immediatamente che la somma algebrica degli scarti dalla media campionaria è sempre nulla. Infatti, risulta:
+
+$$\sum^n_{i=1} s_i = \sum^n_{i=1}(x_i - \overline x) = \sum^n_{i=1}x_i - n\overline x= n(\overline x - \overline x)=0$$
 
 #### Mediana Campionaria
 
@@ -744,9 +752,19 @@ La moda campionaria di un insieme di dati, se esiste, è la modalità a cui è a
 
 La distribuzione è detta bimodale se presenta due mode.
 
-Non esiste invece in R una funzione per estrarre la moda o la classe modale di una distribuzione di dati poiché è facilmente ricavabile osservando il grafico delle frequenze assolute o l'istogramma delle frequenze relative.
+La moda ha alcune proprietà importanti tra cui:
 
-#### Quantili, percentili, decili e quartili
+-    è possibile identificare la moda per qualsiasi tipo di variabile, quindi anche nelle variabili qualitative ordinabili e non ordinabili;
+
+-    indica sempre un valore realmente osservato nel campione;
+
+-    non è influenzata dai valori estremi;
+
+-    nel caso di distribuzioni di frequenze molto asimmetriche, la moda è il miglior indice per descrivere la tendenza centrale di un campione.
+
+Non esiste in R una funzione per estrarre la moda o la classe modale di una distribuzione di dati poiché è facilmente ricavabile osservando il grafico delle frequenze assolute o l'istogramma delle frequenze relative.
+
+#### Quartili, decili, percentili
 
 -   I *quartili,* come dice la parola stessa, si ottengono dividendo l'insieme di dati ordinati in 4 parti uguali. (quantili di ordine 1/4, 1/2, 3/4)
 
@@ -755,16 +773,19 @@ Non esiste invece in R una funzione per estrarre la moda o la classe modale di u
 
     ```
 
--   I *percentili*, invece, dividendo la distribuzione in 100 parti (quantili di ordine 1/100)
-
-    ```{r}
-    quantile(mpg$cty, probs=seq (0, 1, 0.01)) 
-    ```
-
+```{=html}
+<!-- -->
+```
 -   I *decili,* infine, dividono la distribuzione in 10 parti uguali (quantili di ordine 1/10)
 
     ```{r}
     quantile(mpg$cty, probs=seq (0, 1, 0.1))
+    ```
+
+-   I *percentili*, invece, dividendo la distribuzione in 100 parti (quantili di ordine 1/100)
+
+    ```{r}
+    quantile(mpg$cty, probs=seq (0, 1, 0.01)) 
     ```
 
 #### Varianza, deviazione standard e coefficiente di variazione
@@ -773,14 +794,14 @@ Assegnato un insieme di dati numerici $x_1, x_2, . . . , x_n$, si definisce vari
 
 $$s^2 = \frac {1}{n-1} \sum^n_{i=1}(x_i - \overline x)^2$$
 
-icon $$(n=2,3,...)$$
+con $$(n=2,3,...)$$
 
 ```{r}
 var(mpg$cty)
 
 ```
 
-dove $$\overline x$$ denota la media campionaria dei dati. Inoltre, si definisce deviazione standard campionaria la radice quadrata della varianza campionaria.
+dove $\overline x$ denota la media campionaria dei dati. Inoltre, si definisce deviazione standard campionaria la radice quadrata della varianza campionaria.
 
 ```{r}
 sd(mpg$cty)
@@ -795,13 +816,13 @@ I valori della varianza campionaria e della deviazione standard campionaria dipe
 
 Per confrontare le variazioni esistenti tra diversi campioni di dati è utile introdurre coefficiente di variazione.
 
-Assegnato un insieme di dati numerici $x1, x2, . . . , xn$, si definisce coefficiente di variazione il rapporto tra la deviazione standard campionaria e il modulo della media campionaria, ossia:
+Assegnato un insieme di dati numerici $x_1, x_2, . . . , x_n$, si definisce coefficiente di variazione il rapporto tra la deviazione standard campionaria e il modulo della media campionaria, ossia:
 
 $$CV=\frac {s}{|\overline x|}$$
 
 Si nota che il coefficiente di variazione è un numero puro, ossia è un indice indice *adimensionale* che non dipende dall'unità di misura utilizzata.
 
-Il coefficiente di variazione è utilizzato quando è necessario confrontare tra loro le dispersioni (variabilità) di insiemi di dati espressi in differenti unità di misura.
+Il coefficiente di variazione è utilizzato quando è necessario confrontare tra loro le dispersioni (variabilità) di insiemi di dati espressi in differenti unità di misura oppure insiemi di dati aventi differenti range di variazione (il range di variazione è dato dalla differenza tra il massimo e il minimo dei dati).
 
 In R si implementa nel seguente modo:
 
@@ -818,7 +839,7 @@ cv(mpg$displ)
 
 ```
 
-le variabili presentano evidenti variazioni tra esse.
+Come è possibile osservare il coefficiente di variazione più alto si ottiene per la variabile *displ*, ciò vuol dire che in questo campione vi è una maggiore dispersione dei dati dalla media.
 
 #### Scatterplot
 
@@ -847,7 +868,7 @@ p18 <- p18 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9
 p18
 ```
 
-Osservando lo scatterplot possiamo affermare che le auto con un numero di cilindri pari a *4 e 5* riescono a percorrere più miglia con un gallone in città mentre le auto con *6* e *8* cilindri riescono a percorrere meno miglia per gallone in zona urbana.
+Osservando lo scatterplot possiamo affermare che le auto con un numero di cilindri pari a *4 e 5* riescono a percorrere più miglia con un gallone in città mentre le auto con *6* e *8* cilindri riescono a percorrere meno miglia con un gallone in zona urbana.
 
 #### Istogramma
 
@@ -866,7 +887,7 @@ barplot(fcut, col = rainbow(4), xlab = "miglia per gallone", main = "Grafico mig
 
 ### Variabile Hwy
 
-La variabile hwy del dataset mpg rappresenta il numero di miglia per gallone che un veicolo può percorrere su strada.
+La variabile hwy del dataset mpg rappresenta il numero di miglia per gallone che un veicolo può percorrere in autostrada.
 
 Usando le funzioni di visualizzazione come **`ggplot()`** del pacchetto **`ggplot2`** è possibile creare grafici che mostrino le relazioni tra le variabili del dataset o la distribuzione di singole variabili. Ad esempio, abbiamo creato un istogramma per visualizzare i consumi di carburante **`hwy`** dei veicoli del dataset.
 
@@ -883,6 +904,8 @@ p19 <- p19 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9
 p19
 
 ```
+
+Tra 25 e 30 è presente il valore modale.
 
 #### Boxplot ad intaglio
 
@@ -996,9 +1019,11 @@ p21
 
 ```
 
-Dallo scatterplot è evidente che la variabile *hwy* (consumo di carburante in autostrada, in miglia per gallone) è correlata negativamente con la variabile *displ* (cilindrata del motore,ovvero il volume delle camere di combustione, misurato in pollici cubici (in)), possiamo affermare infatti che all'aumentare delle miglia che il veicolo può percorrere su strada, con un gallone, diminuisce la cilindrata del motore, dunque più alta è la cilindrata e minori sono le miglia che il veicolo percorrerà con un gallone su strada.
+Dallo scatterplot è evidente che la variabile *hwy* (consumo di carburante in autostrada, in miglia per gallone) è correlata negativamente con la variabile *displ* (cilindrata del motore,ovvero il volume delle camere di combustione, misurato in pollici cubici (in)), possiamo affermare infatti che all'aumentare delle miglia che il veicolo può percorrere su strada, con un gallone, diminuisce la cilindrata del motore, dunque più alta è la cilindrata e minori sono le miglia che il veicolo percorrerà con un gallone in autostrada.
 
 #### Funzione di distribuzione empirica continua
+
+In statistica la funzione di distribuzione empirica, **viene usata per descrivere fenomeni quantitativi o comunque descritti con valori misurati su scale ordinali, intervallari o proporzionali, ma non se misurati con una scala nominale**.
 
 Per fenomeni quantitativi continui occorre considerare la funzione di distribuzione empirica continua, ossia una funzione di distribuzione empirica strutturata in classi.
 
@@ -1006,7 +1031,7 @@ Come primo step creiamo le classi:
 
 ```{r}
 
-# Frequenza relativa dei voti
+# Frequenza relativa delle osservazioni
 freqrel <- table(mpg$hwy)/length(mpg$hwy)
 
 # Lunghezza del vettore frequenza
@@ -1430,7 +1455,7 @@ residui <- resid(lm(data = mpg,cty ~ displ + cyl + drv))
 
 ```
 
-L'analisi dei residui in un modello di regressione lineare multipla consiste nel verificare se i residui, ovvero la differenza tra i valori osservati e quelli previsti dal modello, seguono una distribuzione normale e se sono distribuiti in modo casuale. Ciò è importante perché una distribuzione normale e casuale dei residui indica che il modello è adeguato alla relazione tra le variabili dipendenti e indipendenti.
+L'analisi dei residui in un modello di regressione lineare multipla consiste nel verificare se i residui, ovvero la **differenza tra i valori osservati e quelli previsti dal modello**, seguono una distribuzione normale e se sono distribuiti in modo casuale. Ciò è importante perché una distribuzione normale e casuale dei residui indica che il modello è adeguato alla relazione tra le variabili dipendenti e indipendenti.
 
 Per eseguire un'analisi dei residui, è possibile utilizzare alcuni strumenti come un grafico di istogramma dei residui, un grafico Q-Q plot e un grafico di dispersione dei residui sui valori previsti.
 
@@ -1459,6 +1484,10 @@ ylab("Residui")
 
 
 ```
+
+La media campionaria dei residui $\overline E$ è nulla, ossia in media gli scostamenti positivi e negativi si compensano. Infatti:
+
+$$\overline E = \frac{1}{n}\sum^n_{i=1}E_i= \frac{1}{n}\sum^n_{i=1}(y_i - \hat y_i)=\overline y - \frac{1}{n}\hat y=0$$
 
 ```{r}
 # Istogramma dei residui

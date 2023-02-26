@@ -1,7 +1,7 @@
 ---
 title: "Statistica e analisi dei dati"
 author: "Genito e Leone"
-date: "2023-02-27"
+date: "27/02/2023"
 output:
   pdf_document: default
 ---
@@ -88,24 +88,17 @@ tail(mpg)
 
 ```
 
-Vogliamo visualizzare un numero specifico di osservazioni, quindi utilizziamo il comando **`head(mpg, n)`**, dove **`n`** è il numero di osservazioni che vogliamo visualizzare.
-
-```{r}
-head(mpg, 10)
-
-```
-
 ## Pulizia dei dati
 
 La pulizia dei dati consiste nel processo di verifica e correzione dei dati contenuti in un dataset al fine di garantirne la qualità e la validità per un'analisi statistica. La pulizia dei dati può includere diverse attività, come:
 
--   Rimozione dei valori mancanti: si verifica la presenza di valori mancanti (NA) nel dataset e si sceglie come gestirli, ad esempio eliminandoli o sostituendoli con valori sostitutivi.
+-   **Rimozione dei valori mancanti**: si verifica la presenza di valori mancanti (NA) nel dataset e si sceglie come gestirli, ad esempio eliminandoli o sostituendoli con valori sostitutivi.
 
--   Correzione dei valori errati: si verifica la presenza di valori errati o anomali nel dataset e si sceglie come gestirli, ad esempio eliminandoli o sostituendoli con valori sostitutivi.
+-   **Correzione dei valori errati:** si verifica la presenza di valori errati o anomali nel dataset e si sceglie come gestirli, ad esempio eliminandoli o sostituendoli con valori sostitutivi.
 
--   Trasformazione delle variabili: si verifica il tipo di dato per ogni variabile (ad esempio, numerico, carattere, data) e si effettua eventualmente la trasformazione.
+-   **Trasformazione delle variabili**: si verifica il tipo di dato per ogni variabile (ad esempio, numerico, carattere, data) e si effettua eventualmente la trasformazione.
 
--   Creazione di nuove variabili: si creano nuove variabili derivate dalle variabili esistenti, ad esempio calcolando il rapporto tra due variabili o creando una variabile binaria a partire da una variabile categoriale.
+-   **Creazione di nuove variabili:** si creano nuove variabili derivate dalle variabili esistenti, ad esempio calcolando il rapporto tra due variabili o creando una variabile binaria a partire da una variabile categoriale.
 
 ### Verifica della presenza di valori mancanti
 
@@ -146,25 +139,6 @@ summary(mpg)
 
 La funzione **`summary()`** calcola automaticamente alcune statistiche di base per ogni variabile, come ad esempio il valore minimo, il valore massimo, la media, la mediana e la deviazione standard. Se la variabile è di tipo numerico, verranno calcolate anche il quartile e il range interquartile. Se la variabile è di tipo carattere o factor, verrà conteggiato il numero di osservazioni per ogni livello o valore univoco della variabile. La funzione **`summary()`** è utile per ottenere una panoramica delle caratteristiche dei dati contenuti nel dataset. Ad esempio, dall'output della funzione **`summary()`** per il dataset "mpg" possiamo vedere il numero di osservazioni per ogni variabile (ad esempio, "Length:234" indica che ci sono 234 osservazioni per ogni variabile), il tipo di dati contenuti in ogni variabile (ad esempio, "Class :character" indica che la variabile è di tipo carattere) e alcune statistiche di base per ogni variabile (ad esempio, "Min. :1.600" indica il valore minimo della variabile, "1st Qu.:2.400" indica il primo quartile, "Median :3.300" indica la mediana e così via).
 
-### Visualizzazione rapida dei grafici
-
-Visualizziamo i grafici delle variabili numeriche del dataset mpg
-
-```{r}
-dfm <- mpg %>% 
-  select_if(is.numeric)
-
-```
-
-Ora che abbiamo raccolto tutte le variabili di tipo numerico, guardiamo il grafico ottenuto con pairs
-
-```{r}
-pairs(dfm)
-
-```
-
-Dal grafico notiamo che c'è una correlazione negativa tra le variabili displ e cty e le variabili displ e hwy, ossia tra il volume dei cilindri dell'automobile e il consumo di carburante in città ed in autostrada. Quindi maggiore è il volume dei cilindri e minore è il consumo di carburante. Una forte correlazione positiva vi è anche tra il consumo di carburante in città ed in autostrada.
-
 ## Tabelle di frequenza
 
 Utilizziamo il comando **`table(mpg$variabile)`** per ottenere il conteggio delle osservazioni per ogni categoria di una variabile. Ad esempio, **`table(mpg$cyl)`** ti fornirà il conteggio delle osservazioni per il numero di cilindri per ogni automobile.
@@ -196,19 +170,6 @@ df
 ```
 
 Osservando l'intera tabella notiamo che del modello caravan 2wd ne sono presenti 11 veicoli mentre del modello a4 ne sono presenti 7 e così via.
-
-### Displ
-
-La variabile displ del dataset mpg rappresenta la cilindrata del motore del veicolo, ovvero il volume delle camere di combustione, misurato in pollici cubici (in). Si tratta di una variabile quantitativa continua.
-
-```{r}
-df <- data.frame(Freq =
-c(table(mpg$displ)), Perc_freq = c(table(mpg$displ)/length(mpg$displ)*100))
-df
-
-```
-
-Tutti i valori presenti nella tabella in alto rappresentano la cilindrata del motore dei veicoli; 7 è il valore della cilindrata più alto e ne è caratterizzato solo un veicolo dunque il 0.5%. La cilindrata più bassa è 1.6 e 5 veicoli ne sono dotati ovvero il 2% dell'intero set di dati.
 
 ### Year
 
@@ -262,31 +223,6 @@ df
 
 103 auto dunque il 44% possiedono la trazione integrale, il 45% dunque 106 auto hanno la trazione anteriore infine 25 veicoli il 10% sono caratterizzati dalla trazione posteriore.
 
-### Cty
-
-La variabile cty del dataset mpg rappresenta il numero di miglia per gallone che un veicolo può percorrere in città. Si tratta di una variabile quantitativa continua, in quanto i valori possibili sono numeri reali che possono assumere valori intermedi.
-
-```{r}
-df <- data.frame(Freq =
-c(table(mpg$cty)), Perc_freq = c(table(mpg$cty)/length(mpg$cty)*100))
-df
-
-```
-
-35 è il numero massimo in miglia per gallone che 1 auto del nostro dataset può percorrere in città, il numero minimo in miglia per gallone è 9 che solo 5 auto (2%) del nostro set di dati possono percorrere in città.
-
-### Hwy
-
-La variabile hwy del dataset mpg rappresenta il numero di miglia per gallone che un veicolo può percorrere su autostrada. Si tratta di una variabile quantitativa continua, in quanto i valori possibili sono numeri reali che possono assumere valori intermedi.
-
-```{r}
-df <- data.frame(Freq =
-c(table(mpg$hwy)), Perc_freq = c(table(mpg$hwy)/length(mpg$hwy)*100))
-df
-```
-
-2 auto del dataset dunque l'1% riescono a percorrere 44 miglia per gallone su strada, il 2% ovvero 5 auto coprono solo 12 miglia per gallone su autostrada e cosi via.
-
 ### Fl
 
 La variabile fl del dataset mpg rappresenta il tipo di carburante utilizzato dal veicolo. Si tratta di una variabile categorica nominale, in quanto i valori possibili sono limitati e non possono essere ordinati in base alla loro posizione nella scala di valori. I valori possibili per la variabile fl sono "p", "c", "e", "r" e "d", che indicano rispettivamente: carburante premium, carburante normale (etanolo 85), elettricità, carburante regolare e diesel.
@@ -315,21 +251,21 @@ La classe di veicolo più frequente è suv infatti di questa classe sono present
 
 ## Visualizzazione dei dati
 
-Visualizzare i dati attraverso grafici serve a diverse finalità:
+Visualizzare i dati attraverso grafici serve a diverse **finalità**:
 
-1.  Facilitare la comprensione: i grafici possono aiutare a rappresentare in modo visivo i dati e a renderli più facili da comprendere. Ad esempio, un grafico a barre può mostrare facilmente le frequenze di una variabile categoriale, mentre un grafico a linee può mostrare l'evoluzione di una variabile nel tempo.
+1.  **Facilitare la comprensione**: i grafici possono aiutare a rappresentare in modo visivo i dati e a renderli più facili da comprendere. Ad esempio, un grafico a barre può mostrare facilmente le frequenze di una variabile categoriale, mentre un grafico a linee può mostrare l'evoluzione di una variabile nel tempo.
 
-2.  Individuare pattern e tendenze: i grafici possono aiutare a individuare pattern e tendenze nei dati, che altrimenti potrebbero essere difficili da rilevare dall'analisi dei dati in forma tabellare.
+2.  **Individuare pattern e tendenze**: i grafici possono aiutare a individuare pattern e tendenze nei dati, che altrimenti potrebbero essere difficili da rilevare dall'analisi dei dati in forma tabellare.
 
-3.  Fare confronti: i grafici consentono di fare confronti tra diverse categorie o gruppi di dati, ad esempio confrontando le frequenze di diverse variabili.
+3.  **Fare confronti**: i grafici consentono di fare confronti tra diverse categorie o gruppi di dati, ad esempio confrontando le frequenze di diverse variabili.
 
-4.  Comunicare i risultati: i grafici possono essere utilizzati per comunicare i risultati di un'analisi a un pubblico più ampio, anche a persone che non sono esperte di statistica o di analisi dei dati. Ad esempio, un grafico può essere incluso in un report o in una presentazione, come in questo caso, per illustrare in modo chiaro e conciso i risultati di un'analisi.
+4.  **Comunicare i risultati**: i grafici possono essere utilizzati per comunicare i risultati di un'analisi a un pubblico più ampio, anche a persone che non sono esperte di statistica o di analisi dei dati. Ad esempio, un grafico può essere incluso in un report o in una presentazione, come in questo caso, per illustrare in modo chiaro e conciso i risultati di un'analisi.
 
-### Variabile manufacturer
+## Variabile manufacturer
 
 Per visualizzare la variabile "manufacturer" del dataset "mpg" con ggplot2, utilizziamo un grafico a barre e un grafico a torta. Entrambi questi grafici sono adatti per visualizzare le frequenze di una variabile di tipo carattere o factor, come la variabile "manufacturer".
 
-#### Grafico a Barre
+### Grafico a Barre
 
 Il grafico a barre è un tipo di grafico utilizzato per visualizzare le frequenze di una variabile che può essere di tipo carattere o factor. In particolare, ogni barra del grafico rappresenta il numero di osservazioni per un determinato livello o valore univoco della variabile.
 
@@ -350,7 +286,7 @@ Il grafico a barre è utile per ottenere una panoramica delle caratteristiche di
 
 In questo caso dodge è l'osservazione più diffusa mentre lincoln quella meno frequente.
 
-#### Grafico a Torta
+### Grafico a Torta
 
 Il grafico a torta (o grafico a settori) è un tipo di grafico utilizzato per visualizzare le frequenze di una variabile di tipo carattere o factor. In particolare, ogni settore della torta rappresenta la percentuale di osservazioni per un determinato livello o valore univoco della variabile.
 
@@ -373,11 +309,11 @@ Il grafico a torta mostra la distribuzione delle osservazioni per ogni produttor
 
 ll grafico mostra che il produttore 'toyota' è presente in circa il 15% delle osservazioni, seguito da 'dodge' con il 16% e così via\...
 
-### Variabile model
+## Variabile model
 
 Anche in questo caso essendo la variabile categoriale procediamo con la rappresentazione attraverso un grafico a barre, mentre non verrà mostrato il grafico a torta in quanto è irrilevante, la presenza di così tante categorie non permetterebbe di distinguere l'una dall'altra.
 
-#### Grafico a barre
+### Grafico a barre
 
 ```{r fig.align = 'center'}
 p3 <- ggplot(mpg, aes(x = model, fill = Manufacturer)) +
@@ -394,19 +330,20 @@ p3
 
 Il grafico a barre della variabile "model" condizionato a "manufacturer" mostra la distribuzione delle frequenze dei modelli di auto per ogni produttore. Ad esempio, possiamo vedere quanti modelli di auto di ogni produttore sono presenti nel dataset "mpg". Il grafico può essere utile per ottenere una panoramica della presenza di ogni produttore all'interno del dataset e per comparare le frequenze dei modelli di auto tra i diversi produttori. Con questo grafico sappiamo ogni modello a quale casa produttrice appartiene e conosciamo anche quanti di quei modelli sono presenti nel dataset.
 
-### Variabile displ
+#### 
+
+## Variabile displ
 
 La variabile displ rappresenta il volume dei cilindri dell'automobile, in litri. Per visualizzare i dati della variabile "displ" del dataset "mpg", utilizziamo un istogramma.
 
-#### Istogramma
+### Istogramma
 
 Gli istogrammi sono formati da bins, ossia le barre verticali che dividono l'asse delle ascisse in intervalli di valori. Ogni barra rappresenta un bin, ovvero un intervallo di valori, e l'altezza della barra indica il numero di osservazioni che cadono all'interno di quell'intervallo.
 
 L'istogramma è un grafico che mostra la distribuzione delle frequenze di una variabile numerica. Dall'istogramma possiamo vedere la forma della distribuzione, il valore medio ecc.
 
 ```{r message=FALSE, warning=FALSE, fig.align = 'center'}
-p4 <- ggplot(mpg, aes(x = displ)) + geom_histogram(bins = 30, aes(y = ..density..), color = "black", fill = "white") + 
-  geom_freqpoly(aes(y = ..density..), color = "red", size = 1) + labs(title = "Distribuzione dei valori di displ") 
+p4 <- ggplot(mpg, aes(x = displ)) + geom_histogram(bins = 30, aes(y = ..density..), color = "black", fill = "white") 
 
 
 p4 <- p4 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
@@ -418,13 +355,9 @@ p4
 
 L'istogramma della variabile "displ" mostra la distribuzione dei valori della variabile. Ad esempio, possiamo vedere qual è la frequenza di ogni valore di "displ" all'interno del dataset "mpg". Il grafico visualizza i valori di "displ" come valori in ascissa e le frequenze come valori in ordinata.
 
-La curva di frequenza mostra la frequenza cumulativa dei valori di "displ", ossia la somma delle frequenze di una variabile fino a un determinato valore.
-
 Si può notare che la maggior parte dei valori di "displ" sono compresi tra 1 e 4, con un picco intorno a 2.5. Ciò indica che la distribuzione dei valori è sbilanciata a sinistra.
 
-La kernel sovrapposta al grafico indica l'andamento delle osservazioni della variabile, come è possibile osservare la curva segue le barre dell'istogramma, le zone a punta corrispondono alla media di ogni barra.
-
-#### Grafico a barre
+### Grafico a barre
 
 Vogliamo confrontare i valori della variabile "displ" tra le diverse categorie della variabile "class". Per farlo utilizziamo un grafico a barre con i valori di "displ" come valori in ascissa e le categorie di "class" come valori in ordinata:
 
@@ -444,7 +377,7 @@ p5
 
 Dal grafico possiamo osservare sulle ascisse i tipi di veicoli, da notare inoltre che ogni veicolo ha un'altezza proporzionale al volume dei cilindri dell'automobile, in litri, in quanto sull'asse delle ordinate è presente la variabile displ.
 
-#### Grafico a dispersione
+### Grafico a dispersione
 
 Questo grafico mostra la relazione tra due variabili numeriche. Utilizziamo il grafico a dispersione per visualizzare come i valori di "displ" sono correlati ai valori di un'altra variabile numerica, come "cty" (l consumo di carburante in città, in miglia per gallone).
 
@@ -461,52 +394,19 @@ p6
 
 Sull'asse delle ascisse ci sono le cilindrate del motore, ossia il numero di camere di combustione, sull'asse delle ordinate c'è il consumo di carburante in città, in miglia per gallone
 
-Dal grafico vediamo che all'aumentare del volume dei cilindri diminuisce il consumo di carburante in città.
+Dal grafico vediamo che all'aumentare del volume dei cilindri ***aumenta*** il consumo di carburante in città.
 
-#### Funzione di distribuzione empirica discreta
+## Variabile Year
 
-La funzione di distribuzione empirica $F(x)$ è definita per ogni $x$ reale ed è una funzione a gradini in cui ogni gradino indica quale proporzione di dati presenta un valore minore o uguale di quello indicato sull'asse delle ascisse.
+Year indica l'anno di produzione dell'automobile. Le auto più vecchie del dataset sono del 1999, mentre le più recenti sono del 2008.
 
-La funzione di distribuzione empirica $F(x)$ gode delle seguenti proprietà:
-
-\- è una funzione non decrescente;
-
-\- la funzione assume il valore a sinistra in corrispondenza ad ogni punto di salto;
-
-\- la funzione vale 0 per ogni valore minore dell'osservazione minima e vale 1 per ogni valore maggiore o uguale dell'osservazione massima.
-
-```{r fig.align = 'center'}
-# Frequenze relative cumulative
-valori_ecdf <- round(cumsum(table(mpg$displ)/length(mpg$displ)),3)
-
-```
-
-La funzione $ecdf()$ (empirical cumulative distribution function) permette di disegnare il grafico della funzione di distribuzione empirica per variabili quantitative discrete.
-
-```{r fig.align = 'center'}
-plot(ecdf(mpg$displ),main=" Funzione di distribuzione empirica discreta ",verticals =FALSE ,col ="red ")
-
-```
-
-Se si utilizza l'opzione $verticals = TRUE$ i segmenti sono uniti da linee verticali.
-
-### Variabile Year
-
-Year indica l'anno di produzione dell'automobile. Innanzitutto applichiamo la funzione **`summary()`** per ottenere un riassunto delle statistiche di base per la variabile **`Year`**, come ad esempio la media, la mediana, il minimo e il massimo.
-
-```{r}
-summary(mpg$year)
-
-```
-
-L'auto più vecchia del dataset è del 1999, mentre la più recente è del 2008. Questo ci fa capire che le auto prese in esame sono modelli molto vecchi rispetto a quelli attuali.
-
-#### Istogramma
+### Barplot
 
 Nel chunk successivo applichiamo la funzione **`geom_histogram`**, l'equivalente di **`hist()`**, per creare un istogramma della variabile **`Year`**. L'istogramma ci aiuterà a visualizzare la distribuzione dei valori della variabile e a identificare eventuali outlier.
 
 ```{r fig.align = 'center'}
-p7 <- ggplot(mpg, aes(x = year)) + geom_histogram(bins = 30, aes(y = ..density..), color = "black", fill = "white")
+p7 <- ggplot(mpg, aes(x = year)) + geom_bar(fill = "white", col = "black")
+
 p7 <- p7 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#fff68f', linetype = 'longdash'),
                panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
@@ -516,7 +416,7 @@ p7
 
 Da questo grafico capiamo che gli anni di produzione sono solo 2, il 1999 e il 2008. Quindi sono presenti due generazioni di veicoli, alcuni prodotti alla fine del 20esimo secolo e altri all'inizio del 21 secolo, discostanti da loro di 10 anni.
 
-#### Boxplot
+### Boxplot
 
 Con la funzione **`boxplot()`** creiamo un grafico a scatola a baffi della variabile **`Year`**.
 
@@ -532,11 +432,11 @@ p8
 
 Il boxplot in questo caso appare anomalo, perché non ha i baffi, questo perché il primo quartile corrisponde al minimo e il terzo quartile corrisponde al massimo.
 
-### Variabile Cyl
+## Variabile Cyl
 
 La variabile **`cyl`** del dataset **`mpg`** rappresenta il numero di cilindri del motore dei veicoli. Si tratta di una variabile categoriale, in quanto i valori possibili sono discreti e limitati.
 
-#### Barplot
+### Barplot
 
 Nel seguente chunk abbiamo creato un grafico a barre per visualizzare la distribuzione dei valori.
 
@@ -552,7 +452,7 @@ Nel grafico, "cyl" sarà mostrata sull'asse delle ascisse e il numero di osserva
 
 Il grafico a barre mostra che ci sono molte più macchine con un numero di cilindri pari a 4 rispetto a vetture con un numero di cilindri pari a 5 o 8.
 
-#### Grafico a torta
+### Grafico a torta
 
 Utilizziamo un grafico a torta per mostrare le frequenze di ogni valore di "cyl" come percentuali dell'intero dataset.
 
@@ -580,11 +480,11 @@ p10
 
 Il grafico a torta ci da una conferma di quello che avevamo già visto nel grafico a barre, la presenza di veicoli a 4 cilindri è superiore alle altre. In sostanza il dataset è formato quasi interamente da veicoli a 4 e 6 cilindri.
 
-### Variabile trans
+## Variabile trans
 
 La variabile **`trans`** del dataset **`mpg`** rappresenta il tipo di trasmissione dei veicoli. Si tratta di una variabile categoriale, in quanto i valori possibili sono discreti e limitati.
 
-#### Barplot
+### Barplot
 
 ```{r fig.align = 'center'}
 p11 <- ggplot(mpg, mapping = aes(trans)) +
@@ -600,7 +500,7 @@ p11
 
 Dall'istogramma possiamo notare che ci sono molti veicoli con il tipo di trasmissione *auto(l4)* e il tipo di trasmissione *manual(m5)* .
 
-#### Boxplot
+### Boxplot
 
 ```{r fig.align = 'center'}
 p12 <- ggplot(mpg, aes(x = trans, y = displ)) +
@@ -624,11 +524,11 @@ outliers <- mpg %>%
 outliers
 ```
 
-### Variabile Drv
+## Variabile Drv
 
 La variabile Drv rappresenta il tipo di trazione dell'automobile (anteriore, posteriore o integrale).
 
-#### Barplot
+### Barplot
 
 ```{r fig.align = 'center'}
 drive <- factor(mpg$drv, levels = c("4", "f", "r"), labels = c("trazione integrale", "trazione anteriore", "trazione posteriore"))
@@ -645,7 +545,7 @@ p13
 
 La maggior parte dei veicoli possiede la trazione integrale e la trazione anteriore, sono pochi i veicoli con la trazione posteriore.
 
-#### Scatterplot
+### Scatterplot
 
 ```{r fig.align = 'center'}
 p14 <- ggplot(mpg, aes(x = drive, y = displ)) +
@@ -662,7 +562,7 @@ Dallo scatterplot possiamo osservare che i veicoli con la trazione integrale, po
 
 Giungiamo alla medesima conclusione osservando il boxplot in basso.
 
-#### Boxplot
+### Boxplot
 
 ```{r fig.align = 'center'}
 p15 <- ggplot(mpg, aes(x = drv, y = displ)) +
@@ -687,11 +587,11 @@ outlier
 
 ```
 
-### Variabile Cty
+## Variabile Cty
 
 La variabile Cty rappresenta il consumo di carburante in città, in miglia per gallone.
 
-#### Istogramma e kernel density
+### Istogramma e kernel density
 
 ```{r fig.align = 'center'}
 p16 <- ggplot(data = mpg, mapping = aes(cty,..density..)) + 
@@ -707,11 +607,11 @@ p16
 
 Dall'istogramma possiamo osservare come si distribuisce la variabile, è evidente che la maggior parte dei veicoli percorrono tra i 10 e i 20 miglia con un gallone.
 
-### Indici di sintesi
+## Indici di sintesi
 
 Alcuni indici di sintesi, detti anche statistiche, utili a descrivere dei dati numerici, sono media, mediana, moda, varianza, deviazione standard e coefficiente di variazione. La media, la mediana e la moda sono misure di centralità, mentre la varianza e la deviazione standard misurano la dispersione dei dati.
 
-#### Media campionaria
+### Media campionaria
 
 La media campionaria è la media aritmetica di questi valori.
 
@@ -735,7 +635,7 @@ che indica il grado di scostamento del singolo valore $x_i$ dalla media campiona
 
 $$\sum^n_{i=1} s_i = \sum^n_{i=1}(x_i - \overline x) = \sum^n_{i=1}x_i - n\overline x= n(\overline x - \overline x)=0$$
 
-#### Mediana Campionaria
+### Mediana Campionaria
 
 Assegnato un insieme di dati di ampiezza $n$, lo si ordini in ordine crescente (dal valore più piccolo al valore più grande). Se n è dispari, si definisce mediana campionaria il valore che è in posizione $(n +1)/2$, mentre se $n$ è pari la mediana campionaria è invece definita come la media aritmetica dei valori che occupano le posizioni $n/2$ e $n/2+ 1$.
 
@@ -746,7 +646,7 @@ median(mpg$cty)
 
 La mediana campionaria dipende solo da uno o da due valori centrali dei dati e non risente dei valori estremi. Inoltre, l'uso della mediana come indice per descrivere le caratteristiche dei dati ha lo svantaggio di dover prima riordinare i dati in ordine crescente, il che non è richiesto per il calcolo della media.
 
-#### Moda campionaria
+### Moda campionaria
 
 La moda campionaria di un insieme di dati, se esiste, è la modalità a cui è associata la frequenza (assoluta o relativa) più elevata. Se esistono più modalità con frequenza massima, ciascuna di esse è detto valore modale.
 
@@ -754,17 +654,17 @@ La distribuzione è detta bimodale se presenta due mode.
 
 La moda ha alcune proprietà importanti tra cui:
 
--    è possibile identificare la moda per qualsiasi tipo di variabile, quindi anche nelle variabili qualitative ordinabili e non ordinabili;
+-   è possibile identificare la moda per qualsiasi tipo di variabile, quindi anche nelle variabili qualitative ordinabili e non ordinabili;
 
--    indica sempre un valore realmente osservato nel campione;
+-   indica sempre un valore realmente osservato nel campione;
 
--    non è influenzata dai valori estremi;
+-   non è influenzata dai valori estremi;
 
--    nel caso di distribuzioni di frequenze molto asimmetriche, la moda è il miglior indice per descrivere la tendenza centrale di un campione.
+-   nel caso di distribuzioni di frequenze molto asimmetriche, la moda è il miglior indice per descrivere la tendenza centrale di un campione.
 
 Non esiste in R una funzione per estrarre la moda o la classe modale di una distribuzione di dati poiché è facilmente ricavabile osservando il grafico delle frequenze assolute o l'istogramma delle frequenze relative.
 
-#### Quartili, decili, percentili
+### Quartili, decili, percentili
 
 -   I *quartili,* come dice la parola stessa, si ottengono dividendo l'insieme di dati ordinati in 4 parti uguali. (quantili di ordine 1/4, 1/2, 3/4)
 
@@ -773,9 +673,8 @@ Non esiste in R una funzione per estrarre la moda o la classe modale di una dist
 
     ```
 
-```{=html}
 <!-- -->
-```
+
 -   I *decili,* infine, dividono la distribuzione in 10 parti uguali (quantili di ordine 1/10)
 
     ```{r}
@@ -788,7 +687,7 @@ Non esiste in R una funzione per estrarre la moda o la classe modale di una dist
     quantile(mpg$cty, probs=seq (0, 1, 0.01)) 
     ```
 
-#### Varianza, deviazione standard e coefficiente di variazione
+### Varianza e deviazione standard
 
 Assegnato un insieme di dati numerici $x_1, x_2, . . . , x_n$, si definisce varianza campionaria, e si denota con $s^2$, la quantità:
 
@@ -812,7 +711,7 @@ Varianza campionaria e deviazione standard campionaria sono detti indici di disp
 
 I valori della varianza campionaria e della deviazione standard campionaria dipendono dall'unità di misura dei dati.
 
-#### Coefficiente di variazione
+### Coefficiente di variazione
 
 Per confrontare le variazioni esistenti tra diversi campioni di dati è utile introdurre coefficiente di variazione.
 
@@ -841,21 +740,7 @@ cv(mpg$displ)
 
 Come è possibile osservare il coefficiente di variazione più alto si ottiene per la variabile *displ*, ciò vuol dire che in questo campione vi è una maggiore dispersione dei dati dalla media.
 
-#### Scatterplot
-
-```{r fig.align = 'center'}
-p17 <- ggplot(data = mpg, mapping = aes(x = cty, y = displ)) +
-  geom_point()
-
-p17 <- p17 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
-               panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
-               panel.grid.minor = element_line(color = '#fff68f', size = 0.7,linetype = "dotdash")) 
-
-p17
-
-```
-
-Le variabili displ (volume dei cilindri dell'automobile, in litri) e cty (consumo di carburante in città, in miglia per gallone) sono correlate negativamente, infatti all'aumentare delle miglia che il veicolo può percorrere con un gallone diminuisce la cilindrata del motore dell'auto.
+### Scatterplot
 
 ```{r fig.align = 'center'}
 p18 <- ggplot(mpg, aes(x = cyl, y = cty)) +
@@ -868,9 +753,9 @@ p18 <- p18 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9
 p18
 ```
 
-Osservando lo scatterplot possiamo affermare che le auto con un numero di cilindri pari a *4 e 5* riescono a percorrere più miglia con un gallone in città mentre le auto con *6* e *8* cilindri riescono a percorrere meno miglia con un gallone in zona urbana.
+All'aumentare del numero dei cilindri aumenta il consumo di carburante in città, infatti auto a 4 cilindri in media fanno più miglia per gallone rispetto alle auto con 8 cilindri.
 
-#### Istogramma
+### Istogramma
 
 Utilizziamo la funzione **`cut()`** per raggruppare i dati e creare un istogramma con degli intervalli scelti.
 
@@ -885,13 +770,13 @@ Gli intervalli sono scelti in modo da essere abbastanza equi.
 barplot(fcut, col = rainbow(4), xlab = "miglia per gallone", main = "Grafico miglia per gallone", ylab = "n.osservazioni")
 ```
 
-### Variabile Hwy
+## Variabile Hwy
 
 La variabile hwy del dataset mpg rappresenta il numero di miglia per gallone che un veicolo può percorrere in autostrada.
 
 Usando le funzioni di visualizzazione come **`ggplot()`** del pacchetto **`ggplot2`** è possibile creare grafici che mostrino le relazioni tra le variabili del dataset o la distribuzione di singole variabili. Ad esempio, abbiamo creato un istogramma per visualizzare i consumi di carburante **`hwy`** dei veicoli del dataset.
 
-#### Istogramma
+### Istogramma
 
 ```{r fig.align = 'center'}
 p19 <- ggplot(data = mpg, mapping = aes(hwy)) +
@@ -907,7 +792,7 @@ p19
 
 Tra 25 e 30 è presente il valore modale.
 
-#### Boxplot ad intaglio
+### Boxplot ad intaglio
 
 Possiamo utilizzare anche i boxplot ad intaglio i quali sono una rappresentazione grafica dei boxplot ma con l'aggiunta dell'intervallo di confidenza:
 
@@ -930,7 +815,7 @@ c(M1 ,M2)
 
 Il numero 1.57 è dovuto al rapporto $(1.25 \cdot 1.7)/1.35$ che appare nell'approssimazione della formula dell'intervallo di confidenza(che vedremo in seguito); quindi, con un grado di fiducia del 95% l'intervallo di confidenza approssimato per la mediana è $(23, 25)$.
 
-#### Kernel density plot
+### Kernel density plot
 
 Il grafico kernel density plot è un grafico che mostra l'approssimazione della distribuzione dei valori di una variabile continua. È ottenuto tramite l'utilizzo di una tecnica di smoothing nota come "kernel density estimation", che consiste nell'aggiungere una curva di densità di kernel sopra ogni osservazione. La curva di densità di kernel è una funzione continua che rappresenta la distribuzione di probabilità dei valori di una variabile.
 
@@ -952,7 +837,9 @@ La maggior parte dei veicoli presenti in questo dataset percorrono su strada tra
 
 Introduciamo a tal proposito le definizioni di simmetria (skewness) e di curtosi di una distribuzione:
 
-**Definizione del coefficiente di simmetria**: Assegnato un insieme di dati numerici $x_1, x_2,…x_n$ si definisce skewness campionaria il valore:
+### **Coefficiente di simmetria**
+
+Assegnato un insieme di dati numerici $x_1, x_2,…x_n$ si definisce skewness campionaria il valore:
 
 $$\gamma = \frac{m_3}{m_2^{3/2}}$$
 
@@ -987,7 +874,9 @@ il vettore presenta un'asimmetria positiva infatti ha la coda di destra più all
 
 Un indice che permette di misurare la densità dei dati intorno alla media è la curtosi campionaria;
 
-**Definizione della curtosi campionaria:** Assegnato un insieme di dati numerici $x_1, x_2, . . . , x_n$, si definisce curtosi campionaria il valore:
+### **Curtosi campionaria**
+
+Assegnato un insieme di dati numerici $x_1, x_2, . . . , x_n$, si definisce curtosi campionaria il valore:
 
 $$\gamma_2 = \beta_2-3$$
 
@@ -1005,7 +894,7 @@ Il calcolo della curtosi campionaria ha significato soltanto per distribuzioni d
 
 Quindi nel nostro caso non ha senso calcolarlo dato che la nostra distribuzione è bimodale
 
-#### Grafico a dispersione
+### Grafico a dispersione
 
 ```{r fig.align = 'center'}
 p21 <- ggplot(data = mpg, mapping = aes(x = hwy, y = displ)) +
@@ -1019,11 +908,11 @@ p21
 
 ```
 
-Dallo scatterplot è evidente che la variabile *hwy* (consumo di carburante in autostrada, in miglia per gallone) è correlata negativamente con la variabile *displ* (cilindrata del motore,ovvero il volume delle camere di combustione, misurato in pollici cubici (in)), possiamo affermare infatti che all'aumentare delle miglia che il veicolo può percorrere su strada, con un gallone, diminuisce la cilindrata del motore, dunque più alta è la cilindrata e minori sono le miglia che il veicolo percorrerà con un gallone in autostrada.
+Dal grafico possiamo notare che minore è il volume dei cilindri e minore è il consumo di carburante in miglia per gallone su autostrada, invece all'aumentare del numero di cilindri il numero di miglia possibili con un gallone diminuisce.
 
-#### Funzione di distribuzione empirica continua
+### Funzione di distribuzione empirica continua
 
-In statistica la funzione di distribuzione empirica, **viene usata per descrivere fenomeni quantitativi o comunque descritti con valori misurati su scale ordinali, intervallari o proporzionali, ma non se misurati con una scala nominale**.
+In statistica la funzione di distribuzione empirica, *viene usata per descrivere fenomeni quantitativi*o comunque descritti con valori misurati su scale ordinali, intervallari o proporzionali, ma non se misurati con una scala nominale.
 
 Per fenomeni quantitativi continui occorre considerare la funzione di distribuzione empirica continua, ossia una funzione di distribuzione empirica strutturata in classi.
 
@@ -1068,17 +957,17 @@ Abbiamo realizzato il grafico della funzione di distribuzione empirica continua 
 
     [15,18)  [18,21)  [21,24)  [24,27)  [27,30)  [30,33) [33,36)  [36,39)  [39,44) 
 
-### Variabile Fl
+## Variabile Fl
 
 La variabile fl del dataset mpg rappresenta il tipo di carburante utilizzato dal veicolo. I valori possibili per la variabile fl sono "p", "c", "e", "r" e "d", che indicano rispettivamente: carburante premium, carburante normale (etanolo 85), elettricità, carburante regolare e diesel.
 
-#### Grafico a barre
+### Grafico a barre
 
 ```{r fig.align = 'center'}
 fuel <- factor(mpg$fl, levels = c("c","d","e","p","r"), labels = c("Normale gasoline", "Diesel", "Elettricity","Premium gasoline", "Regular gasoline")) 
 
 p22 <- ggplot(data = mpg, mapping = aes(x = fuel)) +
-  geom_bar(col = "black", fill = "white") + ylab("Fuel")
+  geom_bar(col = "black", fill = "white") 
 
 p22 <- p22 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
@@ -1090,7 +979,7 @@ p22
 
 Possiamo notare che la maggiore parte delle auto presenti nel dataset di riferimento, circa il 72%, usa il gasolio regolare per viaggiare, il 22% si rifornisce con il carburante premium ed il restante 6% delle auto con gli altri tipi di risorse energetiche: elettricità, diesel o carburante normale.
 
-#### Grafico a torta
+### Grafico a torta
 
 ```{r fig.align = 'center'}
 freqRel <- table (mpg$fl )/ length (mpg$fl)
@@ -1102,15 +991,15 @@ LabelF <- paste(LabelF, "%", sep = "")
 pie ( perc , label = LabelF , col = rainbow ( length ( LabelF )), main = "Valori percentuali ")
 ```
 
-### Variabile Class
+## Variabile Class
 
 La variabile Class rappresenta la classe di dimensioni dell'automobile.
 
-#### Barplot
+### Barplot
 
 ```{r fig.align = 'center'}
 p23 <- ggplot(data = mpg, mapping = aes(class)) + 
-  geom_bar(fill = "white", col = "black") + ylab("Fuel")
+  geom_bar(fill = "white", col = "black") 
 
 p23 <- p23 + theme(panel.background = element_rect(fill = '#f0e2a8', color = '#9a8262'), 
                panel.grid.major = element_line(color = '#f0e2a8', linetype = 'longdash'),
@@ -1162,7 +1051,7 @@ cov(dfm)
 
 ```
 
-Lo svantaggio della covarianza è che non è rachiudibile in un range definito di valori, quindi non si riesce a capire quanto le variabili sono dipendenti tra loro, per questo introduciamo la correlazione.
+Lo svantaggio della covarianza è che non è racchiudibile in un range definito di valori, quindi non si riesce a capire quanto le variabili sono dipendenti tra loro, per questo introduciamo la correlazione.
 
 ### Correlazione
 
@@ -1609,7 +1498,7 @@ Alla matrice *mpg_std* sono stati sostituiti agli indici delle righe i nomi dei 
 
 In seguito calcoliamo le metriche di distanze.
 
-#### Euclidea
+### Euclidea
 
 ```{r}
 ## Metrica Euclidea
@@ -1622,7 +1511,7 @@ $d(p, q) = \sqrt{(q_1 - p_1)^2 + (q_2 - p_2)^2 + ... + (q_n - p_n)^2)}$
 
 La matrice generata ci fornisce n(n-1)/2 distanze, dove n è la numerosità del campione.
 
-#### Altre metriche
+### Altre metriche
 
 ```{r}
 
@@ -1659,7 +1548,7 @@ La distanza di Canberra è una misura di dissimilarità tra due punti e si basa 
 
 $$d_c(X_i,X_j) = \sum^p_{k=1} \frac{|x_{ik}-x_{jk}|}{|x_{ik}|+|x_{jk}|}$$
 
-#### Similarità
+### Similarità
 
 Una funzione di similarità, o coefficiente di similarità, fornisce un valore numerico compreso tra 0 e 1 che quantifica la somiglianza o la differenza tra due punti del dataset. Questa funzione deve soddisfare tre proprietà:
 
@@ -1679,11 +1568,11 @@ $s(A,B) = |A \cap B| / |A \cup B|$
 
 Dove $|A \cap B|$ è la cardinalità dell'intersezione tra gli insiemi A e B, e $|A \cup B|$ è la cardinalità dell'unione tra gli insiemi A e B. Questa metrica di similarità assume valori compresi tra 0 e 1, dove 0 significa assenza di somiglianza e 1 significa massima somiglianza.
 
-### Misure di non omogeneità statistica
+## Misure di non omogeneità statistica
 
 Le misura di non omogeneità statistica sono metriche che vengono utilizzate in varie applicazioni statistiche e di intelligenza artificiale, come appunto i cluster, ma anche la PCA e nel machine learning.
 
-#### Covarianza
+### Covarianza
 
 Il calcolo delle misure di non omogeneità passano per la matrice di covarianza.
 
@@ -1693,11 +1582,11 @@ WI <- cov(mpg_std)
 WI
 ```
 
-La matrice di covarianza è una matrice quadrata che descrive la relazione lineare tra le diverse colonne di una matrice. La covarianza tra due variabili è una misura del loro grado di correlazione, ovvero della loro dipendenza. Se la covarianza è positiva, significa che le due variabili tendono ad aumentare o diminuire insieme. Se la covarianza è negativa, significa che una variabile tende ad aumentare mentre l'altra tende a diminuire. Se la covarianza è vicina a zero, significa che le due variabili sono scarsamente correlate.
+La matrice di covarianza è una matrice quadrata che descrive la relazione lineare tra le diverse colonne di una matrice. Se la covarianza è positiva, significa che le due variabili tendono ad aumentare o diminuire insieme. Se la covarianza è negativa, significa che una variabile tende ad aumentare mentre l'altra tende a diminuire. Se la covarianza è vicina a zero, significa che le due variabili sono scarsamente correlate.
 
 Ad esempio, la covarianza tra "displ" e "cyl" è 0.94, il che significa che le due variabili sono fortemente correlate. La covarianza tra "displ" e "cty" è -0.82, il che significa che le due variabili sono negativamente correlate.
 
-Grazie alla matrice di covarianza calcoliamo la SSM, statistical scatter matrix, moltiplicando (n-1).
+Grazie alla matrice di covarianza calcoliamo la SSM, statistical scatter matrix (matrice statistica di non omogeneità), moltiplicandola per (n-1).
 
 ```{r}
 n = nrow(mpg_std)
@@ -1718,23 +1607,7 @@ Questa misure è riferita a tutti gli elementi della popolazione, ad affiancarla
 
 L'obiettivo di queste misure è capire se il metodo utilizzato ha portato alla creazione di gruppi che hanno internamente individui simili tra loro ma che c'è dissimilarità all'esterno dei gruppi.
 
-### Misure di non omogeneità tra due cluster
-
-Siano I e J due cluster distinti, e calcoliamo le statistical scatter matrix per entrambi i cluster,
-
-Calcoliamo la matrice di unione tra i cluster come somma delle matrici:
-
-$H_{I\cup J} = H_I + H_J + H_{I\cap J}$
-
-deriva che la misura di non omogeneità statistica tra l'unione dei cluster è
-
-$trH_{I\cup J} = trH_I + trH_J + trH_{I\cap J}$
-
-E dunque con risulta facile calcolare la formula inversa che ci permette di conoscere la misura di non omogeneità statistica tra i cluster, ossia la between:
-
-$trH_{I\cap J} = trH_{I\cup J} - trH_I - trH_J$
-
-### Metodi gerarchici
+## Metodi gerarchici
 
 I metodi gerarchici sono algoritmi di clustering utilizzati per suddividere un insieme di elementi in gruppi omogenei in base alla loro somiglianza o dissomiglianza. Questi metodi creano una struttura ad albero gerarchica, chiamata dendrogramma, in cui i gruppi sono organizzati in modo gerarchico, in base alla loro vicinanza o distanza tra loro. Tali metodi sono distinti in *agglomerativi* che procedono per aggregazioni successive delle unità partendo da n gruppi formati da un singolo individuo e *divisivi* che partono da un solo gruppo formato da tutte le unità e procedono a divisioni successive fino a giungere a gruppi formati da una sola unità.
 
@@ -1763,7 +1636,7 @@ Come possiamo vedere dal comando $hclust$ va inserito un metodo, tutti i metodi 
 
 In questo algoritmo l'unica cosa che varia è il passo 1 e 2, ovviamente nel passo 1 a cambiare è la metrica della distanza, nel punto 2 invece a cambiare è il metodo con la quale si calcolano le distanza, ed è ciò che differenzia i vari metodi di clustering gerarchico.
 
-#### Metodo del legame singolo
+### Metodo del legame singolo
 
 Il metodo del legame singolo, o nearest neighbour method, è un algoritmo di clustering gerarchico che si basa sulla distanza minima tra tutte le possibili coppie di individui appartenenti a due gruppi. In questo metodo può essere utilizzata qualsiasi metrica di distanza. Come detto nell'algoritmo, calcolata la matrice D, prendiamo il punto con distanza minore e uniamo i due cluster. Una volta fatto ciò la nuova matrice delle distanze la calcoliamo come:
 
@@ -1924,7 +1797,7 @@ Inoltre possiamo vedere che la forma del cluster rosso è molto ovale e non elli
 
 Possiamo notare che due auto volkswagen formano un singolo cluster che si differenzia dagli altri.
 
-#### Metodo del legame completo
+### Metodo del legame completo
 
 Il metodo del legame completo, utilizzato nell'algoritmo di clustering gerarchico, definisce la distanza tra due cluster come la massima tra tutte le distanze possibili tra ogni individuo del primo cluster e ogni individuo del secondo cluster. Questo metodo tende a formare gruppi di forma ellissoidale, privilegiando l'omogeneità all'interno dei gruppi a discapito della differenziazione tra gruppi.
 
@@ -2022,7 +1895,7 @@ clusplot(mpg_2, cut_complete, color=TRUE, shade=TRUE, labels=3, lines=0, xlab=" 
 
 Notiamo che nel metodo del legame completo i gruppi hanno una forma ellissoidale, inoltre i primi due cluster sono molto distanti dal terzo e ciò si può notare dallo spazio presente nel grafico.
 
-#### Metodo del legame medio
+### Metodo del legame medio
 
 Il metodo del legame medio è un algoritmo di clustering gerarchico che definisce la distanza tra due gruppi come la media aritmetica delle distanze tra tutte le coppie di unità che compongono i due gruppi.
 
@@ -2118,7 +1991,7 @@ clusplot(mpg_2, cut_average, color=TRUE, shade=TRUE, labels=3, lines=0, xlab=" L
 
 Dal grafico ottenuto deduciamo le medesime cose del legame singolo.
 
-#### Metodo del centroide
+### Metodo del centroide
 
 Nel metodo del centroide e nel metodo della mediana si è obbligati ad utilizzare la distanza euclidea. Negli altri metodi poteva invece essere utilizzata qualsiasi altra metrica per calcolare la matrice delle distanze D.
 
@@ -2227,7 +2100,7 @@ clusplot(mpg_2, cut_centroide, color=TRUE, shade=TRUE, labels=3, lines=0, xlab="
 
 Proprio come il metodo del legame singolo e del legame medio si è formato un fenomeno gravitazionale che ha unito degli elementi dissimili tra loro in un unico cluster.
 
-#### Metodo della mediana
+### Metodo della mediana
 
 Il metodo della mediana è simile a quello del centroide, con la differenza che la procedura è indipendente dalla numerosità dei cluster, quando due gruppi si aggregano il nuovo centroide è calcolato come la semisomma dei due centroidi precedenti.
 
@@ -2312,7 +2185,7 @@ Rimane il gruppo che unisce le auto volkswagen,mentre riusciamo a vedere una dis
 
 In conclusione possiamo dire che valutando tutti i metodi agglomerativi visti il metodo del legame completo è il migliore con un rapporto tra between e totale dell'*88%*, a seguire vi è il metodo del legame mediano con *81%* ed infine ex aequo troviamo il metodo del legame singolo, del legame medio e centroide.
 
-### Cluster non gerarchico
+## Cluster non gerarchico
 
 Negli ultimi decenni, i metodi di clustering non gerarchici sono diventati sempre più popolari nella comunità scientifica e in vari settori industriali. A differenza dei metodi di clustering gerarchici, che organizzano i dati in una struttura ad albero, nei metodi non gerarchici si assume che il numero di cluster in cui suddividere l'insieme sia fisso, e gli individui possono essere ricollocati in livelli precedenti. Questi metodi hanno dimostrato di essere estremamente utili in una vasta gamma di applicazioni, dall'analisi dei social network alla classificazione di immagini e al clustering di dati biologici. Esploreremo il principale metodo di clustering non gerarchico, ossia il *k-means* e analizzeremo le sue applicazioni.
 
@@ -2343,6 +2216,9 @@ Visualizziamo le partizioni ottenuto utilizzando il k-means con la scelta casual
 ```{r}
 km_1 <- kmeans (mpg_2, center = 2, iter.max = 10, nstart = 1)
 table(km_1$cluster)
+
+km_1
+
 km_1$centers
 km_1$withinss
 km_1$betweenss
@@ -2395,6 +2271,9 @@ tagliolist <-list(taglio)
 centroidiIniziali <- aggregate(mpg_2, tagliolist, mean)[,-1]
 
 km_c <- kmeans (mpg_2, centers = centroidiIniziali, iter.max = 10)
+
+km_c
+
 km_c$centers
 km_c$withinss
 km_c$betweenss
@@ -2408,4 +2287,4 @@ means con 3 centroidi")
 points (km_c$center , col = 1:2, pch = 8, cex =1)
 ```
 
-# $$Fine \ prima \ parte$$
+# $$Inizio \ seconda \ parte$$

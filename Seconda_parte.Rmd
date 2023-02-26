@@ -1,7 +1,7 @@
 ---
 title: "Statistica e analisi dei dati"
 author: "Genito e Leone"
-date: "2023/02/20"
+date: "27/02/2023"
 output:
   pdf_document: default
   latex_engine: xelatex
@@ -12,6 +12,7 @@ output:
 **Installazione delle librerie e importazione del dataset**
 
 ```{r}
+#ci permette di rappresentare graficamente i dati
 library(ggplot2)
 
 data(mpg)
@@ -22,7 +23,11 @@ data(mpg)
 
 L'indagine statistica è sempre effettuata su un insieme di entità (individui, oggetti,. . .) su cui si manifesta il fenomeno che si studia. Questo insieme è detto popolazione o universo e può essere costituito da un numero finito oppure infinito di unità; nel primo caso si parla di *popolazione finita*, nel secondo caso di *popolazione illimitata*. La conoscenza delle caratteristiche di una popolazione finita può essere ottenuta osservando la totalità delle entità della popolazione oppure un sottoinsieme di questa, detto campione estratto dalla popolazione. Una popolazione illimitata può invece essere studiata soltanto tramite un campione estratto.
 
-Di particolare importanza in statistica è l'*inferenza*. Essa ha lo scopo di estendere le misure ricavate dall'esame di un campione alla popolazione da cui il campione è stato estratto.
+L'analisi dei fenomeni avviene attraverso l'uso dell'*inferenza*, una branca della statistica che si comporta in modo opposto alla probabilità:
+
+-   nella probabilità dato un processo che genera i dati ci chiediamo quale è la probabilità dell'evento
+
+-   nell'inferenza dato un risultato ci chiediamo cosa posso dire sul processo che ha generato i dati
 
 L'inferenza statistica si basa su due metodi fondamentali di indagine:
 
@@ -46,7 +51,7 @@ dove $f(x)$ è una funzione a valori reali, detta *funzione di densità* della v
 
 La probabilità che la v.c X assuma valori nell'intervallo raffigurato è uguale a $f(x)dx$ perchè essa è uguale all'aerea del rettangolo la cui base misura $dx$ e la cui altezza è $f(x_0)$, perchè per la continuità deve essere: $f(x_0) = f(x_0 + dx)$.
 
-la *funzione di ripartizione* $F(x_0)$ di una variabile casuale X continua calcolata nel punto $x_0$ è :
+**La funzione di ripartizione** (o cumulativa) *di una variabile casuale continua è una funzione matematica che descrive la probabilità che la variabile casuale assuma un valore minore o uguale ad un certo valore* nel nostro caso la *funzione di ripartizione* $F(x_0)$ di una variabile casuale X continua calcolata nel punto $x_0$ è:
 
 $$F(x_0) = Pr(X \leq x_0) = \int^{x_0}_{-\infty} f(w)d_w$$
 
@@ -135,7 +140,8 @@ $$
 In R la densità normale si calcola attraverso la funzione:
 
 ```{r fig.align = 'center'}
-curve(dnorm(x,mean =0, sd =1), from =-6, to=6, xlab="x", ylab="f(x)", lty =1, main = "Densità normale standard")
+curve(dnorm(x,mean =0, sd =1), from =-6, to=6, xlab="x", ylab="f(x)", lty =1, 
+      main = "Densità normale standard")
 
 ```
 
@@ -143,27 +149,6 @@ dove:
 
 -   x sono i valori assunti dalla variabile aleatoria normale;
 -   mean e sd sono il valore medio e la deviazione standard della densità normale standard.
-
-### Funzione di distribuzione
-
-In R la funzione di distribuzione di una variabile $X \sim N(\mu, \sigma)$ si calcola tramite la funzione:
-
-```{r fig.align = 'center'}
-curve(pnorm(x, mean = 0, sd = 0.5, lower.tail = TRUE), from = -4, to = 4, xlab = "x", ylab ="P(X < x)", main="media=0; sd =0.5, 1, 1.5",lty =2, col = "blue")
-
-curve(pnorm(x, mean = 0, sd = 1, lower.tail = TRUE), add =TRUE)
-
-curve(pnorm(x, mean =0, sd =1.5, lower.tail = TRUE), add =TRUE, lty =3, col = "red")
-
-```
-
-dove:
-
--   x sono i valori assunti dalla variabile aleatoria normale;
-
--   mean e sd sono il valore medio e la deviazione standard della densità normale;
-
--   lower.tail se tale parametro è TRUE (caso di default) calcola $P(X \leq x)$, mentre se tale parametro è FALSE calcola $P(X > x)$.
 
 ### Quantili
 
@@ -263,7 +248,7 @@ pnorm(3, mean = 0, sd = 1) - pnorm(-3, mean=0, sd = 1)
 
 ### Campioni casuali e stimatori
 
-In statistica, un campione casuale è un insieme di elementi scelti in modo casuale da una popolazione. Gli stimatori sono delle funzioni matematiche che utilizzano i dati del campione per fornire informazioni sulla popolazione di origine. Esistono diversi tipi di stimatori, come:
+Gli stimatori sono delle funzioni matematiche che utilizzano i dati del campione per fornire informazioni sulla popolazione di origine. Esistono diversi tipi di stimatori, come:
 
 -   gli stimatori puntuali, che forniscono un valore preciso per un parametro della popolazione
 
@@ -273,11 +258,13 @@ L'accuratezza degli stimatori dipende dalla dimensione del campione e dalla dist
 
 Per ottenere informazioni sui parametri non noti della popolazione, si può fare uso dell'inferenza statistica, considerando un campione estratto dalla popolazione ed effettuando su tale campione delle opportune misure. Affinché le conclusioni dell'inferenza statistica siano valide il campione deve essere scelto in modo da essere rappresentativo della popolazione. Molti metodi dell'inferenza statistica sono basati sull'ipotesi di campioni casuali.
 
-**Definizione di campione casuale**
+### **Definizione di campione casuale**
 
-Nei metodi di indagine dell'inferenza statistica si considera *un **campione casuale*** $X_1,X_2, ...,X_n$ *di ampiezza* $n$ *se le variabili aleatorie del vettore sono osservabili, indipendenti e identicamente distribuite (iid) con la stessa legge di probabilità della popolazione* (ossia costituiscono delle osservazioni di X) e si cerca di ottenere informazioni sui parametri non noti facendo uso di alcune variabili aleatorie, che sono funzioni misurabili del campione casuale, dette *statistiche* e *stimatori*.
+I campioni casuali sono un concetto fondamentale nell'ambito della statistica e della ricerca scientifica in generale. In pratica, un campione casuale rappresenta un sottoinsieme selezionato casualmente da una popolazione più grande. L'obiettivo principale dell'utilizzo di campioni casuali è quello di ottenere informazioni sulla popolazione di riferimento, in modo da poter fare inferenze e prendere decisioni sulla base di queste informazioni. I campioni per definirsi tali devono godere della proprietà "iid" (indipendente e identicamente distribuita) è un'importante caratteristica dei dati del campione casuale, che indica che ciascuna osservazione nel campione è indipendente dalle altre e viene selezionata dalla stessa distribuzione di probabilità della popolazione madre. Ciò significa che le osservazioni nel campione sono selezionate in modo casuale e non influenzate da alcuna caratteristica della popolazione madre. Inoltre, ogni osservazione nel campione ha la stessa probabilità di essere selezionata come qualsiasi altra osservazione, il che garantisce che il campione sia rappresentativo della popolazione da cui è stato estratto.
 
-**Ogni volta che una statistica campionaria è usata per stimare un parametro, viene chiamata stimatore**.
+### Stimatori
+
+*Ogni volta che una statistica campionaria è usata per stimare un parametro, viene chiamata stimatore.*
 
 Statistiche tipiche sono la media campionaria e la varianza campionaria.
 
@@ -303,11 +290,11 @@ Tuttavia, la stima puntuale non fornisce informazioni sulla precisione o l'accur
 
 Alla stima puntuale di un parametro non noto di una popolazione (costituita da un unico valore) spesso si preferisce sostituire un intervallo di valori, detto intervallo di confidenza, ossia si cerca di determinare in base al campione osservato $(x_1, x_2, ..., x_n)$ due limiti (uno inferiore e uno superiore) entro i quali sia compreso il parametro non noto con un certo grado di confidenza, detto anche grado di fiducia.
 
-### Metodi per la ricerca di stimatori
+## Metodi per la ricerca di stimatori
 
 I principali metodi di stima puntuale dei parametri sono:
 
-#### Metodo dei momenti
+### Metodo dei momenti
 
 Il metodo dei momenti è un metodo utilizzato in statistica per stimare i parametri di una distribuzione. Consiste nell'utilizzare i momenti della distribuzione campionaria per stimare i momenti della distribuzione della popolazione, e quindi utilizzare questi ultimi per stimare i parametri della popolazione.
 
@@ -323,7 +310,7 @@ con $(r=1,2,…)$
 
 Si nota quindi che il momento campionario r--esimo è la media aritmetica delle potenze r--esime delle $n$ osservazioni effettuate sulla popolazione. In particolare, se $r = 1$ il momento campionario $M_1(x_1, x_2, ..., x_n)$ coincide con il valore osservato della media campionaria $X$, ossia $M_1 = (x_1 + x_2 + ... + x_n)/n$.
 
-Se esistono $k$ parametri da stimare, il metodo dei momenti consiste nell'uguagliare i primi $k$ momenti della popolazione in esame con i corrispondenti momenti del campione casuale. Quindi, se i primi $k$ momenti esistono e sono finiti, tale metodo consiste nel risolvere il sistema di $k$ equazioni:
+Se esistessero $k$ parametri da stimare, il metodo dei momenti consisterebbe nell'uguagliare i primi $k$ momenti della popolazione in esame con i corrispondenti momenti del campione casuale. Quindi, se i primi $k$ momenti esistono e sono finiti, tale metodo consiste nel risolvere il sistema di $k$ equazioni:
 
 $$E(X^r) = M_r(x_1,x_2,...,x_n)$$
 
@@ -343,7 +330,7 @@ Da notare che, come per qualsiasi metodo di stima, anche il metodo dei momenti h
 
 In ogni caso, è importante valutare sempre la validità e l'accuratezza degli stimatori ottenuti attraverso il metodo dei momenti, confrontandoli con altri metodi o con i dati di riferimento.
 
-##### Metodo dei momenti per una popolazione normale
+### Metodo dei momenti per una popolazione normale
 
 Si è interessati a determinare con il metodo dei momenti gli stimatori dei parametri $\mu$ e $\sigma^2$ di una popolazione normale descritta da una variabile aleatoria $X \sim N(\mu, \sigma)$ di densità di probabilità:
 
@@ -375,13 +362,11 @@ stimasigma2
 
 la stima del parametro $\mu$ con il metodo dei momenti è $\hat \mu = 23.44017$ e la stima del parametro $\sigma^2$ con il metodo dei momenti è $\hat{\sigma^2} = 35.30625$.
 
-#### Metodo della massima verosimiglianza
-
-Il metodo della massima verosimiglianza (MLE) è un metodo utilizzato in statistica per stimare i parametri di una distribuzione. Consiste nell'individuare i parametri che massimizzano la probabilità (o verosimiglianza) del campione dato. In altre parole, si cercano i parametri che rendono più probabile che i dati del campione siano stati generati da una determinata distribuzione.
+## Metodo della massima verosimiglianza
 
 Il metodo della massima verosimiglianza è il più importante metodo per la stima dei parametri non noti di una popolazione e solitamente è preferito al metodo dei momenti. Per illustrare il metodo della massima verosimiglianza occorre introdurre in primo luogo la funzione di verosimiglianza.
 
-**Funzione di verosimiglianza**
+### **Funzione di verosimiglianza**
 
 Sia $X_1,X_2, . . . ,X_n$ un campione casuale di ampiezza $n$ estratto dalla popolazione. La funzione di verosimiglianza $L(\theta_1,\theta_2, . . . , \theta_k) = L(\theta_1, \theta_2, . . . , \theta_k; x_1, x_2, ..., x_n)$ del campione osservato $(x_1, x_2, ..., x_n)$ è la funzione di probabilità congiunta (nel caso di popolazione discreta) oppure la funzione densità di probabilità congiunta (nel caso di popolazione assolutamente continua) del campione casuale $X_1,X_2, . . . ,X_n$, ossia:
 
@@ -401,7 +386,7 @@ Tuttavia, il MLE richiede che si conosca la forma esatta della distribuzione dei
 
 Come per qualsiasi metodo di stima, è importante valutare sempre la validità e l'accuratezza degli stimatori ottenuti attraverso il metodo della massima verosimiglianza confrontandoli con altri metodi o con i dati di riferimento.
 
-##### Metodo della massima verosimiglianza per una **popolazione normale**
+### Metodo della massima verosimiglianza per una **popolazione normale**
 
 Si desidera determinare lo stimatore di massima verosimiglianza dei parametri $\mu$ e $\sigma^2$ di una popolazione normale caratterizzata da funzione densità di probabilità:
 
@@ -427,7 +412,7 @@ $\hat\mu=\frac{1}{n}\sum^n_{i=1}x_i$ $\hat{\sigma^2}=\frac{1}{n}\sum^n_{i=1}(x_i
 
 Lo stimatore di massima verosimiglianza e dei momenti del valore medio $\mu$ è la media campionaria $\overline X$. Invece lo stimatore di massima verosimiglianza e dei momenti della varianza $\sigma^2$ è $(n-1)S^2/n$.
 
-##### Proprietà degli stimatori
+## Proprietà degli stimatori
 
 In generale esistono molti stimatori che possono essere utilizzati per stimare il parametro non noto di una popolazione. Occorre quindi definire delle proprietà di cui può o meno godere uno stimatore. Uno stimatore può essere:
 
@@ -441,9 +426,9 @@ In generale esistono molti stimatori che possono essere utilizzati per stimare i
 
 -   consistente.
 
-##### Stimatore corretto
+### Stimatore corretto
 
-**Definizione**:Uno **stimatore** $\hat \Theta= t(X_1,X_2, . . . ,X_n)$ del parametro non noto $\theta$ della popolazione è detto **corretto** (non distorto) se e solo se per ogni $\theta \in \Theta$ si ha:
+**Definizione**: Uno **stimatore** $\hat \Theta= t(X_1,X_2, . . . ,X_n)$ del parametro non noto $\theta$ della popolazione è detto **corretto** (non distorto) se e solo se per ogni $\theta \in \Theta$ si ha:
 
 $$E(\hat \Theta) = \theta$$
 
@@ -451,7 +436,7 @@ ossia se il valore medio dello stimatore $\hat\Theta$ è uguale al corrispondent
 
 Occorre sottolineare che possono esistere differenti stimatori corretti di un parametro non noto di una popolazione.
 
-##### Efficienza
+### Efficienza
 
 Uno stimatore è efficiente se soddisfa la seguente uguaglianza:
 
@@ -465,20 +450,28 @@ cioè coincide con la varianza campionaria dello stimatore.
 
 In generale, dati due possibili stimatori corretti $\hat \Theta_1$ e $\hat \Theta_2$ del parametro $\theta$ , si considera più efficiente o migliore quello che ha la minore varianza campionaria.
 
-##### Stimatore corretto con varianza uniformemente minima
+### Stimatore corretto con varianza uniformemente minima
 
 Uno stimatore $\hat \Theta$ si dice corretto con varianza uniformemente minima per il parametro non noto $\theta$ se e solo se per ogni $\theta \in \Theta$ risulta:
 
-$$E(\hat\Theta) = \theta \\Var(\hat \Theta) \leq Var(*)$$
+$$E(\hat\Theta) = \theta $$
+
+$$
+Var(\hat \Theta) \leq Var(*)
+$$
 
 per ogni altro stimatore $\ast$ corretto del parametro $\theta$.
 
-###### Disuguaglianza di Cramér--Rao
+### Disuguaglianza di Cramér--Rao
 
 Sia $\hat \Theta = t(X_1, X_2, ..., X_n)$ uno stimatore corretto del parametro non noto $\theta$ di una popolazione caratterizzata da funzione di probabilità (nel caso discreto) oppure densità di probabilità (nel caso assolutamente continuo) $f(x; \theta)$. Se sono soddisfatte le seguenti ipotesi:
 
 $$
-\frac{\partial}{\partial \theta} log f(x;\theta) \ esiste \ per \ ogni \ x \ e \ per \ ogni\ \theta \in \Theta \\ E\{ [\frac{\partial}{\partial \theta} logf(X;\theta)]^2 \} \ esiste \ finito \ per \ ogni \ \theta \in \Theta$$
+\frac{\partial}{\partial \theta} log f(x;\theta) \ esiste \ per \ ogni \ x \ e \ per \ ogni\ \theta \in \Theta $$
+
+$$
+E\{ [\frac{\partial}{\partial \theta} logf(X;\theta)]^2 \} \ esiste \ finito \ per \ ogni \ \theta \in \Theta
+$$
 
 la varianza dello stimatore $\hat \Theta$ soddisfa la disuguaglianza:
 
@@ -494,7 +487,7 @@ Var(\hat \Theta) = \frac{1}{nE\{ [\frac{\partial}{\partial \theta} log f(X;\thet
 
 allora $\hat \Theta$ è uno stimatore corretto con varianza uniformemente minima per il parametro $\theta$.
 
-**Stimatore corretto con varianza uniformemente minima per una popolazione normale**
+### **Stimatore corretto con varianza uniformemente minima per una popolazione normale**
 
 Si desidera verificare che $X$ sia uno stimatore corretto con varianza uniformemente minima del valore medio $E(X) = \mu$ di una popolazione normale descritta da una variabile aleatoria $X \sim N(\mu, \sigma)$ avente varianza nota $\sigma^2$.
 
@@ -522,13 +515,13 @@ Occorre sottolineare che la media campionaria $\overline X$ non è sempre uno st
 
 Per campioni di grande ampiezza alcune proprietà asintotica di uno stimatore sono la correttezza asintotica e la consistenza.
 
-##### Stimatore asintoticamente corretto
+### Stimatore asintoticamente corretto
 
 Uno stimatore $\hat \Theta_n = t(X_1,X_2, . . . ,X_n)$ del parametro non noto $\theta$ della popolazione è detto **asintoticamente corretto** (asintoticamente non distorto) se e solo se per ogni $\theta \in \Theta$ si ha:
 
 $$\lim_{n->+\infty} E(\hat \Theta_n)=\theta$$ ossia se il valore medio dello stimatore $\Theta_n$ tende al crescere dell'ampiezza del campione casuale al corrispondente parametro non noto della popolazione.
 
-**Stimatore asintoticamente corretto della varianza per una popolazione normale**
+### **Stimatore asintoticamente corretto della varianza per una popolazione normale**
 
 Si desidera verificare che:
 
@@ -542,7 +535,7 @@ $$\lim_{n \to \infty}E(\hat \Theta_n) = \lim_{n\to\infty} \frac{n-1}{n}E(S^2)=\s
 
 **Dunque, per una popolazione normale lo stimatore** $(n-1)S^2/n$ **della varianza** $\sigma^2$**, individuato sia con il metodo dei momenti che con il metodo della massima verosimiglianza, è asintoticamente corretto.**
 
-##### Stimatore consistente
+### Stimatore consistente
 
 Uno stimatore $\hat \Theta_n = t(X_1,X_2,...,X_n)$ del parametro non noto $\theta$ della popolazione è detto **consistente** se e solo se per ogni $\in >0$ si ha:
 
@@ -554,7 +547,11 @@ Infatti, se si verifica che all'aumentare di $n$ cresce la probabilità che il p
 
 In particolare se:
 
-$$\lim_{n\to \infty} E(\hat \Theta_n)=\theta \\ \lim_{n \to \infty} Var(\hat \Theta_n)=0$$
+$$\lim_{n\to \infty} E(\hat \Theta_n)=\theta$$
+
+$$
+\lim_{n \to \infty} Var(\hat \Theta_n)=0
+$$
 
 Quindi, una condizione sufficiente affinché lo stimatore sia consistente è che sia asintoticamente corretto e la sua varianza tende a zero al crescere del campione; da notare che uno stimatore può essere consistente senza essere asintoticamente corretto.
 
@@ -576,21 +573,7 @@ allora si dice che $(Cn,\overline Cn)$ è un intervallo di confidenza (intervall
 
 Se $g_1(x)$ e $g_2(x)$ sono i valori assunti dalle statistiche $Cn$ e $\overline Cn$ per il campione osservato $x = (x_1, x_2, . . . , x_n)$, allora l'intervallo $(g_1(x),g_2(x))$ è detto stima dell'intervallo di confidenza di grado $1-\alpha$ per $\theta$ ed i punti finali $g_1(x)$ e $g_2(x)$ di tale intervallo sono detti rispettivamente stima del limite inferiore e stima del limite superiore dell'intervallo di confidenza.
 
-### Metodo pivotale
-
-Un metodo per la costruzione degli intervalli di confidenza è il metodo pivotale. Tale metodo consiste essenzialmente nel determinare una variabile aleatoria $\gamma(X_1,X_2,...,X_n;\theta)$ che:
-
--   dipende dal campione casuale $X_1,X_2, . . . ,X_n$;
-
--   dipende dal parametro non noto $\theta$ della popolazione;
-
--   la sua funzione di distribuzione non contiene il parametro $\theta$ da stimare;
-
-Se sono verificate tali ipotesi allora la variabile può essere interpretata come una variabile aleatoria di pivot
-
-Il principale vantaggio del metodo pivotale è che esso è valido per un'ampia gamma di distribuzioni di campione e di parametri statistici, e non richiede l'ipotesi di normalità per i dati di campione.
-
-##### Popolazione normale
+### Popolazione normale
 
 Sia $X = N(\mu, \sigma)$ una variabile casuale aleatoria con valore medio $\mu$ e varianza $\sigma^2$.
 
@@ -604,13 +587,11 @@ Si possono analizzare i seguenti problemi:
 
 -   determinare un intervallo di confidenza di grado $1-alpha$ per la varianza $\sigma^2$ nel caso in cui il valore medio della popolazione normale è non noto.
 
-##### **Intervallo di confidenza per** $\mu$ **con** $\sigma^2$ **nota**
+### **Intervallo di confidenza per** $\mu$ **con** $\sigma^2$ **nota**
 
 consideriamo la variabile aleatoria:
 
 $$Z_n = \frac{\overline X_n - \mu}{\sigma / \sqrt n}$$
-
-$Zn$ può essere interpretata come una variabile aleatoria di pivot.
 
 Scegliendo $\alpha_1 = -z_{\alpha/2}$ e $\alpha_2 = z_{\alpha/2}$ si ha:
 
@@ -630,7 +611,7 @@ $$
 C_n < \mu < \overline C_n
 $$
 
-con $C_n = \overline C_n = \overline x_n±z_{\alpha/2 \frac{\sigma}{\sqrt n}}$ dove $\overline x_n$ è la media campionaria del campione.
+con $C_n = \overline C_n = \overline x_n \pm z_{\alpha/2 \frac{\sigma}{\sqrt n}}$ dove $\overline x_n$ è la media campionaria del campione.
 
 Nell'esempio seguente vogliamo determinare il consumo medio di carburante (in autostrada) delle auto presenti nel dataset *mpg*
 
@@ -657,9 +638,9 @@ mean(mpg$hwy)+qnorm (1- alpha /2, mean=0, sd =1) *4/ sqrt(n)
 
 La stima dell'intervallo di confidenza di grado $1 - \alpha = 0.90$ è (23.01, 23.87) possiamo notare che la media campionaria è compresa in tale intervallo.
 
-##### Intervallo di confidenza per $\mu$ con $\sigma^2$ non nota
+### Intervallo di confidenza per $\mu$ con $\sigma^2$ non nota
 
-Consideriamo la variabile aleatoria di pivot:
+Consideriamo la variabile aleatoria:
 
 $$T_n = \frac{\overline X_n - \mu}{S_n/\sqrt n}$$
 
@@ -709,9 +690,9 @@ mean(mpg$cty)+qt(1-alpha/2,df=n -1)*sd(mpg$cty)/sqrt(n)
 
 La stima dell'intervallo di confidenza di grado $1 - \alpha = 0.90$ è (16.39, 17.32) possiamo notare che la media campionaria è compresa in tale intervallo.
 
-##### **Intervallo di confidenza per** $\sigma^2$ **con** $\mu$ **nota**
+### **Intervallo di confidenza per** $\sigma^2$ **con** $\mu$ **nota**
 
-Consideriamo la variabile aleatoria di pivot:
+Consideriamo la variabile aleatoria:
 
 $$V_n = \sum^n_{i=1}(\frac{X_i - \mu}{\sigma}) ^ 2$$
 
@@ -729,9 +710,6 @@ dove $\overline x_n$ è la media campionaria e $s_n^2$ è la varianza campionari
 Nell'esempio seguente vogliamo stimare l'intervallo di confidenza per la varianza del consumo di carburante (in autostrada) delle auto presenti nel dataset *mpg*
 
 ```{r}
-#media campionaria
-mean(mpg$hwy)
-
 #varianza campionaria
 var(mpg$hwy)
 
@@ -757,9 +735,9 @@ x_2 <- qchisq(1-alpha/2, df=n)
 
 La stima dell'intervallo di confidenza di grado $1-\alpha = 0.90$ per la varianza della popolazione normale è quindi (30.69, 41.62).
 
-##### Intervallo di confidenza per $\sigma^2$ con $\mu$ non noto
+### Intervallo di confidenza per $\sigma^2$ con $\mu$ non noto
 
-Consideriamo la variabile aleatoria di pivot:
+Consideriamo la variabile aleatoria:
 
 $$Q_n = \frac{(n-1)S^2_n}{\sigma^2}$$
 
@@ -776,9 +754,6 @@ dove $s_n^2$ è la varianza campionaria.
 Nell'esempio seguente vogliamo stimare l'intervallo di confidenza per la varianza del consumo medio di carburante (in città) delle auto presenti nel dataset *mpg:*
 
 ```{r}
-#media campionaria
-mean(mpg$hwy)
-
 #varianza campionaria
 var(mpg$hwy)
 
@@ -825,7 +800,7 @@ A causa di tali premesse possiamo incorrere in due tipi di errori:
 Nella seguente tabella sono riassunti tutti i possibili casi:
 
 |             |                                        |                                         |
-|-------------------|--------------------------|---------------------------|
+|------------------|--------------------------|---------------------------|
 |             | Rifiutare $H_0$                        | Accettare $H_0$                         |
 | $H_0$ vera  | Errore del I tipo Probabilità $\alpha$ | Decisione esatta Probabilità $1-\alpha$ |
 | $H_0$ falsa | Decisione esatta Probabilità $1-\beta$ | Errore del II tipo Probabilità $\beta$  |
@@ -840,20 +815,34 @@ I test statistici sono di due tipi:
 
 -   test unilaterali (detti anche test unidirezionali).
 
-Un test bilaterale è il seguente:
+Il test bilaterale è il seguente:
 
 $$
 H_0 : \theta = \theta_0
-\\
+$$
+
+$$
 H_1 : \theta \ne \theta_0
 $$
 
-mentre il test unilaterale sinistro e test unilaterale destro sono rispettivamente i seguenti:
+mentre il test unilaterale sinistro è:
 
 $$
-H_0 : \theta \leq \theta_0 \ \ \ \ \ \ \ \ \ \ \ \ \ H_0 : \theta \ge \theta_0
-\\
-H_1 : \theta > \theta_0    \ \ \ \ \ \ \ \ \ \ \ \ \ H_0 : \theta < \theta_0
+H_0 : \theta \leq \theta_0   
+$$
+
+$$
+H_1 : \theta > \theta_0
+$$
+
+il test unilaterale destro è:
+
+$$
+H_0 : \theta \ge \theta_0
+$$
+
+$$
+H_1 : \theta < \theta_0
 $$
 
 avendo fissato a priori un livello di significatività $\alpha$.
@@ -866,13 +855,13 @@ Le conclusioni dei test statistici unilaterali e bilaterali dipendono dal livell
 
 Il *p-value* è la probabilità, per un'ipotesi supposta vera, di ottenere risultati ugualmente o meno compatibili, di quelli osservati durante il test, con la suddetta ipotesi; *in particolare ci dice quanto è probabile osservare dei dati come quelli del campione che stiamo analizzando quando è vera l'ipotesi nulla.* Essendo una probabilità il p-value è un numero compreso tra 0 e 1.
 
-##### ![](images/Pvalue-dx-400x300.jpg)
-
-**Per stabilire se accettare o rifiutare l'ipotesi nulla il p-value può tornarci utile**. Nello specifico, il p-value deve essere confrontato con $\alpha$ e se:
+***Per stabilire se accettare o rifiutare l'ipotesi nulla il p-value può tornarci utile***. Nello specifico, il p-value deve essere confrontato con $\alpha$ e se:
 
 -   $p \le \alpha$   allora rifiutiamo l'ipotesi nulla;
 
 -   $p > \alpha$  allora non rifiutiamo l'ipotesi nulla.
+
+![](images/Pvalue-dx-400x300.jpg)
 
 ![](images/Pvalue-rif.jpg){width="400"}
 
@@ -888,7 +877,7 @@ Ad esempio, se $\alpha = 0.05$, allora $p-value \geq 0,05$ implica che il test n
 
 In generale, possiamo dire che, più è basso il p-value, maggiore è la significatività statistica della differenza osservata.
 
-#### **Popolazione normale**
+### **Popolazione normale**
 
 (i) Verifica di ipotesi sul valore medio $\mu$ nel caso in cui la varianza $\sigma^2$ della popolazione normale è nota;
 
@@ -898,7 +887,7 @@ In generale, possiamo dire che, più è basso il p-value, maggiore è la signifi
 
 (iv) Verifica di ipotesi sulla varianza $\sigma^2$ nel caso in cui il valore medio della popolazione normale è non noto.
 
-##### **Test su** $\mu$ **con varianza** $\sigma^2$ **nota**
+### **Test su** $\mu$ **con varianza** $\sigma^2$ **nota**
 
 **Test bilaterale**
 
@@ -906,8 +895,9 @@ Sia $X_1,X_2, . . .,X_n$ un campione casuale estratto da una popolazione normale
 
 Si considerino le ipotesi:
 
-$$
-H_0 : \mu = \mu_0 \\ H_1 : \mu \ne \mu_0$$
+$$H_0 : \mu = \mu_0$$
+
+$$H_1 : \mu \ne \mu_0$$
 
 La statistica test è:
 
@@ -927,11 +917,11 @@ dall'uguaglianza osserviamo che il *p-value* corrisponde alla probabilità, supp
 
 **Facciamo un esempio di quanto descritto:**
 
-Alcuni automobilisti sostengono che il consumo medio di carburante in autostrada delle auto sia di $23 \ miglia \ per \ gallone$ altri invece sostengono che sia $17 \ miglia \ per \ gallone$, pertanto costruiamo un test delle ipotesi di misura $\alpha = 0.05$ per verificare l'ipotesi nulla $H_0: \mu = 23$ contro l'ipotesi alternativa $H_1: \mu \ne 23$
+Alcuni automobilisti sostengono che il consumo medio di carburante in autostrada delle auto sia di $23.44 \ miglia \ per \ gallone$ altri invece sostengono che sia $23 \ miglia \ per \ gallone$, pertanto costruiamo un test delle ipotesi di misura $\alpha = 0.05$ per verificare l'ipotesi nulla $H_0: \mu = 23.44$ contro l'ipotesi alternativa $H_1: \mu \ne 23.44$
 
 ```{r}
 alpha = 0.05
-mu <- mean(mpg$hwy)
+mu <- 23.44
 sigma <- sd(mpg$hwy)
 
 #La distribuzione della statistica test è normale
@@ -939,7 +929,7 @@ qnorm(1-alpha/2, mean=0, sd=1)
 n <- length(mpg$hwy)
 
 
-mu_1 <- mean(mpg$cty)
+mu_1 <- 23
 z <- (mu_1 - mu)/(sigma/sqrt(n))
 z
 
@@ -948,9 +938,9 @@ pvalue
 
 ```
 
-Si nota che $z_{\alpha/2} = 1.959964$ e $z_{os} = -17$ cade al di fuori della regione di accettazione; occorre quindi rifiutare l'ipotesi nulla con un livello di significatività del $5 \%$. Si nota anche che $pvalue < \alpha$ e quindi anche il criterio del p-value consiglia di rifiutare l'ipotesi nulla.
+Si nota che $z_{\alpha/2} = 1.959964$ e $z_{os} = -1.13$ cade all'interno della regione di accettazione; occorre quindi accettare l'ipotesi nulla con un livello di significatività del $5 \%$. Si nota anche che $pvalue > \alpha$ e quindi anche il criterio del p-value consiglia di accettare l'ipotesi nulla.
 
-##### **Test su** $\mu$ **con varianza non nota**
+### **Test su** $\mu$ **con varianza non nota**
 
 **Test bilaterale**
 
@@ -958,7 +948,9 @@ Sia $X_1,X_2, . . .,X_n$ un campione casuale estratto da una popolazione normale
 
 Si considerino le ipotesi:
 
-$$H_0 : \mu = \mu_0 \\ H_1 : \mu \ne \mu_0$$
+$$H_0 : \mu = \mu_0$$
+
+$$H_1 : \mu \ne \mu_0$$
 
 La statistica test è:
 
@@ -1000,7 +992,7 @@ pvalue
 
 Si nota che $z_{\alpha/2} = 2.597094$ e $z_{os} = 17$ cade al di fuori della regione di accettazione; occorre quindi rifiutare l'ipotesi nulla con un livello di significatività del $1 \%$. Si nota anche che $pvalue < \alpha$ e quindi anche il criterio del p-value consiglia di rifiutare l'ipotesi nulla.
 
-##### **Test su** $\sigma^2$ **con valore medio noto**
+### **Test su** $\sigma^2$ **con valore medio noto**
 
 **Test bilaterale**
 
@@ -1008,7 +1000,9 @@ Sia $X_1,X_2, . . . ,X_n$ un campione casuale estratto da una popolazione normal
 
 Si considerino le ipotesi:
 
-$$H_0 : \sigma^2 = \sigma^2_0 \\ H_1 : \sigma^2 \ne \sigma^2_0$$
+$$H_0 : \sigma^2 = \sigma^2_0$$
+
+$$H_1 : \sigma^2 \ne \sigma^2_0$$
 
 La statistica test è:
 
@@ -1022,16 +1016,16 @@ Il test bilaterale $\psi$ di misura $\alpha$ per le ipotesi considerate è il se
 
 **Facciamo un esempio di quanto descritto:**
 
-Alcuni automobilisti sostengono che la varianza del consumo di carburante in autostrada delle auto sia di $6 \ miglia \ per \ gallone$ altri invece sostengono che sia $4 \ miglia \ per \ gallone$, pertanto costruiamo un test delle ipotesi di misura $\alpha = 0.05$ per verificare l'ipotesi nulla $H_0: \mu = 6$ contro l'ipotesi alternativa $H_1: \mu \ne 6$
+Alcuni automobilisti sostengono che la varianza del consumo di carburante in autostrada delle auto sia di $306 \ miglia \ per \ gallone$ altri invece sostengono che sia $305 \ miglia \ per \ gallone$, pertanto costruiamo un test delle ipotesi di misura $\alpha = 0.05$ per verificare l'ipotesi nulla $H_0: \mu = 306$ contro l'ipotesi alternativa $H_1: \mu \ne 306$
 
 ```{r}
 alpha = 0.05
 
 mu <- mean(mpg$hwy)
-sigma <- sd(mpg$hwy)
+sigma <- 306
 
 mu_1 <- mean(mpg$cty)
-sigma_1 <- sd(mpg$cty)
+sigma_1 <- 305
 n <- length(mpg$cty)
 
 #La distribuzione della statistica test è chi-quadrato
@@ -1043,9 +1037,9 @@ z
 
 ```
 
-Si nota che $\chi^2_{\alpha/2} = 193$, $\chi^2_{1-\alpha/2} = 278$. Poichè il valore osservato $\chi^2 = 2548$ è compreso nella regione di rifiuto, si rifiuta l'ipotesi nulla con un livello di significatività del $5 \%$.
+Si nota che $\chi^2_{\alpha/2} = 193$, $\chi^2_{1-\alpha/2} = 278$. Poichè il valore osservato $\chi^2 = 265.5$ è compreso nella regione di accettazione, si accetta l'ipotesi nulla con un livello di significatività del $5 \%$.
 
-##### **Test su** $\sigma^2$ **con valore medio non noto**
+### **Test su** $\sigma^2$ **con valore medio non noto**
 
 **Test bilaterale**
 
@@ -1053,9 +1047,9 @@ Sia $X_1,X_2, . . . ,X_n$ un campione casuale estratto da una popolazione normal
 
 Si considerino le ipotesi:
 
-$$
-H_0 : \sigma^2 = \sigma^2_0 \\ H_1 : \sigma^2 \ne \sigma^2_0
-$$
+$$H_0 : \sigma^2 = \sigma^2_0$$
+
+$$H_1 : \sigma^2 \ne \sigma^2_0$$
 
 La statistica test è:
 
@@ -1110,7 +1104,7 @@ $$
 P(Q<\chi^2_{1-\alpha/2,r-k-1})=\frac{\alpha}{2} \\P(Q< \chi^2_{\alpha/2, r-k-1}) = 1-\frac{\alpha}{2}
 $$
 
-###### Popolazione normale
+### Popolazione normale
 
 Un compratore di auto è interessato al consumo medio di carburante in autostrada a tale scopo ha raggruppato una serie di auto in un unico dataset per analizzarlo:
 
@@ -1162,7 +1156,7 @@ chi
 
 $\chi^2 = 534$.
 
-La distribuzione normale ha due parametri non noti $(\mu, \sigma^2)$ e quindi $k = 2$.Pertanto, la funzione di distribuzione della statistica $Q$ è approssimabile con la funzione di distribuzione chi--quadrato con $r-k-1 = 2$ gradi di libertà. Occorre quindi calcolare $\chi^2_{\alpha/2,2}$ e$\chi^2_{1-\alpha/2,2}$ con $\alpha = 0.05$.
+La distribuzione normale ha due parametri non noti $(\mu, \sigma^2)$ e quindi $k = 2$. Pertanto, la funzione di distribuzione della statistica $Q$ è approssimabile con la funzione di distribuzione chi--quadrato con $r-k-1 = 2$ gradi di libertà. Occorre quindi calcolare $\chi^2_{\alpha/2,2}$ e $\chi^2_{1-\alpha/2,2}$ con $\alpha = 0.05$.
 
 ```{r}
 r <- 5
@@ -1175,3 +1169,5 @@ qchisq(1- alpha/2, df=r-k -1)
 ```
 
 da cui segue che $\chi^2_{1-\alpha/2,r-k-1} = 7.38$ e $\chi^2_{\alpha/2,r-k-1}=0.05$, dato che $\chi^2 = 534$ è evidente che l'ipotesi nulla di popolazione normale può essere rifiutata.
+
+# $$Fine$$

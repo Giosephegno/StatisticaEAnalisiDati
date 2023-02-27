@@ -47,7 +47,10 @@ $$P_r(x_0 < X \leq x_0 + d_x) = f(x_0)dx$$
 
 dove $f(x)$ è una funzione a valori reali, detta *funzione di densità* della v.c. continua X. Spesso, scriveremo: $X \sim f(x)$ per indicare che la v.c. X possiede $f(x)$ come propria funzione di densità.
 
-![](images/image-286733116.png){width="552"}
+```{r fig.align = 'center', pressure, echo=FALSE, fig.cap="A caption", out.width = '100%'}
+
+knitr::include_graphics("densità.jpg")
+```
 
 La probabilità che la v.c X assuma valori nell'intervallo raffigurato è uguale a $f(x)dx$ perchè essa è uguale all'aerea del rettangolo la cui base misura $dx$ e la cui altezza è $f(x_0)$, perchè per la continuità deve essere: $f(x_0) = f(x_0 + dx)$.
 
@@ -87,7 +90,10 @@ La distribuzione normale è una distribuzione continua, ciò significa che può 
 
 La media (o la mediana) di una distribuzione normale è il valore centrale della distribuzione e rappresenta il valore più probabile. La deviazione standard è una misura della dispersione dei dati intorno alla media. La distribuzione normale standard ha una media di 0 e una deviazione standard di 1.
 
-![](images/image-620033264.png){width="326"}
+```{r fig.align = 'center', pressure, echo=FALSE, fig.cap="A caption", out.width = '100%'}
+
+knitr::include_graphics("normale.jpg")
+```
 
 La distribuzione normale ha molte proprietà utili, tra cui:
 
@@ -185,12 +191,16 @@ dove:
 
 Variazioni del parametro $\mu$ comportano traslazioni della curva lungo l'asse delle ascisse; infatti, al crescere del parametro $\mu$ la curva si sposta lungo l'asse delle ascisse senza cambiare forma, ecco un esempio:
 
-```{r fig.align = 'center'}
-curve(dnorm(x,mean =-2, sd =1), from =-6, to=6, xlab="x", ylab="f(x)", lty =1, col = "blue")
+```{r fig.align='center', paged.print=TRUE}
+curve(dnorm(x,mean =-2, sd =1), from =-6, to=6, 
+      xlab="x", ylab="f(x)", lty =1, col = "blue")
 
-curve(dnorm(x,mean =0, sd =1), from =-6, to=6, xlab="x", ylab="f(x)", lty =1, add = TRUE)
+curve(dnorm(x,mean =0, sd =1), from =-6, to=6, 
+      xlab="x", ylab="f(x)", lty =1, add = TRUE)
 
-curve(dnorm(x,mean =2, sd =1), from =-6, to=6, xlab="x", ylab="f(x)", lty =1, add= TRUE, col = "red")
+curve(dnorm(x,mean =2, sd =1), from =-6, to=6, 
+      xlab="x", ylab="f(x)", lty =1, 
+      add= TRUE, col = "red")
 
 ```
 
@@ -201,11 +211,14 @@ Nel grafico la curva di colore rosso ha un valore di $\mu=2$ (pari a due) ed è 
 Il parametro $\sigma$, pari alla semiampiezza tra i due punti di flesso, caratterizza invece la larghezza della funzione.
 
 ```{r fig.align = 'center'}
-curve(dnorm(x,mean =0, sd =1), from =-6, to=6, xlab="x", ylab="f(x)", lty =1, col = "blue")
+curve(dnorm(x,mean =0, sd =1), from =-6, to=6, 
+      xlab="x", ylab="f(x)", lty =1, col = "blue")
 
-curve(dnorm(x,mean =0, sd =3), from =-6, to=6, xlab="x", ylab="f(x)", lty =1, add = TRUE)
+curve(dnorm(x,mean =0, sd =3), from =-6, to=6, 
+      xlab="x", ylab="f(x)", lty =1, add = TRUE)
 
-curve(dnorm(x,mean =0, sd =5), from =-6, to=6, xlab="x", ylab="f(x)", lty =1, add= TRUE, col = "red")
+curve(dnorm(x,mean =0, sd =5), from =-6, to=6, 
+      xlab="x", ylab="f(x)", lty =1, add= TRUE, col = "red")
 
 ```
 
@@ -242,6 +255,11 @@ Per un ulteriore dimostrazione sostituiamo i valori dell'espressione con $\mu =0
 ```{r}
 pnorm(3, mean = 0, sd = 1) - pnorm(-3, mean=0, sd = 1)
 
+```
+
+```{r fig.align = 'center', pressure, echo=FALSE, fig.cap="A caption", out.width = '100%'}
+
+knitr::include_graphics("3sigma.jpg")
 ```
 
 ## Stima puntuale
@@ -800,7 +818,7 @@ A causa di tali premesse possiamo incorrere in due tipi di errori:
 Nella seguente tabella sono riassunti tutti i possibili casi:
 
 |             |                                        |                                         |
-|------------------|--------------------------|---------------------------|
+|----------------|----------------------------|-----------------------------|
 |             | Rifiutare $H_0$                        | Accettare $H_0$                         |
 | $H_0$ vera  | Errore del I tipo Probabilità $\alpha$ | Decisione esatta Probabilità $1-\alpha$ |
 | $H_0$ falsa | Decisione esatta Probabilità $1-\beta$ | Errore del II tipo Probabilità $\beta$  |
